@@ -2,19 +2,19 @@
 
 ## The process in one page
 
-| Stage | Main question | Primary artifact | Human gate |
-|---|---|---|---|
-| 1. Initiation | What problem are we solving, for whom, and why? | `PROJECT.md` | Approve problem, outcomes, scope, and constraints |
-| 2. Discovery | How do users and systems actually reach the outcome? | `USER_JOURNEYS.md` | Confirm journeys reflect reality |
-| 3. Requirements | What must be true, including quality and failure behavior? | `REQUIREMENTS.md` | Approve testable requirements and priorities |
-| 4. Decisions | Which consequential choices must be made, and why? | Decision records | Approve difficult-to-reverse choices |
-| 5. Architecture | How will the accepted system work as a whole? | `ARCHITECTURE.md` | Approve design, trust boundaries, and operational approach |
-| 6. Roadmap | In what outcome-based order will value and risk reduction be delivered? | `ROADMAP.md` | Approve milestones and exclusions |
-| 7. Planning | How will one active milestone or feature be built and verified? | Active implementation plan | Approve sequence, migration, testing, and rollback |
-| 8. Tasks | What are the smallest safe units of executable work? | `TASKS.md` | Confirm tasks are Ready |
-| 9. Delivery | Does each task meet its acceptance criteria and checks? | Code, tests, task evidence | Review risk-appropriate changes |
-| 10. Release | Is the complete outcome safe, supportable, and demonstrable? | Release review and changelog | Accept release risk |
-| 11. Operate and learn | What happened in real use, and what should change? | Metrics, incidents, change proposals | Approve new priorities and changes |
+| Stage                 | Main question                                                           | Primary artifact                     | Human gate                                                 |
+| --------------------- | ----------------------------------------------------------------------- | ------------------------------------ | ---------------------------------------------------------- |
+| 1. Initiation         | What problem are we solving, for whom, and why?                         | `PROJECT.md`                         | Approve problem, outcomes, scope, and constraints          |
+| 2. Discovery          | How do users and systems actually reach the outcome?                    | `user_journeys/`                     | Confirm journeys reflect reality                           |
+| 3. Requirements       | What must be true, including quality and failure behavior?              | `REQUIREMENTS.md`                    | Approve testable requirements and priorities               |
+| 4. Decisions          | Which consequential choices must be made, and why?                      | Decision records                     | Approve difficult-to-reverse choices                       |
+| 5. Architecture       | How will the accepted system work as a whole?                           | `ARCHITECTURE.md`                    | Approve design, trust boundaries, and operational approach |
+| 6. Roadmap            | In what outcome-based order will value and risk reduction be delivered? | `ROADMAP.md`                         | Approve milestones and exclusions                          |
+| 7. Planning           | How will one active milestone or feature be built and verified?         | Active implementation plan           | Approve sequence, migration, testing, and rollback         |
+| 8. Tasks              | What are the smallest safe units of executable work?                    | `TASKS.md`                           | Confirm tasks are Ready                                    |
+| 9. Delivery           | Does each task meet its acceptance criteria and checks?                 | Code, tests, task evidence           | Review risk-appropriate changes                            |
+| 10. Release           | Is the complete outcome safe, supportable, and demonstrable?            | Release review and changelog         | Accept release risk                                        |
+| 11. Operate and learn | What happened in real use, and what should change?                      | Metrics, incidents, change proposals | Approve new priorities and changes                         |
 
 ## This is not a one-way waterfall
 

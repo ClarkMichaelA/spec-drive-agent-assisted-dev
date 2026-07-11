@@ -5,7 +5,7 @@ Start with the scaffold’s `README.md`, then keep the playbook open alongside i
 The spec-driven-development-playbook contains 35 starter files, including:
 - A vendor-neutral `AGENTS.md` working agreement
 - `PROJECT.md` 
-- `USER_JOURNEYS.md`
+- `user_journeys/` (index + one file per journey)
 - `REQUIREMENTS.md`
 - `ARCHITECTURE.md`    
 - `ROADMAP.md`    

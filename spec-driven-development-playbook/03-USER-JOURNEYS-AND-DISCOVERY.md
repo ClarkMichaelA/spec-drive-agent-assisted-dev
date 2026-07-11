@@ -70,10 +70,12 @@ Mark proposed behavior as unverified until someone knowledgeable confirms it.
 ## Copy-ready journey prompt
 
 ```text
-Read the approved docs/PROJECT.md and the template in docs/USER_JOURNEYS.md.
+Read the approved docs/PROJECT.md, the index in docs/user_journeys/README.md,
+and the template in docs/user_journeys/UJ-001-template.md.
 
 Create a first draft of the actor inventory and user-journey map. Then fully
-expand only the [NUMBER] highest-priority journeys.
+expand only the [NUMBER] highest-priority journeys as separate files under
+docs/user_journeys/.
 
 Rules:
 - Do not invent current business processes or policies.
@@ -81,12 +83,14 @@ Rules:
 - Include alternative, failure, recovery, permission, privacy, data, audit,
   and operator/support paths.
 - Use stable IDs such as ACT-001 and UJ-001.
+- Keep one journey per file under docs/user_journeys/; register each in the
+  map in docs/user_journeys/README.md.
 - Do not turn candidate behavior into approved requirements yet.
 - List no more than five blocking questions; place other uncertainty in the
   journey's open-questions section.
 
 Return:
-1. Proposed changes to docs/USER_JOURNEYS.md
+1. Proposed updates to docs/user_journeys/README.md and new journey files
 2. Assumptions that should be added to docs/ASSUMPTIONS.md
 3. The three most important journeys to validate with real users
 ```

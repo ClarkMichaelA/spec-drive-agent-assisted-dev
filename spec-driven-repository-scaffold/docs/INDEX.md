@@ -9,7 +9,7 @@ This page is the map for project knowledge. Keep it short enough that a new cont
 ## Read first
 
 1. `PROJECT.md` - why the project exists and what is in scope
-2. `USER_JOURNEYS.md` - how people are expected to use it
+2. `user_journeys/` - how people are expected to use it
 3. `REQUIREMENTS.md` - what the system must do and how well it must do it
 4. `ARCHITECTURE.md` - how the accepted design is structured
 5. `ROADMAP.md` - which outcomes are delivered in what order
@@ -21,7 +21,7 @@ This page is the map for project knowledge. Keep it short enough that a new cont
 | Topic | Authoritative file | Notes |
 |---|---|---|
 | Problem, users, scope, success | `PROJECT.md` | Human-approved product intent |
-| User scenarios | `USER_JOURNEYS.md` | Includes alternatives and failure paths |
+| User scenarios | `user_journeys/` | Index in `user_journeys/README.md`; one file per journey |
 | Functional and quality requirements | `REQUIREMENTS.md` | Requirements have stable IDs |
 | Accepted consequential choices | `decisions/` | One decision per record |
 | Current technical design | `ARCHITECTURE.md` | Must reflect accepted decisions |

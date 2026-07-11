@@ -26,7 +26,8 @@ Files included in this scaffold:
 - `docs/SECURITY.md`
 - `docs/TEST_STRATEGY.md`
 - `docs/TRACEABILITY.md`
-- `docs/USER_JOURNEYS.md`
+- `docs/user_journeys/README.md`
+- `docs/user_journeys/UJ-001-template.md`
 - `docs/decisions/ADR-0000-template.md`
 - `docs/decisions/README.md`
 - `docs/plans/README.md`

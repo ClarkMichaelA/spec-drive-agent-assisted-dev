@@ -84,7 +84,7 @@ Confirm business rules and priorities. Do not let the AI choose target values th
 ## Copy-ready requirements prompt
 
 ```text
-Read the approved docs/PROJECT.md and docs/USER_JOURNEYS.md, plus the template
+Read the approved docs/PROJECT.md and docs/user_journeys/, plus the template
 in docs/REQUIREMENTS.md.
 
 Draft a requirements specification using stable IDs. Include functional,

@@ -60,12 +60,12 @@ specific proposed correction. Separate blocking issues from optional polish.
 ## 3. Generate actor and journey candidates
 
 ```text
-Read approved PROJECT.md and USER_JOURNEYS.md.
+Read approved PROJECT.md and docs/user_journeys/ (README index and templates).
 
 Create an actor inventory and journey map. Fully expand only the [NUMBER]
-highest-priority journeys. Include triggers, preconditions, success paths,
-alternatives, failures, recovery, permissions, privacy, data, audit, and
-support behavior.
+highest-priority journeys as separate files under docs/user_journeys/. Include
+triggers, preconditions, success paths, alternatives, failures, recovery,
+permissions, privacy, data, audit, and support behavior.
 
 Mark unverified process details. Do not turn candidates into approved
 requirements.
@@ -87,7 +87,7 @@ current policy.
 ## 5. Draft requirements
 
 ```text
-Read approved PROJECT.md and USER_JOURNEYS.md plus REQUIREMENTS.md.
+Read approved PROJECT.md and docs/user_journeys/ plus REQUIREMENTS.md.
 
 Draft traceable functional, quality, security/privacy, data, operational, and
 integration requirements. Use stable IDs, sources, acceptance criteria, and

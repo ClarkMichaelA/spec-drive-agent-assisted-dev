@@ -11,7 +11,7 @@ The repository itself should become the durable memory of the project. Chat hist
 The basic flow is:
 
 1. Define the problem and desired outcomes in `docs/PROJECT.md`.
-2. Describe realistic user behavior in `docs/USER_JOURNEYS.md`.
+2. Describe realistic user behavior in `docs/user_journeys/` (one file per journey; index in `README.md`).
 3. Convert the approved intent into testable requirements in `docs/REQUIREMENTS.md`.
 4. Record consequential technical choices as decision records in `docs/decisions/`.
 5. Describe the accepted design in `docs/ARCHITECTURE.md`.
@@ -28,7 +28,7 @@ Replace all text in square brackets, such as `[PROJECT NAME]`, with project-spec
 For a new project, work through these files in this order:
 
 - `docs/PROJECT.md`
-- `docs/USER_JOURNEYS.md`
+- `docs/user_journeys/README.md` and `docs/user_journeys/UJ-001-template.md`
 - `docs/REQUIREMENTS.md`
 - `docs/ASSUMPTIONS.md` and `docs/RISKS.md`
 - `docs/decisions/ADR-0000-template.md`
@@ -53,7 +53,7 @@ Use one of these statuses near the top of planning documents:
 
 Do not create process for its own sake. For a small experiment, you may combine:
 
-- `PROJECT.md`, `USER_JOURNEYS.md`, and `REQUIREMENTS.md` into one `SPEC.md`.
+- `PROJECT.md`, `user_journeys/`, and `REQUIREMENTS.md` into one `SPEC.md`.
 - `ROADMAP.md`, an implementation plan, and `TASKS.md` into one short delivery plan.
 
 Keep separate decision records for choices that will be difficult or costly to reverse.
@@ -80,7 +80,6 @@ Keep separate decision records for choices that will be difficult or costly to r
 |-- docs/
 |   |-- INDEX.md               # Documentation map and reading order
 |   |-- PROJECT.md             # Problem, users, outcomes, scope, and constraints
-|   |-- USER_JOURNEYS.md       # User scenarios, alternatives, and failure paths
 |   |-- REQUIREMENTS.md        # Testable functional and quality requirements
 |   |-- ARCHITECTURE.md        # Current accepted technical design
 |   |-- ROADMAP.md             # Outcome-based milestones and sequencing
@@ -94,6 +93,7 @@ Keep separate decision records for choices that will be difficult or costly to r
 |   |-- API.md                 # Interface contracts and conventions, if applicable
 |   |-- CHANGE_CONTROL.md      # How approved scope and design changes are handled
 |   |-- GLOSSARY.md            # Shared domain and technical vocabulary
+|   |-- user_journeys/         # Journey index and one file per user journey
 |   |-- decisions/             # Architecture and product decision records
 |   |-- plans/                 # Active and completed implementation plans
 |   `-- reviews/               # Structured review records
