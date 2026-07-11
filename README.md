@@ -1,3 +1,5 @@
+This scaffold and playbook provide an AI vendor-neutral framework for spec-driven, agent-assisted software development, giving teams a reusable repository structure, documentation templates, review gates, and execution patterns.  Together, they help turn a high-level project idea into user journeys, requirements, architecture, decisions, roadmaps, tasks, implementation loops, testing evidence, and delivery handoffs while keeping human review and traceability at the center.
+
 # How to Use
 Start with the scaffold’s `README.md`, then keep the playbook open alongside it while completing `docs/PROJECT.md`.
 
