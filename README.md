@@ -2,7 +2,7 @@ This scaffold and playbook provide an AI vendor-neutral framework for spec-drive
 # How to Use
 Start with the scaffold’s `README.md`, then keep the playbook open alongside it while completing `docs/PROJECT.md`.
 # Reusable repository scaffold
-The spec-driven-development-playbook contains 35 starter files, including:
+The spec-driven-repository-scaffold contains starter files, including:
 - A vendor-neutral `AGENTS.md` working agreement
 - `PROJECT.md` 
 - `user_journeys/` (index + one file per journey)
@@ -22,7 +22,7 @@ The spec-driven-development-playbook contains 35 starter files, including:
 
 The templates explain what belongs in each section, what does not belong there, how the artifacts relate to each other, and what must be reviewed before proceeding.
 # Plain-language development playbook
-The spec-driven-repository-scaffold contains 19 files covering the full lifecycle:
+The spec-driven-development-playbook contains files covering the full lifecycle:
 1. Lifecycle overview    
 2. Project initiation    
 3. User journeys and discovery    
