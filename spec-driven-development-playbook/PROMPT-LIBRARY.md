@@ -58,6 +58,7 @@ choices out of this step.
 ## 2. Critique a project brief
 
 ```text
+Act as the Project Analyst role defined in agents/project-analyst.md.
 Review docs/PROJECT.md as a skeptical product, delivery, operations, and risk
 reviewer. Do not rewrite it yet.
 
@@ -67,11 +68,14 @@ constraints, hidden dependencies, and missing non-goals.
 
 Return findings by severity with the exact section, why it matters, and a
 specific proposed correction. Separate blocking issues from optional polish.
+If you authored the brief in this assistant context, label this as a self-review
+or non-independent review. Do not approve the brief.
 ```
 
 ## 3. Generate actor and journey candidates
 
 ```text
+Act as the Project Analyst role defined in agents/project-analyst.md.
 Read approved PROJECT.md and docs/user_journeys/ (README index and templates).
 
 Create an actor inventory and journey map. Fully expand only the [NUMBER]
@@ -86,6 +90,7 @@ requirements.
 ## 4. Find journey edge cases
 
 ```text
+Act as the Project Analyst role defined in agents/project-analyst.md.
 Review journeys [UJ-IDS]. Focus only on overlooked paths.
 
 Check invalid and missing input, permissions, duplicate actions, timeouts,
@@ -113,6 +118,7 @@ Do not prescribe architecture unless an approved external constraint requires it
 ## 6. Perform a requirements quality review
 
 ```text
+Act as the Project Analyst role defined in agents/project-analyst.md.
 Review REQUIREMENTS.md without changing it.
 
 Find ambiguity, unverifiable language, multiple ideas in one requirement,
@@ -121,12 +127,15 @@ choices, scope expansion, and absent security/data/operations needs.
 
 For each finding give severity, affected IDs, evidence, and a replacement or
 resolution approach. Identify requirements that need authoritative external
-fact verification.
+fact verification. If you authored these requirements in this assistant context,
+label the result as a self-review or non-independent review. Do not approve the
+requirements.
 ```
 
 ## 7. Identify decision-record candidates
 
 ```text
+Act as the Solution Architect role defined in agents/solution-architect.md.
 Read approved requirements, constraints, existing decisions, risks, and the
 architecture template.
 
@@ -138,6 +147,7 @@ approver. Do not create records for ordinary local implementation details.
 ## 8. Draft one decision record
 
 ```text
+Act as the Solution Architect role defined in agents/solution-architect.md.
 Draft decision record [ADR-ID] for this decision question:
 [QUESTION]
 
@@ -202,6 +212,7 @@ controls to requirements and verification evidence.
 ## 12. Create an outcome roadmap
 
 ```text
+Act as the Solution Architect role defined in agents/solution-architect.md.
 Read approved outcomes, requirements, architecture, assumptions, and risks.
 
 Create an outcome-based roadmap. Start with a thin walking skeleton. For each
@@ -214,6 +225,7 @@ Do not invent dates or capacity. Do not turn milestones into component task list
 ## 13. Draft an implementation plan
 
 ```text
+Act as the Solution Architect role defined in agents/solution-architect.md.
 Read milestone [M-00], its approved requirements, decisions, architecture,
 security/operations needs, and the implementation-plan template.
 
@@ -228,6 +240,7 @@ high-impact ambiguity remains.
 ## 14. Decompose a plan into tasks
 
 ```text
+Act as the Solution Architect role defined in agents/solution-architect.md.
 Read approved plan [PATH] and TASKS.md.
 
 Create small dependency-ordered tasks. Each task needs stable ID, objective,
@@ -242,6 +255,7 @@ changes in tasks.
 ## 15. Review task quality
 
 ```text
+Act as the Solution Architect role defined in agents/solution-architect.md.
 Review proposed tasks for plan [PATH] without implementing them.
 
 Find tasks that are too large, have multiple outcomes, lack dependencies, use
@@ -270,6 +284,9 @@ exact checks and results; never claim a check ran when it did not.
 ## 17. Implement a bounded batch
 
 ```text
+Read the primary role named by each selected task. Continue only if every task
+selects the same primary role, then identify and act as that role for the batch.
+
 Complete up to [NUMBER, NORMALLY 2 OR 3] Ready tasks from the same approved
 plan. They must require no new architecture decision and share the same risk
 boundary.
@@ -364,6 +381,11 @@ files yet.
 ## 24. Prepare a change proposal
 
 ```text
+Select and identify the primary role before continuing:
+- Use Project Analyst for product intent, scope, journey, or requirement changes.
+- Use Solution Architect for architecture, interface, data, security-design, or
+  other technical-design changes.
+
 A discovery may require changing approved intent or design:
 [DISCOVERY AND EVIDENCE]
 
@@ -375,6 +397,10 @@ impacts, recommendation, approvers, and follow-up work. Do not edit files yet.
 ## 25. Triage a defect
 
 ```text
+Act as the Software Engineer role defined in agents/software-engineer.md. If
+the evidence suggests a meaningful security or privacy issue, stop unsafe work
+and require a Security Reviewer assessment.
+
 Evidence of a possible defect:
 [REPRODUCTION, LOGS, SCREENSHOT DESCRIPTION, TEST FAILURE, OR REPORT]
 
@@ -389,6 +415,11 @@ without approval.
 ## 26. Plan a refactor
 
 ```text
+Act as the Solution Architect role defined in agents/solution-architect.md for
+a refactor that affects architecture, components, or contracts. For a local
+implementation-only refactor within accepted architecture, act as the Software
+Engineer role defined in agents/software-engineer.md. Identify which role applies.
+
 The following area has a maintainability or risk problem:
 [AREA AND EVIDENCE]
 
@@ -402,6 +433,12 @@ Explain why the refactor is needed now. Do not combine unrelated features.
 ## 27. Release-readiness review
 
 ```text
+This is a multi-perspective evidence review, not a new release-approver role.
+Read completed Test Engineer, Security Reviewer, and Documentation Reviewer
+records required for this milestone. If a required perspective has no current
+record, report it as missing rather than simulating an independent review in
+this context.
+
 Read the milestone, requirements, traceability, completed plan, tasks, tests,
 security, operations, risks, changelog, and release candidate.
 
