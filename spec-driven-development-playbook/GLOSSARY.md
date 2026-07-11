@@ -40,6 +40,10 @@ A testable statement of behavior the system must provide.
 
 A concise, verified snapshot that allows the next work session to resume safely.
 
+## Independent review
+
+A review performed by a person or assistant context that did not produce the work being reviewed. A review of one's own work must be labeled as a self-review or non-independent review even when a different specialized role is selected.
+
 ## Implementation plan
 
 A detailed plan for delivering one feature, milestone, migration, or workstream from approved requirements and architecture.
@@ -63,6 +67,10 @@ An uncertain event or condition that could affect project outcomes.
 ## Spec-driven development
 
 A workflow in which approved intent, requirements, decisions, and plans guide implementation and testing rather than being reconstructed after coding.
+
+## Specialized agent role
+
+A portable definition of one working perspective's responsibilities, required inputs, permitted outputs, checks, boundaries, escalation conditions, and handoff. Selecting a role does not launch a separate process or change project authority.
 
 ## Task
 

@@ -73,6 +73,8 @@
 - [ ] Validation commands or methods are stated.
 - [ ] Security, data, interface, migration, and operations effects are understood.
 - [ ] No blocking high-impact ambiguity remains.
+- [ ] Owner and primary role are identified without conflating the two.
+- [ ] Required review roles are stated, or explicitly None.
 
 ## Task Definition of Done
 
@@ -85,9 +87,13 @@
 - [ ] Changelog is updated only when appropriate.
 - [ ] Task and handoff reflect actual state.
 - [ ] Limitations and skipped checks are reported honestly.
+- [ ] Required reviews are complete or an authorized waiver is recorded.
+- [ ] Review records and reverification results are linked from the task.
 
 ## Independent change review
 
+- [ ] Reviewer role, identity or assistant label, and independence status
+- [ ] Exact task, artifact, branch, or revision reviewed
 - [ ] Requirement and acceptance-criteria coverage
 - [ ] Logic and data integrity
 - [ ] Authentication, authorization, privacy, and audit
@@ -98,6 +104,7 @@
 - [ ] Operational observability and support
 - [ ] Unnecessary complexity
 - [ ] Documentation drift
+- [ ] Findings, owners, disposition, and reverification recorded durably
 
 ## Release readiness
 
@@ -117,6 +124,7 @@
 ## Start-of-session quick check
 
 - [ ] Read working agreement and index.
+- [ ] Read the selected role file and identify the active role, when assigned.
 - [ ] Verify branch, revision, and uncommitted changes.
 - [ ] Verify handoff against repository.
 - [ ] Select one Ready task with complete dependencies.
@@ -129,4 +137,5 @@
 - [ ] Update task status.
 - [ ] Update affected documents.
 - [ ] Update handoff with exact evidence.
+- [ ] Record the active role, next required review, and review-record path.
 - [ ] State the safest next action.

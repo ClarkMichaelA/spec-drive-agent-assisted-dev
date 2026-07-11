@@ -32,6 +32,12 @@ Every change should be reviewed for:
 - Unnecessary complexity
 - Documentation drift
 
+## Specialized roles and review separation
+
+Contributors may work under a role defined in [`agents/`](agents/). The selected task should identify both its primary role and any required review roles. Selecting a role changes neither the repository's approval requirements nor the contributor's authority.
+
+Self-review is expected but does not satisfy a requirement for independent review. Record review findings durably under `docs/reviews/`, link them from the task or handoff, and resolve required corrections visibly before completion.
+
 ## Validation
 
 The exact commands belong in `AGENTS.md`. At minimum, run the checks relevant to the change. A change should not be described as complete when a required check was skipped, failed, or could not be run.

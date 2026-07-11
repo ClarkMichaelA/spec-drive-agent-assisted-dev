@@ -48,6 +48,8 @@ Add as needed:
 
 ## Moving from one agent to several
 
+Specialized roles and parallel agents are different concepts. Files under `agents/` define portable responsibilities and boundaries. They do not launch processes, create isolation, or guarantee independent review. One assistant can use roles sequentially; several assistants can also use the same role on different workstreams.
+
 Parallel work increases coordination cost. Before adding agents:
 
 - Make task boundaries and dependencies explicit.
@@ -59,15 +61,7 @@ Parallel work increases coordination cost. Before adding agents:
 - Require each workstream to return evidence and a handoff.
 - Run an integration review after combining changes.
 
-Possible roles:
-
-- Planner: prepares implementation plan and tasks
-- Implementer: completes a bounded task
-- Reviewer: challenges the completed change
-- Test specialist: focuses on failure, security, and system behavior
-- Documentation reconciler: checks source-of-truth consistency
-
-Roles do not require different products or models. They are simply different instructions and contexts.
+The scaffold's standard perspectives are Project Analyst, Solution Architect, Software Engineer, Test Engineer, Security Reviewer, and Documentation Reviewer. Select them through human instructions or task fields. Roles do not require different products or models, but a required independent review needs a reviewer that did not produce the work.
 
 ## When to move tasks out of Markdown
 

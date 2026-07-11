@@ -107,3 +107,15 @@
 **Symptom:** The AI asks one question at a time and planning never converges.
 
 **Correction:** Limit blocking questions, allow explicit conservative assumptions for low-impact gaps, and record open questions with an owner and needed-by date.
+
+## 19. Treating role files as orchestration
+
+**Symptom:** A team assumes that adding Markdown files under `agents/` launches separate assistants, assigns work, isolates changes, or guarantees parallel execution.
+
+**Correction:** Treat role files as portable responsibility and boundary definitions. Select them explicitly through tasks or prompts, and configure runtime orchestration separately when parallel execution is actually needed.
+
+## 20. Renaming self-review as independent review
+
+**Symptom:** The implementer switches to a reviewer role in the same context and records the result as independent.
+
+**Correction:** Label it as self-review or non-independent review. When risk requires independence, use a separate assistant session, invocation, model, or human reviewer that did not produce the work, and record the reviewer and revision durably.

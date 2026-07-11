@@ -7,11 +7,12 @@ These prompts are intentionally vendor-neutral. Replace bracketed placeholders a
 A strong prompt usually contains:
 
 1. **Context:** which approved files and evidence to read
-2. **Goal:** one clear result
-3. **Boundaries:** what may and may not change
-4. **Quality bar:** how to evaluate the result
-5. **Output:** exact artifacts or report structure
-6. **Stop conditions:** when not to guess
+2. **Role:** which specialized perspective applies, when the repository defines one
+3. **Goal:** one clear result
+4. **Boundaries:** what may and may not change
+5. **Quality bar:** how to evaluate the result
+6. **Output:** exact artifacts or report structure
+7. **Stop conditions:** when not to guess
 
 A useful default rule block is:
 
@@ -27,9 +28,20 @@ General rules:
 - Return evidence and limitations, not just confident conclusions.
 ```
 
+When the scaffold's role system is in use, add:
+
+```text
+Act as the [ROLE] defined in agents/[ROLE-FILE].md. Follow AGENTS.md first;
+the role supplements but does not override it. Identify the active role, do not
+switch roles silently, and record durable state rather than relying on chat.
+```
+
+Selecting a reviewer role does not make a review independent. Use a reviewer that did not produce the work when independence is required, and record the independence status honestly.
+
 ## 1. Turn a rough idea into a project brief
 
 ```text
+Act as the Project Analyst role defined in agents/project-analyst.md.
 Read the project scaffold README, documentation index, and PROJECT.md template.
 
 My rough idea is:
@@ -87,6 +99,7 @@ current policy.
 ## 5. Draft requirements
 
 ```text
+Act as the Project Analyst role defined in agents/project-analyst.md.
 Read approved PROJECT.md and docs/user_journeys/ plus REQUIREMENTS.md.
 
 Draft traceable functional, quality, security/privacy, data, operational, and
@@ -140,6 +153,7 @@ facts. Mark facts that must be verified before acceptance.
 ## 9. Draft architecture
 
 ```text
+Act as the Solution Architect role defined in agents/solution-architect.md.
 Read the approved project brief, requirements, accepted decisions, risks,
 security needs, and ARCHITECTURE.md template.
 
@@ -155,7 +169,9 @@ inside the design.
 ## 10. Challenge architecture
 
 ```text
-Act as an independent architecture reviewer. Do not assume the draft is sound.
+In a context that did not produce the architecture, act as the Solution
+Architect role defined in agents/solution-architect.md and perform an independent
+review. Do not assume the draft is sound.
 
 Check requirement coverage, unnecessary complexity, component responsibilities,
 data ownership, trust boundaries, failure modes, single points of failure,
@@ -169,6 +185,7 @@ include evidence, impact, and a concrete correction or decision needed.
 ## 11. Perform a security and abuse-case review
 
 ```text
+Act as the Security Reviewer role defined in agents/security-reviewer.md.
 Read PROJECT.md, REQUIREMENTS.md, ARCHITECTURE.md, DATA_MODEL.md, API.md, and
 SECURITY.md where applicable.
 
@@ -215,8 +232,11 @@ Read approved plan [PATH] and TASKS.md.
 
 Create small dependency-ordered tasks. Each task needs stable ID, objective,
 reason, links, scope, out-of-scope, acceptance criteria, validation, and risks.
-Prefer vertical demonstrable slices. Mark Ready only when Definition of Ready
-is satisfied. Do not bury decisions or scope changes in tasks.
+Assign a primary role and required review roles from agents/, or explicitly
+state None. Keep Owner separate and do not invent a fictional owner. Initialize
+review-record paths accurately. Prefer vertical demonstrable slices. Mark Ready
+only when Definition of Ready is satisfied. Do not bury decisions or scope
+changes in tasks.
 ```
 
 ## 15. Review task quality
@@ -234,8 +254,10 @@ Return a corrected dependency order and specific split/merge recommendations.
 ## 16. Implement exactly one task
 
 ```text
-Read the repository working agreement, documentation index, handoff, task
-[T-000], and only its linked context. Verify repository state first.
+Act as the primary role named by task [T-000] and read its file under agents/.
+Read the repository working agreement first, then the documentation index,
+handoff, task [T-000], and only its linked context. Verify repository state
+first and identify the active role.
 
 Complete exactly this Ready task: plan briefly, implement minimally, add tests,
 run required checks, review the diff, correct defects, update affected project
@@ -260,20 +282,26 @@ expansion, or unexpected migration/security impact.
 ## 18. Independently review a change
 
 ```text
-Review task [T-000], linked requirements and design, and the complete diff.
-Do not modify files yet and do not assume correctness.
+Act as required review role [ROLE] defined in [ROLE FILE]. In a context that did
+not produce the implementation, review task [T-000], linked requirements and
+design, revision [REVISION], and the complete diff. Do not modify production
+files during the initial review and do not assume correctness.
 
 Find unmet criteria, logic defects, security/privacy issues, data-integrity or
 concurrency problems, weak error/recovery handling, compatibility risk, weak
 tests, unnecessary complexity, and documentation drift.
 
 Give severity, evidence, impact, and exact correction. Separate required defects
-from optional improvements.
+from optional improvements. Record reviewer role, reviewer identity or assistant
+label, independence status, scope, evidence, findings, actions, owners,
+disposition, and reverification needs under docs/reviews/. Link the record from
+TASKS.md and HANDOFF.md where applicable.
 ```
 
 ## 19. Fix approved review findings
 
 ```text
+Act as the Software Engineer role defined in agents/software-engineer.md.
 Read review record [PATH] and task [T-000]. Correct only findings [F-IDS] that
 are approved for this change.
 
@@ -286,6 +314,7 @@ decision or scope change.
 ## 20. Generate missing tests from requirements
 
 ```text
+Act as the Test Engineer role defined in agents/test-engineer.md.
 Read requirements [IDS], their journeys, implementation, and existing tests.
 
 Identify the smallest set of missing tests needed to prove success, boundary,
@@ -297,12 +326,15 @@ each proposed test protects before implementing it.
 ## 21. Reconcile documentation after a change
 
 ```text
+Act as the Documentation Reviewer role defined in
+agents/documentation-reviewer.md.
 Read the completed task, diff, test results, and project documentation.
 
 Find documents that became false, incomplete, or stale. Propose only necessary
 updates. Do not rewrite approved requirements to match accidental code behavior.
 Distinguish documentation correction from a product or architecture change that
-requires approval.
+requires approval. Record substantive findings under docs/reviews/. State
+whether the review is independent, self-review, or otherwise non-independent.
 ```
 
 ## 22. Update the handoff
@@ -313,14 +345,16 @@ status, changed files, and test results.
 
 Update HANDOFF.md with completed work, work in progress, exact validation,
 known failures, decisions, assumptions, blockers, environment notes, and the
-safest next task. Do not include secrets or unsupported claims.
+safest next task. Include current primary role, required next review, and related
+review-record path. Do not include secrets or unsupported claims.
 ```
 
 ## 23. Resume a project safely
 
 ```text
 Read the working agreement, documentation index, handoff, and tasks. Verify the
-handoff against repository state and relevant tests.
+handoff against repository state, relevant tests, and review records. If the
+current task selects a role, read that role file and identify it.
 
 Report confirmed state, mismatches, current milestone, highest-priority Ready
 task with completed dependencies, context needed, and blockers. Do not change
@@ -388,5 +422,6 @@ At the end of every task or work session, produce a concise handoff containing:
 - Recommended next task or next prompt
 
 Update HANDOFF.md and TASKS.md to match actual repository state. Never include
-secrets or claim unverified success.
+secrets or claim unverified success. Preserve the current primary role, required
+next review, and related review-record path.
 ```

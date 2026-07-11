@@ -55,6 +55,7 @@ Read these files in order the first time:
 
 Then keep these nearby:
 
+- `SPECIALIZED-AGENT-ROLES.md` - how portable roles are selected, bounded, reviewed, and handed off
 - `PROMPT-LIBRARY.md` - copy-ready prompts for each stage
 - `CHECKLISTS.md` - concise review and stage-gate checklists
 - `SAMPLE-SESSION-SEQUENCE.md` - a practical sequence of AI sessions
@@ -88,6 +89,8 @@ For a small, low-risk project, begin with only:
 - `TASKS.md`
 - Automated tests
 - `HANDOFF.md`
+
+The scaffold also includes `agents/`: portable role definitions for analysis, architecture, implementation, testing, security review, and documentation review. These Markdown files define responsibilities and boundaries; they do not automatically create separate processes. See `SPECIALIZED-AGENT-ROLES.md`.
 
 Add separate security, operations, data, and API documents when the project actually needs them.
 

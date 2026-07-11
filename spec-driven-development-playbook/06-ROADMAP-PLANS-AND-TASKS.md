@@ -67,8 +67,12 @@ A Ready task should include:
 - Observable acceptance criteria
 - Validation commands or methods
 - Risks and rollback, when relevant
+- An owner and primary role
+- Required review roles and review-record paths, when applicable
 
 Tasks should be small enough to implement and review as one coherent change.
+
+The owner is the responsible contributor. The primary role is the perspective used to do the work. Required reviews name additional perspectives that must be completed or explicitly waived by an authorized person before the task becomes Done. Do not treat a self-review as an independent required review.
 
 ## Prefer vertical slices
 
@@ -142,9 +146,13 @@ Each task must include:
 - Observable acceptance criteria, including relevant failure behavior
 - Validation commands or methods
 - Risks and rollback when applicable
+- Owner and primary role
+- Required review roles, or None
+- Review-record paths, initially None unless a record already exists
 
 Mark a task Ready only when it meets the repository's Definition of Ready.
-Do not hide new architecture decisions inside tasks.
+Select roles from agents/ without inventing fictional assignments. Do not hide
+new architecture decisions inside tasks.
 ```
 
 ## Exit criteria

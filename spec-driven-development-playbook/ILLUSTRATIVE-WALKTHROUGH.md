@@ -148,6 +148,10 @@ Requirements: FR-001, DATA-001
 Decision: ADR-0003
 Plan: PLAN-002
 Depends on: T-012
+Owner: Unassigned
+Primary role: Software Engineer
+Required reviews: Test Engineer
+Review records: None
 
 Objective:
 Ensure concurrent or repeated requests cannot create two active checkout records
@@ -170,6 +174,8 @@ Acceptance criteria:
 - The losing request receives a conflict result.
 - Required tests and full validation pass.
 ```
+
+The owner remains unassigned until a contributor accepts responsibility. The task selects the Software Engineer perspective for implementation and requires a Test Engineer review afterward. A self-review by the implementer would not satisfy that independent review requirement.
 
 ## 10. Traceability
 

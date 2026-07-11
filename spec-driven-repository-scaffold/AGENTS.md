@@ -18,12 +18,19 @@ Before changing anything:
 
 1. Read this file.
 2. Read `docs/INDEX.md`.
-3. Read `HANDOFF.md` and verify that it matches the actual repository state.
-4. Read the selected task in `TASKS.md`.
-5. Read only the requirements, decision records, architecture sections, and active plan linked from that task.
-6. Inspect the relevant source code and tests before proposing changes.
+3. If a specialized role is assigned, read its file under `agents/`.
+4. Read `HANDOFF.md` and verify that it matches the actual repository state.
+5. Read the selected task in `TASKS.md`.
+6. Read only the requirements, decision records, architecture sections, and active plan linked from that task.
+7. Inspect the relevant source code and tests before proposing changes.
 
 Do not rely on chat history as the source of truth when the repository contains approved information.
+
+### Specialized role selection
+
+Specialized roles are defined under `agents/`. When a task or human instruction selects a role, read that role file after this working agreement and identify the role being performed. Role instructions supplement but do not override this file, and an assistant must not switch roles silently.
+
+A task may name one primary role and required review roles. An assistant must not represent its review of its own work as independent. If no specialized role is selected, the universal instructions in this file still apply.
 
 ## 3. Authority and conflicts
 
@@ -38,6 +45,8 @@ Use this order when interpreting project intent:
 7. Existing code behavior, unless the code is itself the defect being corrected
 
 If authoritative sources conflict, stop the affected work and clearly identify the conflict. Do not silently choose one source or rewrite an approved document to match the current code.
+
+Within this authority order, this working agreement governs every assistant and a selected role provides narrower operating guidance. Role selection does not change the authority of approved sources or the approval boundaries below.
 
 ## 4. Core working rules
 

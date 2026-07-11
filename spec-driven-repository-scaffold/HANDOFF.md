@@ -5,6 +5,12 @@ Updated by: `[NAME OR ASSISTANT LABEL]`
 Repository branch or workspace: `[IDENTIFIER]`  
 Last known revision: `[COMMIT OR REVISION IDENTIFIER, IF USED]`
 
+Current primary role: `[ROLE OR NONE]`
+
+Required next review: `[ROLE OR NONE]`
+
+Related review record: `[PATH OR NONE]`
+
 This file is a concise operational snapshot for the next work session. It is not authoritative when it conflicts with the actual repository. Always verify the current branch, files, task state, and validation results.
 
 ## Current milestone

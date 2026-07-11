@@ -75,6 +75,12 @@ Typical outputs:
 
 The AI should not redesign the project while pretending to complete a task.
 
+## Roles focus the work
+
+The repository's `AGENTS.md` remains the universal working agreement. A task or human instruction may select a specialized role from `agents/` to focus the work without changing approved authority or scope. The primary role performs the task; required review roles provide the perspectives needed for its risk.
+
+Role files do not create separate processes. A separate session, invocation, model, or human reviewer is needed when a review must be genuinely independent.
+
 ## Review at the highest-leverage points
 
 You do not need to manually edit every sentence. Concentrate your attention on:
@@ -98,8 +104,9 @@ AI drafts -> AI critiques -> human reviews -> AI revises -> human approves
 For implementation:
 
 ```text
-Select one Ready task -> plan -> implement -> test -> self-review
--> independent review when warranted -> fix -> update state -> stop
+Select one Ready task and primary role -> plan -> implement -> test -> self-review
+-> required independent role review when warranted -> fix and reverify
+-> update task, review, and handoff state -> stop
 ```
 
 ## Four words to remember

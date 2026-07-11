@@ -12,24 +12,26 @@ Start with exactly one Ready task. Later, allow a small batch only when the task
 
 ## The standard loop
 
-1. Read the working agreement, documentation index, handoff, and selected task.
-2. Verify actual repository and source-control state.
-3. Read linked requirements, decisions, architecture, and active plan.
-4. Inspect existing code and tests.
-5. Produce a short implementation plan for the task.
-6. Implement the smallest coherent change.
-7. Add or update tests.
-8. Run required checks.
-9. Review the full diff against acceptance criteria and constraints.
-10. Correct defects found.
-11. Update affected documentation, task state, and handoff.
-12. Stop and report evidence.
+1. Read the working agreement and documentation index.
+2. Read the selected primary-role file under `agents/`, when assigned, and identify the active role.
+3. Read the handoff and selected task, then verify actual repository and source-control state.
+4. Read linked requirements, decisions, architecture, and active plan.
+5. Inspect existing code and tests.
+6. Produce a short implementation plan for the task.
+7. Implement the smallest coherent change.
+8. Add or update tests.
+9. Run required checks.
+10. Review the full diff against acceptance criteria and constraints.
+11. Correct defects found.
+12. Update affected documentation, task, review, and handoff state.
+13. Stop and report evidence.
 
 ## Context control
 
 The AI usually does not need every document in every turn. Give it:
 
 - The working agreement
+- The selected role file, when assigned
 - The selected task
 - Linked requirements
 - Relevant decision records
@@ -86,9 +88,11 @@ Instruct the AI to stop and report when:
 ## Copy-ready one-task implementation prompt
 
 ```text
-Read AGENTS.md, docs/INDEX.md, HANDOFF.md, and TASKS.md. Select task [T-000],
-which is already marked Ready. Read only its linked requirements, decision
-records, architecture sections, active plan, source files, and tests.
+Act as the Software Engineer role defined in agents/software-engineer.md.
+Read AGENTS.md, docs/INDEX.md, the role file, HANDOFF.md, and TASKS.md. Select
+task [T-000], which is already marked Ready with Software Engineer as its
+primary role. Read only its linked requirements, decision records, architecture
+sections, active plan, source files, and tests.
 
 Complete exactly this one task.
 
@@ -119,9 +123,13 @@ Final report:
 - Recommended next task or review action
 ```
 
+If the task names a different primary role, select that role explicitly and use its permitted outputs and boundaries. Do not switch roles silently.
+
 ## Independent review
 
-For medium- or high-risk changes, use a fresh AI context after implementation. Give it the task, requirements, design, and diff. Ask it to find defects rather than praise the work.
+For medium- or high-risk changes, select the required reviewer role and use a fresh AI context after implementation. Give it the role file, task, requirements, design, exact revision, and diff. Ask it to record evidence-based findings under `docs/reviews/` rather than praise the work.
+
+Changing from Software Engineer to Test Engineer within the same assistant context can improve self-review, but it does not make the review independent. Label it as self-review or non-independent review.
 
 Review for:
 

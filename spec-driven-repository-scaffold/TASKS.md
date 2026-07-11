@@ -27,6 +27,8 @@ This file is the executable work queue. It is not a wish list, design document, 
 
 Copy this section for each task. Keep tasks small, coherent, and independently verifiable.
 
+`Owner` identifies the responsible contributor. `Primary role` identifies the specialized working perspective selected from `agents/`; it does not replace ownership.
+
 ---
 
 ## T-000: `[ACTION-ORIENTED TASK TITLE]`
@@ -39,7 +41,13 @@ Copy this section for each task. Keep tasks small, coherent, and independently v
 **Decisions:** `[ADR-0000 OR NONE]`  
 **Plan:** `[PATH TO ACTIVE PLAN]`  
 **Depends on:** `[TASK IDS OR NONE]`  
-**Owner:** `[NAME, ROLE, OR UNASSIGNED]`
+**Owner:** `[NAME OR UNASSIGNED]`
+
+**Primary role:** `[ROLE FROM agents/ OR UNASSIGNED]`
+
+**Required reviews:** `[ROLE NAMES OR NONE]`
+
+**Review records:** `[PATHS OR NONE]`
 
 ### Objective
 
@@ -103,5 +111,8 @@ Related change reference: `[COMMIT, REVIEW, OR RELEASE REFERENCE]`
 - Only `Ready` tasks may be selected automatically.
 - Do not mark a task `Ready` while a high-impact question remains unresolved.
 - Do not mark a task `Done` solely because code was produced.
+- Complete every required review, or record an explicit waiver from an authorized person, before marking a task `Done`.
+- Do not record a self-review as an independent required review.
+- When a review finding requires correction, return the task to an appropriate non-Done status until correction and any required reverification are complete.
 - When new work is discovered, add a separate task rather than silently expanding the current one.
 - When a task changes an approved requirement or design, obtain the appropriate review before implementation continues.

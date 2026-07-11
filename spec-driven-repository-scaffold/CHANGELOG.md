@@ -6,7 +6,7 @@ This file records meaningful user-visible and operator-visible changes. It is no
 
 ### Added
 
-- `[NEW CAPABILITY]`
+- Vendor-neutral specialized role definitions, task review assignments, and durable role-based review records.
 
 ### Changed
 

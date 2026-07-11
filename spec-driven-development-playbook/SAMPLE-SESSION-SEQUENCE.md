@@ -2,7 +2,11 @@
 
 This sequence shows how to avoid both constant micro-prompting and one uncontrolled mega-prompt. Each session has one purpose and a review point.
 
+The role names below refer to the portable definitions under `agents/`. A role focuses one session; it does not automatically create a separate process.
+
 ## Session 1: Establish the project brief
+
+Primary role: Project Analyst
 
 Input:
 
@@ -20,6 +24,8 @@ Then use prompt 2 for critique. Review the result yourself and approve or revise
 
 ## Session 2: Discover journeys
 
+Primary role: Project Analyst
+
 Input:
 
 - Approved project brief
@@ -32,6 +38,8 @@ Use prompts 3 and 4.
 Validate the important journeys with real users or process owners. Update assumptions and questions.
 
 ## Session 3: Create and review requirements
+
+Primary role: Project Analyst. Use a separate reviewer when approval requires independence.
 
 Input:
 
@@ -46,6 +54,8 @@ Resolve business rules, priorities, quality targets, and unknown external facts.
 
 ## Session 4: Make decisions and architecture
 
+Primary role: Solution Architect
+
 Input:
 
 - Approved requirements and constraints
@@ -58,6 +68,8 @@ Use prompts 7 through 10. Use prompt 11 when security or sensitive data is invol
 Approve important decision records and the architecture for the next milestone.
 
 ## Session 5: Roadmap and current plan
+
+Primary role: Solution Architect
 
 Input:
 
@@ -73,6 +85,8 @@ Approve the roadmap and exactly one current implementation plan.
 
 ## Session 6: Build a Ready task queue
 
+Primary role: Solution Architect or Project Analyst, as assigned. Each task names its own primary role and required reviews.
+
 Input:
 
 - Approved plan
@@ -85,9 +99,11 @@ Make only the next set of tasks Ready. Leave later work in Backlog until depende
 
 ## Session 7 and later: Deliver one task
 
+Primary role: Software Engineer for implementation. Use the task's required Test Engineer, Security Reviewer, or Documentation Reviewer perspectives afterward.
+
 Prompt:
 
-Use prompt 16. For medium- or high-risk work, follow with prompt 18 in a fresh context. Use prompt 19 to fix approved findings.
+Use prompt 16. For medium- or high-risk work, follow with prompt 18 under the required reviewer role in a fresh context. Use prompt 19 to fix approved findings.
 
 End with prompt 28 or the standing handoff instruction in the working agreement.
 
@@ -108,8 +124,8 @@ Once the repository is healthy, your routine prompt can be brief:
 
 ```text
 Continue with the highest-priority Ready task according to the repository
-working agreement. Complete exactly one task, validate it, update durable
-project state, and stop with evidence.
+working agreement. Read and identify its selected primary role, complete exactly
+one task, validate it, update durable project state, and stop with evidence.
 ```
 
 This works only because the task, requirements, design, commands, boundaries, and handoff are already in the repository.

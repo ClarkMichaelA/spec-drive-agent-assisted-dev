@@ -67,11 +67,36 @@ Keep separate decision records for choices that will be difficult or costly to r
 - Discoveries made during implementation may change earlier documents, but the change must not be hidden.
 - Anything that can be checked automatically should eventually be enforced by scripts or continuous integration.
 
+## Specialized roles
+
+`AGENTS.md` contains the shared working rules for every assistant. The portable Markdown files under `agents/` define specialized roles; a task or human prompt selects the active role. Role files do not automatically create or coordinate parallel processes, and the approach remains vendor-neutral.
+
+Self-review is expected, but when risk warrants independent review, use a separate assistant session, invocation, model, or human reviewer and record the review under `docs/reviews/`.
+
+Implementation example:
+
+> Act as the Software Engineer role defined in `agents/software-engineer.md`. Follow `AGENTS.md` and complete only the selected Ready task.
+
+Review example:
+
+> Act as the Test Engineer role defined in `agents/test-engineer.md`. Independently review the selected task and record evidence under `docs/reviews/`.
+
+See [`agents/README.md`](agents/README.md) for the role catalog and operating guidance.
+
 ## Repository map
 
 ```text
 /
 |-- AGENTS.md                  # Vendor-neutral working agreement for AI assistants
+|-- agents/                    # Portable specialized role definitions
+|   |-- README.md              # Role catalog and operating guide
+|   |-- ROLE-TEMPLATE.md       # Template for additional roles
+|   |-- project-analyst.md
+|   |-- solution-architect.md
+|   |-- software-engineer.md
+|   |-- test-engineer.md
+|   |-- security-reviewer.md
+|   `-- documentation-reviewer.md
 |-- README.md                  # This file
 |-- CONTRIBUTING.md            # Human and assistant contribution workflow
 |-- TASKS.md                   # Current executable work queue

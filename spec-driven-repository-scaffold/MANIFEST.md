@@ -10,6 +10,14 @@ Files included in this scaffold:
 - `MANIFEST.md`
 - `README.md`
 - `TASKS.md`
+- `agents/README.md`
+- `agents/ROLE-TEMPLATE.md`
+- `agents/documentation-reviewer.md`
+- `agents/project-analyst.md`
+- `agents/security-reviewer.md`
+- `agents/software-engineer.md`
+- `agents/solution-architect.md`
+- `agents/test-engineer.md`
 - `ci/README.md`
 - `docs/API.md`
 - `docs/ARCHITECTURE.md`
@@ -38,4 +46,3 @@ Files included in this scaffold:
 - `scripts/README.md`
 - `src/README.md`
 - `tests/README.md`
-

@@ -56,6 +56,20 @@ A separate context challenges the change without being anchored to the implement
 
 Ask it for findings with evidence, severity, impact, and a specific correction. Require it to distinguish defects from optional improvements.
 
+Select the review perspective required by the task:
+
+- Test Engineer for behavior, acceptance criteria, and test quality
+- Security Reviewer for meaningful security or privacy effects
+- Documentation Reviewer for source-of-truth consistency and traceability
+
+Role selection alone does not establish independence. Record whether the review was independent, a self-review, or otherwise non-independent.
+
+## Record reviews durably
+
+Use `docs/reviews/` for required task reviews. A review record should identify the task or artifact, exact branch or revision when available, reviewer role, reviewer identity or assistant label, independence status, scope, evidence, findings, required actions and owners, disposition, reverification result, and approval status.
+
+Required reviews must be complete or explicitly waived by an authorized person before a task is Done. If a finding requires correction, return the task to an appropriate non-Done status and reverify the corrected revision. Absence of findings does not by itself prove correctness or security.
+
 ## Release readiness is broader than task completion
 
 Before release, confirm:
@@ -74,10 +88,12 @@ Before release, confirm:
 ## Copy-ready independent review prompt
 
 ```text
-Act as an independent reviewer. Do not assume the implementation is correct.
+Act as the [REVIEW ROLE] defined in [ROLE FILE]. Perform an independent review.
+Do not assume the implementation is correct.
 
 Read task [T-000], its linked requirements, accepted decisions, architecture,
-security rules, test strategy, and the complete proposed diff or changed files.
+security rules, test strategy, and revision [REVISION] with its complete proposed
+diff or changed files.
 
 Find:
 - Unmet acceptance criteria
@@ -92,7 +108,8 @@ Find:
 
 For each finding provide severity, evidence, impact, and a concrete correction.
 Separate required findings from optional improvements. Do not invent project
-requirements. State when evidence is insufficient.
+requirements. State when evidence is insufficient. Record the review under
+docs/reviews/ and link it from TASKS.md and HANDOFF.md where applicable.
 ```
 
 ## Copy-ready release-readiness prompt

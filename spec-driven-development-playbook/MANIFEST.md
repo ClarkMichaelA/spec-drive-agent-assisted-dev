@@ -21,4 +21,4 @@ Files included in this playbook:
 - `PROMPT-LIBRARY.md`
 - `README.md`
 - `SAMPLE-SESSION-SEQUENCE.md`
-
+- `SPECIALIZED-AGENT-ROLES.md`

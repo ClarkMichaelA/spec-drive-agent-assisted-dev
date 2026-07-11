@@ -16,6 +16,8 @@ This page is the map for project knowledge. Keep it short enough that a new cont
 6. `../TASKS.md` - the current executable work queue
 7. `../HANDOFF.md` - the latest operational state
 
+When a task or human instruction selects a specialized role, read its definition under [`../agents/`](../agents/) after the root working agreement.
+
 ## Source-of-truth documents
 
 | Topic | Authoritative file | Notes |
@@ -37,6 +39,7 @@ This page is the map for project knowledge. Keep it short enough that a new cont
 | Risks | `RISKS.md` | Active risk treatment and ownership |
 | Assumptions | `ASSUMPTIONS.md` | Unverified beliefs with validation plans |
 | Traceability | `TRACEABILITY.md` | Links goals to delivery evidence |
+| Specialized roles | [`../agents/`](../agents/) | Which role is responsible for this work, what may that role change, and what review perspective is required? Roles do not outrank approved requirements or decisions. |
 
 ## Active documents
 
