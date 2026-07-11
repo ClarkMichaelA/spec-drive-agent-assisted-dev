@@ -1,0 +1,35 @@
+# Replace or extend this file for the chosen technology stack.
+
+# Operating-system files
+.DS_Store
+Thumbs.db
+
+# Editor and local workspace files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Local configuration and secrets
+.env
+.env.*
+!.env.example
+*.key
+*.pem
+*.pfx
+secrets/
+
+# Logs and temporary files
+*.log
+tmp/
+temp/
+.cache/
+
+# Build and test output
+build/
+dist/
+out/
+coverage/
+test-results/
+
+# Dependency directories should be added for the selected ecosystem.
