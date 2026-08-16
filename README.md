@@ -150,4 +150,4 @@ Fluent text is not evidence. Check laws, APIs, products, and numbers at the sour
 
 ## License
 
-No license file yet. Add one before you republish this.
+[MIT](LICENSE). Keep the copyright notice if you copy a substantial portion. That is the attribution.
