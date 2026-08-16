@@ -1,21 +1,16 @@
 # Implementation Plans
 
-Implementation plans bridge approved architecture and executable tasks. Create a plan for a milestone or feature when the work spans multiple components, has meaningful sequencing, changes data, carries deployment risk, or needs coordinated review.
+The plan is the control surface. You approve it. Grok executes it. You come back at a phase.
 
-## Directory use
+One active plan per workstream. Two plans for the same work means nobody is in charge.
 
-- `active/` - current plans that guide implementation
-- `completed/` - finished plans retained as project history
+## Lifecycle
 
-Use one clearly identified active plan per workstream. Do not keep several competing plans for the same work.
+1. Draft from approved requirements, ADRs, architecture, and the milestone.
+2. Attack it: phases you cannot see, tasks that are projects, open expensive questions.
+3. You approve. That authorizes the task queue. You do not Ready tickets later.
+4. Grok works on `plan/<milestone>-<slug>` until a phase checkpoint or a stop.
+5. You use the software. Merge the phase to `v1`, continue, or change the plan.
+6. When the plan's exit is true, move the file to `completed/`.
 
-## Plan lifecycle
-
-1. Draft from approved requirements, decisions, architecture, and roadmap outcome.
-2. Review for gaps, risks, sequencing, testability, deployment, and rollback.
-3. Approve the plan.
-4. Generate or refine tasks from the plan.
-5. Keep progress notes factual while implementation proceeds.
-6. Move the plan to `completed/` after exit criteria are met or the plan is superseded.
-
-A plan may evolve as facts are discovered, but material scope or design changes must follow `CHANGE_CONTROL.md`.
+Material scope or design changes go through `CHANGE_CONTROL.md`. The loop does not get to edit a Must to stay green.

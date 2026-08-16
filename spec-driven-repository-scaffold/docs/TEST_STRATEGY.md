@@ -6,10 +6,12 @@ Last reviewed: `[YYYY-MM-DD]`
 
 ## 1. Test objectives
 
-- Prove approved requirements are satisfied.
-- Detect regressions early.
-- Exercise important failure, permission, data, and recovery paths.
-- Produce evidence suitable for release decisions.
+- Prove approved requirements. A test that would still pass if the feature were deleted is not a test.
+- Catch regressions.
+- Hit failure, permission, data, and recovery — the cases people skip.
+- If a user can see the change, someone uses the UI. A second agent reading the markup is not that.
+
+Commands in `AGENTS.md` are the gate. This file is only for choices those commands do not already encode. Delete this file if the plan and `AGENTS.md` are enough.
 
 ## 2. Test layers
 

@@ -6,7 +6,7 @@ Last reviewed: `[YYYY-MM-DD]`
 
 ## How to use this file
 
-A roadmap organizes delivery around outcomes and evidence. It is not a detailed task list. Dates should be commitments only when the team has enough information to make them responsibly.
+A roadmap organizes delivery around outcomes and evidence. It is not a task list. Each milestone gets one implementation plan; that plan is what you approve and what Grok executes. Dates are commitments only when you mean them.
 
 ## Roadmap principles
 

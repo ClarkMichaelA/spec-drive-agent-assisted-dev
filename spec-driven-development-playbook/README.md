@@ -1,46 +1,47 @@
-# Plain-Language Playbook for Spec-Driven, Agent-Assisted Development
+# Playbook
 
-This guide explains how to take a software idea from initial concept to a tested, reviewable delivery while using AI assistants efficiently and safely.
+How to take an idea to something you can run, using Grok Build, without turning chat into the project.
 
-It assumes you are still learning the process. The goal is not to turn you into a project manager or software architect before you can begin. The goal is to give you a repeatable path, tell you what to review, and provide prompts you can reuse.
+Written for one person. Grok does the labor. You decide what "good" is.
 
-The guide is vendor-neutral. Use it with any capable language model, chat assistant, coding assistant, or agent that can read the files in your project.
+Specs are files. Any assistant can read them. The delivery loop is built for Grok.
 
-## The central idea
+## The split
 
-Use AI to do the repetitive work of expanding, organizing, checking, planning, implementing, testing, and summarizing. Keep human control over:
+Grok: draft, organize, implement, test, review a diff, update state.
 
-- The real problem being solved
-- Scope and priorities
-- Business rules and external facts
-- Security and risk tolerance
-- Important tradeoffs
-- Approval of requirements and architecture
-- Acceptance of release risk
+You:
 
-The project repository should be the durable memory. Do not depend on one long chat to remember decisions or project state.
+- The real problem
+- Scope and non-goals
+- Facts about the outside world
+- Irreversible choices
+- The plan (not the tickets)
+- Whether the running software is right
+- Release
 
-## The lifecycle
+The repository is memory. If it is not in a file or a test, it did not happen.
+
+## The sequence
 
 ```text
 Idea
-  -> Project brief
-  -> User journeys and scenarios
-  -> Requirements
-  -> Decision records and architecture
-  -> Outcome-based roadmap
-  -> Milestone or feature implementation plan
-  -> Small, testable tasks
-  -> Implement, test, review, and demonstrate
-  -> Release and operate
-  -> Learn and update the specifications
+  -> PROJECT.md
+  -> journeys
+  -> requirements
+  -> decisions you cannot cheaply undo
+  -> architecture those decisions force
+  -> roadmap of outcomes
+  -> one plan, with phases
+  -> Grok executes the plan
+  -> you inspect each phase
+  -> release
+  -> change the spec when reality disagrees
 ```
 
-This sequence is directional, not rigid. Implementation can reveal missing requirements or a bad assumption. When that happens, update the earlier artifact deliberately and trace the consequences. Do not silently make the code the new requirement.
+Directional, not sacred. When code disproves a spec, update the spec. Do not pretend the code was what you meant.
 
-## How to use this package
-
-Read these files in order the first time:
+## Read this first
 
 1. `01-LIFECYCLE-AT-A-GLANCE.md`
 2. `02-PROJECT-INITIATION.md`
@@ -48,66 +49,44 @@ Read these files in order the first time:
 4. `04-REQUIREMENTS.md`
 5. `05-DECISIONS-AND-ARCHITECTURE.md`
 6. `06-ROADMAP-PLANS-AND-TASKS.md`
-7. `07-IMPLEMENTATION-LOOP.md`
+7. `07-IMPLEMENTATION-LOOP.md` — the part that actually changed
 8. `08-TEST-REVIEW-AND-RELEASE.md`
 9. `09-PROJECT-MEMORY-AND-HANDOFFS.md`
 10. `10-CHANGE-AND-MAINTENANCE.md`
 
-Then keep these nearby:
+Keep nearby:
 
-- `SPECIALIZED-AGENT-ROLES.md` - how portable roles are selected, bounded, reviewed, and handed off
-- `PROMPT-LIBRARY.md` - copy-ready prompts for each stage
-- `CHECKLISTS.md` - concise review and stage-gate checklists
-- `SAMPLE-SESSION-SEQUENCE.md` - a practical sequence of AI sessions
-- `ILLUSTRATIVE-WALKTHROUGH.md` - a small fictional example from idea to task
-- `11-COMMON-FAILURE-MODES.md` - warning signs and corrections
-- `12-SCALING-THE-PROCESS.md` - when to simplify or add rigor
-- `GLOSSARY.md` - plain definitions
+- `PROMPT-LIBRARY.md`
+- `CHECKLISTS.md`
+- `ILLUSTRATIVE-WALKTHROUGH.md`
+- `11-COMMON-FAILURE-MODES.md`
+- `12-SCALING-THE-PROCESS.md`
+- `GLOSSARY.md`
 
-## The normal human and AI division of work
+Roles live in the scaffold: `agents/`. The playbook does not need a second catalog.
 
-| Work | AI is useful for | Human must own |
-|---|---|---|
-| Project definition | Drafting, structuring, finding ambiguities | Confirming the real problem, outcomes, scope, and constraints |
-| User journeys | Expanding scenarios and edge cases | Confirming how real users and processes actually work |
-| Requirements | Converting intent into testable statements | Approving business rules, priorities, and quality targets |
-| Decisions | Comparing options and documenting tradeoffs | Choosing risk, cost, and strategic tradeoffs |
-| Architecture | Drafting diagrams, flows, interfaces, and review questions | Approving consequential design and enterprise fit |
-| Planning | Sequencing, dependency analysis, task decomposition | Setting priorities, capacity, and release commitments |
-| Coding | Implementation, tests, refactoring, documentation | Reviewing high-risk changes and accepting results |
-| Testing | Generating cases, running checks, analyzing failures | Deciding whether evidence is sufficient for release |
-| Handoffs | Updating state and summarizing work | Confirming the summary reflects reality |
+## Minimum
 
-## The minimum viable version
-
-For a small, low-risk project, begin with only:
-
-- `PROJECT.md` or one combined `SPEC.md`
-- A short requirements section with acceptance criteria
-- Any necessary decision records
-- One implementation plan
-- `TASKS.md`
-- Automated tests
+- `PROJECT.md` or one `SPEC.md`
+- Requirements you can test
+- ADRs only if reversal is expensive
+- One plan
+- Tests
 - `HANDOFF.md`
 
-The scaffold also includes `agents/`: portable role definitions for analysis, architecture, implementation, testing, security review, and documentation review. These Markdown files define responsibilities and boundaries; they do not automatically create separate processes. See `SPECIALIZED-AGENT-ROLES.md`.
+If you are maintaining more files than you have users, delete files.
 
-Add separate security, operations, data, and API documents when the project actually needs them.
+## Good looks like
 
-## What good looks like
+- A new Grok session can start from the repo
+- Claims are known, assumed, or unknown — never "sounds right"
+- Requirements can fail a test
+- Hard choices have a reason
+- You approved a plan, not a pile of tickets
+- Grok stops when the plan is wrong
+- Checks that matter are commands, not slogans
+- You look at the product at each phase
 
-A healthy project has these properties:
+## Caution
 
-- A new session can understand the current state by reading the repository.
-- Important claims are marked as known, assumed, or unknown.
-- Requirements are observable and testable.
-- Major choices have reasons and consequences recorded.
-- Tasks are small enough to finish and review safely.
-- Tests and automated checks produce evidence.
-- The AI stops on high-impact ambiguity instead of guessing.
-- Completed work updates both code and project memory.
-- Humans review decisions, not every keystroke.
-
-## A practical caution
-
-Fluent output is not evidence. AI-generated statements about laws, products, APIs, security controls, performance, or external systems must be verified from authoritative sources before they become approved requirements or design inputs.
+Fluent is free. True is not. Verify laws, APIs, prices, and security claims at the source before they become Approved.

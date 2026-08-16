@@ -18,7 +18,7 @@ Prefer real evidence:
 - Logs and measurements
 - Subject-matter experts
 
-AI can propose questions and missing paths, but it cannot observe your organization unless you provide evidence.
+Grok can propose questions and missing paths. It cannot see your organization. If you did not give evidence, the journey is a guess — mark it that way.
 
 ## Journey contents
 

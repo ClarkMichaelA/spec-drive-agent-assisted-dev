@@ -8,7 +8,7 @@ Last reviewed: `[YYYY-MM-DD]`
 
 ## How to use this file
 
-This document explains why the project exists, who it serves, what success means, and where its boundaries are. Keep it understandable to a non-developer. Do not place detailed technical design here unless a technology is an externally imposed constraint.
+Why this exists, who it is for, what better looks like, and what is out. No design here unless a technology is a real external constraint. If you cannot write the problem without naming a product, you started too late.
 
 ## 1. One-paragraph summary
 

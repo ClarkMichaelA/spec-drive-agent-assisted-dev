@@ -1,22 +1,14 @@
 # Review Records
 
-Use this directory for structured reviews that should remain part of project history, such as requirements review, architecture review, security review, release readiness, or a post-implementation review.
+Write a file here when a finding, waiver, or release call has to survive.
 
-A review record should identify the exact task, artifact, branch, revision, or commit reviewed when available. It should also identify the reviewer role, reviewer identity or assistant label, and whether the work was an independent review, self-review, or another non-independent review.
+Do not write one because a role ran. "Looks good" with no SHA is trash. Delete it.
 
-Suggested task-review filenames include:
+Typical names:
 
-- `T-014-test-review.md`
-- `T-014-security-review.md`
-- `T-014-documentation-review.md`
+- `T-014-security.md`
+- `M-01-release.md`
 
-Use [`REVIEW-000-template.md`](REVIEW-000-template.md) and record:
+Use [`REVIEW-000-template.md`](REVIEW-000-template.md). Include revision, independence (or self-review), what you ran, findings, disposition.
 
-- Scope reviewed
-- Evidence and checks performed
-- Findings and required corrections
-- Owners and disposition
-- Reverification result
-- Approval status
-
-Avoid vague statements such as "looks good" without evidence. Absence of findings does not by itself prove correctness or security.
+No findings ≠ secure.

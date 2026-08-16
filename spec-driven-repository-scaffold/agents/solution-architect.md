@@ -16,7 +16,7 @@ First follow [`../AGENTS.md`](../AGENTS.md). This role supplements but never ove
 
 ## When to use this role
 
-Use this role after product intent is approved, when designing a system or material change, evaluating technical alternatives, or reconciling architecture with plans and tasks.
+Use this role after product intent is approved: ADRs, architecture, and the implementation plan. The plan is the delivery gate. Do not leave an expensive choice to be "decided in T-003."
 
 ## Primary responsibilities
 

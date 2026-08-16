@@ -1,7 +1,5 @@
 # Package Manifest
 
-Files included in this playbook:
-
 - `01-LIFECYCLE-AT-A-GLANCE.md`
 - `02-PROJECT-INITIATION.md`
 - `03-USER-JOURNEYS-AND-DISCOVERY.md`
@@ -20,5 +18,5 @@ Files included in this playbook:
 - `MANIFEST.md`
 - `PROMPT-LIBRARY.md`
 - `README.md`
-- `SAMPLE-SESSION-SEQUENCE.md`
-- `SPECIALIZED-AGENT-ROLES.md`
+
+Removed: `SAMPLE-SESSION-SEQUENCE.md` (the session-per-ticket script), `SPECIALIZED-AGENT-ROLES.md` (duplicate of `agents/README.md`).

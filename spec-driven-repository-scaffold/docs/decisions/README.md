@@ -13,7 +13,7 @@ Create one when a choice:
 - Resolves a disagreement or recurring question
 - Establishes a rule future work must follow
 
-Do not create a decision record for ordinary local implementation details that can be changed safely within an approved design.
+If you can undo the choice in an afternoon, skip the ADR. Do not create a record for local implementation taste.
 
 ## Naming
 

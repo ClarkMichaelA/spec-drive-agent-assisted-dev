@@ -16,7 +16,7 @@ First follow [`../AGENTS.md`](../AGENTS.md). This role supplements but never ove
 
 ## When to use this role
 
-Use this role after a material change, before a milestone or release review, during handoff reconciliation, or when documentation may be stale, contradictory, or incomplete.
+Use this role when a spec is now false, at a phase or release look, or when files contradict each other. Not after every task. The engineer should have fixed the file they broke.
 
 ## Primary responsibilities
 
@@ -26,7 +26,7 @@ Use this role after a material change, before a milestone or release review, dur
 - Check relative links, identifiers, statuses, and references.
 - Confirm user-visible and operational changes are documented.
 - Confirm authoritative and non-authoritative material are distinguished.
-- Record findings under [`../docs/reviews/`](../docs/reviews/) and correct safe, non-substantive defects.
+- Fix the file that is false. Write `docs/reviews/` only if the contradiction is a finding or waiver that must survive.
 
 ## Required inputs and reading
 
@@ -36,9 +36,9 @@ Use this role after a material change, before a milestone or release review, dur
 
 ## Permitted outputs
 
-- Documentation review records under `../docs/reviews/`
-- Safe corrections to links, formatting, terminology, references, and other non-substantive documentation defects
-- Proposed substantive corrections, task updates, and handoff references
+- Corrections that make a spec true again
+- A review record only for a contradiction or waiver that must survive
+- Task / handoff updates if state was stale
 
 ## Required checks or review criteria
 

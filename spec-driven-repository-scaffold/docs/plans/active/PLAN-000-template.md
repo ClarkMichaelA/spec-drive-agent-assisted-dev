@@ -1,145 +1,130 @@
-# PLAN-000: `[MILESTONE OR FEATURE NAME]`
+# PLAN-000: `[MILESTONE OR FEATURE]`
 
-Status: Draft  
-Owner: `[OWNER]`  
-Created: `[YYYY-MM-DD]`  
-Last updated: `[YYYY-MM-DD]`  
-Roadmap milestone: `[M-00]`  
-Requirements: `[IDS]`  
+Status: Draft
+Owner: `[YOU]`
+Created: `[YYYY-MM-DD]`
+Last updated: `[YYYY-MM-DD]`
+Roadmap milestone: `[M-00]`
+Requirements: `[IDS]`
 Decision records: `[IDS]`
+Branch: `plan/[M-00-slug]`
+
+Approving this plan authorizes the tasks below. Grok will not ask you to Ready them.
 
 ## 1. Outcome
 
-`[WHAT USABLE OR RISK-REDUCING RESULT THIS PLAN WILL DELIVER]`
+`[WHAT SOMEONE CAN DO WHEN THIS PLAN IS DONE]`
 
-## 2. Scope
+## 2. In / out
 
-Included:
+In:
 
-- `[INCLUDED WORK]`
+- `[IN]`
 
-Not included:
+Out:
 
-- `[EXCLUDED WORK]`
+- `[OUT — say it so Grok cannot "helpfully" add it]`
 
 ## 3. Current state
 
-Describe the relevant code, data, interfaces, environment, and known limitations as they actually exist.
+What the code, data, and env actually do today. Not the wish.
 
-## 4. Target behavior
+## 4. Target
 
-Describe the end-to-end behavior after the plan is complete. Reference approved requirements instead of silently changing them.
+End-to-end behavior, citing approved requirement IDs. If you need a new Must, stop. That is not a plan problem.
 
-## 5. Components and files likely affected
+## 5. Surfaces
 
-| Area | Expected change | Reason |
+| Area | Change | Why (requirement or ADR) |
 |---|---|---|
-| `[COMPONENT/PATH]` | `[CHANGE]` | `[REQUIREMENT OR DESIGN REASON]` |
+| `[PATH]` | `[WHAT]` | `[ID]` |
 
-## 6. Data and interface changes
+## 6. Data, interface, security
 
-- Data model or migration: `[CHANGE OR NONE]`
-- External or internal interface: `[CHANGE OR NONE]`
-- Compatibility approach: `[APPROACH]`
-- Idempotency and retry: `[APPROACH]`
+Delete a bullet if it is none.
 
-## 7. Security, privacy, and permissions
+- Data / migration: `[NONE OR WHAT]`
+- Interface: `[NONE OR WHAT]`
+- Trust / auth / sensitive data: `[NONE OR WHAT]`
+- Audit: `[NONE OR WHAT]`
 
-- Trust-boundary changes: `[CHANGE OR NONE]`
-- Authentication or authorization: `[CHANGE OR NONE]`
-- Sensitive data: `[HANDLING]`
-- Audit events: `[EVENTS]`
-- Required review: `[ROLE OR NONE]`
+## 7. Review policy
 
-## 8. Implementation phases
+Default: tests every task; fresh test review after implement; no review file unless there is a finding.
+
+Also run:
+
+- Security on: `[TASKS THAT TOUCH AUTH, DATA, TRUST, SECRETS — OR NONE]`
+- UI exercise on: `[TASKS A USER CAN SEE — OR NONE]`
+- Durable `docs/reviews/` record on: `[SECURITY FINDINGS, WAIVERS, RELEASE — OR NONE]`
+
+Do not list every role on every task.
+
+## 8. Phases
+
+Each phase is something you can run or see. 2–4. After each, Grok stops.
 
 ### Phase 1: `[NAME]`
 
-Outcome:
+You will look at: `[COMMAND, SCREEN, OR DEMO]`
 
-`[RESULT]`
+Tasks: `[T-001, T-002]`
 
-Work:
-
-- `[WORK ITEM]`
-
-Validation:
-
-- `[CHECK]`
+Validation: `[COMMAND]`
 
 ### Phase 2: `[NAME]`
 
-Outcome:
+You will look at: `[…]`
 
-`[RESULT]`
+Tasks: `[…]`
 
-Work:
+Validation: `[…]`
 
-- `[WORK ITEM]`
+## 9. Tests
 
-Validation:
+The smallest set that would fail if the outcome were fake.
 
-- `[CHECK]`
+- `[TEST]`
 
-## 9. Test approach
+## 10. Deploy / rollback
 
-- Unit: `[TESTS]`
-- Component or integration: `[TESTS]`
-- End-to-end: `[TESTS]`
-- Security and permissions: `[TESTS]`
-- Nonfunctional: `[TESTS OR N/A]`
-- Manual demonstration: `[DEMO]`
+Delete this section if you are not deploying.
 
-## 10. Deployment, migration, and rollback
+- Deploy: `[…]`
+- Rollback: `[…]`
 
-- Deployment sequence: `[SEQUENCE]`
-- Feature flag or gradual rollout: `[APPROACH OR N/A]`
-- Migration: `[APPROACH OR N/A]`
-- Rollback or forward-fix: `[APPROACH]`
-- Post-deployment checks: `[CHECKS]`
+## 11. Stops
 
-## 11. Observability and support
+Grok must halt and return the plan to you if:
 
-- Logs: `[CHANGES]`
-- Metrics: `[CHANGES]`
-- Alerts: `[CHANGES]`
-- Runbooks or support notes: `[CHANGES]`
+- `[NEW EXPENSIVE DECISION]`
+- `[MUST WE CANNOT TEST]`
+- `[SCOPE NOT IN SECTION 2]`
+- required checks stay red
 
-## 12. Risks, assumptions, and open questions
+## 12. Tasks
 
-| Type | ID or description | Treatment | Owner | Needed by |
-|---|---|---|---|---|
-| Risk | `[R-000 OR DESCRIPTION]` | `[ACTION]` | `[OWNER]` | `[DATE/PHASE]` |
-| Assumption | `[A-000 OR DESCRIPTION]` | `[VALIDATION]` | `[OWNER]` | `[DATE/PHASE]` |
-| Question | `[QUESTION]` | `[DECISION NEEDED]` | `[OWNER]` | `[DATE/PHASE]` |
+Write these into `TASKS.md` after the plan is coherent. You still approve the plan, not each row.
 
-## 13. Task breakdown
+| ID | Phase | Outcome | Depends | Extra review | Proof |
+|---|---|---|---|---|---|
+| T-000 | 1 | `[…]` | None | none | `[COMMAND]` |
 
-Create tasks in `TASKS.md` only after the plan is coherent.
+## 13. Exit
 
-| Proposed task | Outcome | Dependencies | Verification |
-|---|---|---|---|
-| `[T-000 TITLE]` | `[RESULT]` | `[DEPENDENCIES]` | `[CHECK]` |
+- [ ] Included Musts have evidence
+- [ ] Phase validations passed
+- [ ] Known limits written and accepted
+- [ ] You can demonstrate the outcome
 
-## 14. Exit criteria
+## 14. Notes
 
-- [ ] All included requirements have evidence.
-- [ ] Required quality and security gates pass.
-- [ ] Deployment and rollback are understood and tested as required.
-- [ ] Documentation and support material are current.
-- [ ] Known limitations are accepted and visible.
-- [ ] The milestone outcome can be demonstrated.
+Dated facts only.
 
-## 15. Progress notes
-
-Use dated, factual notes. Do not replace task tracking with a narrative diary.
-
-- `[YYYY-MM-DD] - [FACTUAL UPDATE]`
+- `[YYYY-MM-DD] — [FACT]`
 
 ## Approval
 
-| Role | Name | Decision | Date | Notes |
-|---|---|---|---|---|
-| Product owner | `[NAME]` | `[DECISION]` | `[DATE]` | `[NOTES]` |
-| Technical owner | `[NAME]` | `[DECISION]` | `[DATE]` | `[NOTES]` |
-| Security/operations reviewer, if needed | `[NAME]` | `[DECISION]` | `[DATE]` | `[NOTES]` |
+| Who | Decision | Date |
+|---|---|---|
+| You | `[APPROVED / NOT]` | `[DATE]` |

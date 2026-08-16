@@ -1,8 +1,7 @@
 # Package Manifest
 
-Files included in this scaffold:
-
 - `.gitignore`
+- `.grok/workflows/work-plan.rhai`
 - `AGENTS.md`
 - `CHANGELOG.md`
 - `CONTRIBUTING.md`

@@ -1,111 +1,77 @@
-# 12. Scaling the Process
+# 12. How Much Process
 
-## Match rigor to risk and size
+Default: one person, Grok Build, one plan, one branch.
 
-The goal is not maximum documentation. The goal is enough durable clarity and evidence for the consequences of the work.
+Add a file or a meeting only when a real failure would have been cheaper than the paper.
 
-## Small experiment or prototype
+## Solo / this kit's default
 
-Use:
+- Specs in the repo
+- One approved plan with 2–4 phases
+- `/work-plan` or an equivalent prompt
+- Tests + CI
+- You at each phase, looking at the product
+- One PR into `v1`
 
-- One combined `SPEC.md`
-- A short decision section or a few decision records
-- One implementation plan
-- A task list
-- Tests for the risky assumptions
-- A handoff
+Do not add: issue tracker, Project board, per-task PRs, four reviewer agents, a docs site of process.
 
-Do not pretend a prototype is production-ready. State which security, operations, data, performance, and support concerns are intentionally deferred.
+If it is a prototype, collapse to `SPEC.md` + a short plan + tests. Say what you are not claiming (security, ops, scale).
 
-## Small production application
+## Small thing you will actually run
 
-Use:
+Add: journeys, requirements, ADRs for expensive choices, architecture, roadmap, security and ops *sections* (not necessarily extra files), CI, a release look.
 
-- Project brief
-- Journeys and requirements
-- Decision records
-- Architecture
-- Roadmap and active plans
-- Task queue
-- Test strategy
-- Security and operations sections
-- Automated validation
-- Release review
+## Higher risk (money, identity, other people's data, hard to undo)
 
-## Larger or higher-risk project
+Add only what that risk needs: threat model, data rules, contract tests, migration plan, a durable security review, backup/restore you have actually done.
 
-Add as needed:
+Do not add them "for completeness."
 
-- Formal threat model
-- Data classification and retention approval
-- Interface contracts and compatibility gates
-- Migration and cutover plans
-- Generated traceability reports
-- Separate quality, security, and operational reviews
-- Environment promotion and release evidence
-- Incident and recovery exercises
-- Formal ownership and approval records
+## Grok Build
 
-## Moving from one agent to several
+This is the runtime the loop is written for.
 
-Specialized roles and parallel agents are different concepts. Files under `agents/` define portable responsibilities and boundaries. They do not launch processes, create isolation, or guarantee independent review. One assistant can use roles sequentially; several assistants can also use the same role on different workstreams.
+- `AGENTS.md` is the working agreement Grok loads
+- `agents/*.md` are perspectives, not processes
+- `/work-plan` is the delivery loop
+- Subagents give you a fresh context for review
+- Worktrees are for parallel edits you should usually not be doing
 
-Parallel work increases coordination cost. Before adding agents:
+Other tools can read the Markdown. They will not have `/work-plan` unless you rebuild it.
 
-- Make task boundaries and dependencies explicit.
-- Assign ownership of components or files.
-- Use separate branches or workspaces.
-- Avoid a single shared handoff file for concurrent edits.
-- Define integration points and contract tests.
-- Keep authoritative task state in a shared tracker.
-- Require each workstream to return evidence and a handoff.
-- Run an integration review after combining changes.
+## GitHub
 
-The scaffold's standard perspectives are Project Analyst, Solution Architect, Software Engineer, Test Engineer, Security Reviewer, and Documentation Reviewer. Select them through human instructions or task fields. Roles do not require different products or models, but a required independent review needs a reviewer that did not produce the work.
+Useful:
 
-## When to move tasks out of Markdown
+- Protected `v1`
+- PR for a phase
+- Actions running the same commands as `AGENTS.md`
 
-`TASKS.md` works well for a solo developer or one sequential agent. Consider a shared issue tracker when:
+Not useful, for you:
 
-- Several people or agents work concurrently
-- Tasks need assignment, comments, due dates, or dashboards
-- Branch and review links need automation
-- Task status conflicts become common
-- Reporting is required
+- Issue per task
+- Project as the board
+- Comment commands to "notify agents" — you are already in Grok
+- CODEOWNERS theater with one owner
 
-Keep requirement and decision IDs in the tracker so traceability survives the move.
+If a second human appears, then maybe Issues. Keep requirement IDs on them. Do not let Issues become a second `REQUIREMENTS.md`.
 
-## Context-window strategy
+## Parallelism
 
-As the repository grows:
+Do not. Not until the single-task loop is boringly correct and two workstreams do not touch the same files.
 
-- Keep an accurate documentation index.
-- Summarize component purpose near the component.
-- Link tasks directly to relevant sections.
-- Archive completed plans without deleting them.
-- Generate compact reports from structured metadata where practical.
-- Do not ask an assistant to read every file by default.
+Then: separate plan branches, contract tests at the join, no shared `HANDOFF.md` writes.
 
-## Maturity progression
+Role files do not make this safe.
 
-### Level 1: Structured prompting
+## Context
 
-You use templates and review AI drafts.
+As the repo grows: keep `docs/INDEX.md` honest, link tasks to sections, archive finished plans, do not make Grok read everything.
 
-### Level 2: Repository memory
+## Three levels. Stop climbing for sport.
 
-Intent, decisions, tasks, tests, and handoffs live in versioned files.
+1. **Files exist** — intent, decisions, plan, tests, handoff are in git
+2. **The loop works** — Grok can take the next task and stop for a reason
+3. **The gate is a command** — CI fails the change you would have shipped by accident
 
-### Level 3: Bounded delivery loops
-
-Ready tasks can be implemented with minimal prompting and explicit stop conditions.
-
-### Level 4: Executable governance
-
-Build, test, security, compatibility, and documentation rules are enforced automatically.
-
-### Level 5: Safe parallelism
-
-Multiple workstreams operate against stable interfaces, shared task state, and reliable integration gates.
-
-Do not skip directly to parallel autonomous agents before the single-task loop is reliable.
+Level 5 autonomous swarm is how you get a confident mess. You are not a platform team.

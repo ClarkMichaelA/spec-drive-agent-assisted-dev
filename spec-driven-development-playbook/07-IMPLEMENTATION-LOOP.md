@@ -2,156 +2,142 @@
 
 ## Goal
 
-Let the AI work with meaningful autonomy while keeping each change bounded, reviewable, and supported by evidence.
+Grok does a lot. You steer the plan. Each change is small, proven, and reversible.
 
-## Do not begin with "finish the entire project"
+## Do not say "finish the milestone"
 
-A long autonomous loop can multiply one wrong assumption across many tasks. Context becomes stale, tests may be rationalized, and architecture drift can accumulate.
+An unattended backlog is how one bad assumption becomes eight commits. Your own later self cannot tell where it went wrong.
 
-Start with exactly one Ready task. Later, allow a small batch only when the tasks are low-risk, closely related, and covered by reliable automated checks.
+The unit of autonomy is **the phase**, not the product.
 
-## The standard loop
+## Who does what
 
-1. Read the working agreement and documentation index.
-2. Read the selected primary-role file under `agents/`, when assigned, and identify the active role.
-3. Read the handoff and selected task, then verify actual repository and source-control state.
-4. Read linked requirements, decisions, architecture, and active plan.
-5. Inspect existing code and tests.
-6. Produce a short implementation plan for the task.
-7. Implement the smallest coherent change.
-8. Add or update tests.
-9. Run required checks.
-10. Review the full diff against acceptance criteria and constraints.
-11. Correct defects found.
-12. Update affected documentation, task, review, and handoff state.
-13. Stop and report evidence.
+You:
 
-## Context control
+- Approve the plan
+- Answer stops (plan wrong, new hard choice, tests stay red)
+- Use the software at a phase checkpoint
+- Merge the phase into `v1`
 
-The AI usually does not need every document in every turn. Give it:
+Grok:
 
-- The working agreement
-- The selected role file, when assigned
-- The selected task
-- Linked requirements
-- Relevant decision records
-- Relevant architecture section
-- Active plan section
-- Relevant source code and tests
-- Current handoff
+- Picks the next authorized task
+- Branches if needed, usually just commits on the plan branch
+- Implements the smallest change that satisfies the criteria
+- Runs the tests
+- Calls a fresh reviewer only when it pays
+- Fixes required findings
+- Updates `TASKS.md` and `HANDOFF.md`
+- Stops at the phase, or sooner
 
-This is progressive disclosure: begin with a map and load detailed context only when it is relevant.
+You do not Ready T-014. You do not merge T-014.
 
-## Stop conditions
-
-Instruct the AI to stop and report when:
-
-- Approved sources conflict
-- A high-impact requirement is missing or ambiguous
-- A new consequential design decision is required
-- A production dependency or public contract would change
-- A migration or destructive action was not approved
-- Required validation fails and cannot be corrected within task scope
-- The repository state differs materially from the handoff
-- A secret or sensitive-data problem is found
-- The task cannot be completed without expanding scope
-
-## Autonomy levels
-
-### Green: proceed
-
-- Implement an approved Ready task
-- Add tests
-- Correct a clear local defect
-- Refactor without changing external behavior
-- Update documentation to match approved behavior
-
-### Yellow: propose before acting
-
-- New production dependency
-- Public interface change
-- Schema or data migration
-- Authentication, authorization, or trust-boundary change
-- Architecture deviation
-- Broad scope expansion
-
-### Red: explicit current authorization required
-
-- Production deployment
-- Destructive real-data operation
-- Secret use or rotation
-- Permission escalation
-- Disabling controls
-- Irreversible migration
-- External communication or purchase
-
-## Copy-ready one-task implementation prompt
+## The loop
 
 ```text
-Act as the Software Engineer role defined in agents/software-engineer.md.
-Read AGENTS.md, docs/INDEX.md, the role file, HANDOFF.md, and TASKS.md. Select
-task [T-000], which is already marked Ready with Software Engineer as its
-primary role. Read only its linked requirements, decision records, architecture
-sections, active plan, source files, and tests.
+On plan/<milestone> off v1:
 
-Complete exactly this one task.
-
-Required workflow:
-1. Verify repository state and task dependencies.
-2. Give a short implementation plan tied to the acceptance criteria.
-3. Implement the smallest coherent change within scope.
-4. Add or update tests for success, important boundary, and failure behavior.
-5. Run every validation command required for this task.
-6. Review the complete diff for correctness, security, compatibility,
-   unnecessary complexity, and documentation drift.
-7. Correct issues found within scope.
-8. Update TASKS.md, HANDOFF.md, and only the other documents genuinely affected.
-9. Stop after this task.
-
-Do not:
-- Invent missing requirements or external facts.
-- Expand scope.
-- introduce a consequential decision without proposing it for approval.
-- Claim a check passed unless it actually ran and passed.
-
-Final report:
-- Completed changes
-- Files modified
-- Tests/checks and exact results
-- Remaining limitations, risks, or assumptions
-- State-file updates
-- Recommended next task or review action
+1. Read AGENTS.md, the approved plan, TASKS.md, HANDOFF.md
+2. Verify git state matches the handoff
+3. Take the next task the plan already authorized
+4. Implement, add tests, run the task's checks
+5. Fresh-context review for behavior
+   + security only if the plan marked this task
+   + use the UI if a user can see the change
+6. Fix required findings
+7. Commit on the plan branch. Do not merge to v1.
+8. Next task
+9. Phase done, or a stop condition -> halt
 ```
 
-If the task names a different primary role, select that role explicitly and use its permitted outputs and boundaries. Do not switch roles silently.
+Then you run the thing. Then merge the phase PR, continue, or change the plan.
 
-## Independent review
-
-For medium- or high-risk changes, select the required reviewer role and use a fresh AI context after implementation. Give it the role file, task, requirements, design, exact revision, and diff. Ask it to record evidence-based findings under `docs/reviews/` rather than praise the work.
-
-Changing from Software Engineer to Test Engineer within the same assistant context can improve self-review, but it does not make the review independent. Label it as self-review or non-independent review.
-
-Review for:
-
-- Acceptance-criteria gaps
-- Incorrect assumptions
-- Security and permission defects
-- Error and recovery behavior
-- Data integrity
-- Concurrency and idempotency
-- Compatibility and migration safety
-- Weak tests
-- Excessive complexity
-- Documentation drift
-
-## Batching later
-
-Once the process is stable, a safe bounded batch might be:
+In Grok Build, that loop is `/work-plan`. Or:
 
 ```text
-Complete up to three Ready tasks from the same milestone. They must share the
-same approved plan, require no new decision, and pass full validation after
-each task. Stop on the first failure, ambiguity, conflict, or scope change.
+The plan at [PATH] is Approved. Work it until the next phase checkpoint.
+Follow AGENTS.md. One task at a time. Stop if the plan is wrong.
 ```
 
-Do not use batching merely to reduce the number of prompts. The goal is lower supervision without lower control.
+## Context
+
+Do not dump the whole repo into every turn. Give Grok:
+
+- `AGENTS.md` and the role file
+- The approved plan (the map)
+- The current task and its linked requirements / ADRs / architecture section
+- The relevant code and tests
+- `HANDOFF.md`
+
+## Stop. Do not be clever.
+
+Stop and say so when:
+
+- Approved sources disagree
+- A Must is missing or mushy
+- A new expensive decision appeared
+- A public contract, schema, or trust boundary would change outside the plan
+- Required checks fail and the fix is outside the task
+- The repo does not match the handoff
+- Secrets showed up
+- The next work is not in the plan
+
+Low-impact reversible gap: pick the conservative option, write it in `ASSUMPTIONS.md`, continue.
+
+## Reviews that pay
+
+| Check | When | Why |
+| --- | --- | --- |
+| Tests + the commands in `AGENTS.md` | Every task | This is the real gate |
+| Fresh test review | After implement | Separate context. Cheap. Catches "tests that test the mocks." |
+| Security | Plan time, plus a diff check if the task touches auth, data, trust, or secrets | A security pass on a CSS tweak is theater |
+| UI | User can see or click it | Read the screen. Click the path. Code-only UX review is mostly taste. |
+| Docs | The change made a spec file false | Fix it in the same commit. A docs-reviewer agent every task is noise. |
+
+Same chat, new hat, "independent review" is a lie. Label it self-review. Fresh subagent or fresh session if it needs to disagree.
+
+Do not write `docs/reviews/` because a role ran. Write a record when a finding, waiver, or release decision has to survive.
+
+## Source control (one person)
+
+```text
+main     last good / released
+v1       protected integration line for this version
+plan/M-01-short-name    the approved plan lives here
+```
+
+- No direct pushes to `v1`
+- No branch per task
+- Commit per task, message says the outcome
+- Phase done → one PR `plan/…` → `v1`
+- You look at that PR and the running software
+- Merge deletes nothing important; keep the plan file and move it when the whole plan is done
+
+GitHub is the scoreboard (the PR). It is not the dispatcher. Do not open an issue per task. Do not build a Project board that will rot by Thursday.
+
+## Inner prompt (one task, if you are not using `/work-plan`)
+
+```text
+Act as the Software Engineer in agents/software-engineer.md.
+Read AGENTS.md, the approved plan, HANDOFF.md, and TASKS.md.
+Take the next authorized task. Complete only that task.
+
+Implement the smallest change, add tests, run the required commands,
+review the diff, update TASKS.md and HANDOFF.md, commit on this
+plan branch, do not merge to v1, stop.
+
+Do not invent requirements. Do not expand the plan.
+If a check did not run, say so.
+```
+
+## After a phase
+
+Grok reports: what exists, commands and results, what is still false, whether to continue or merge.
+
+You actually use it. If you only read the handoff, you will ship a story.
+
+## Later, maybe
+
+Once the single-task loop is boring and correct, `/work-plan` may take several tasks up to the phase cap. Still stop on the first snag. Still stop at the phase.
+
+Do not parallelize two implementers on one codebase. You will merge with yourself and lose.

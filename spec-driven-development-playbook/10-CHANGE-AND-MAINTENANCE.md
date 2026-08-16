@@ -15,17 +15,17 @@ Example situations:
 - A task requires a schema migration not in the plan.
 - Existing code contradicts an approved requirement.
 
-Use this response:
+The delivery loop must stop. It does not get to "just finish the phase" by quietly editing a Must.
 
-1. Stop the affected work at a safe point.
+1. Stop at a safe point.
 2. State the discovery and evidence.
-3. Identify affected requirements, decisions, architecture, plans, tasks, tests, and release claims.
-4. Present realistic options and consequences.
-5. Obtain the needed approval.
-6. Update all affected artifacts coherently.
-7. Re-plan and continue.
+3. Name the files and IDs that are now wrong.
+4. Options, including do nothing.
+5. You approve the change — this is plan-level work again.
+6. Update every affected file in one coherent change.
+7. Then the loop may continue.
 
-Do not quietly alter a requirement to excuse existing code.
+Do not let Grok soften a requirement because the test was hard.
 
 ## Change-request prompt
 

@@ -2,66 +2,47 @@
 
 ## Purpose
 
-Implement an approved Ready task using the smallest coherent change.
+Implement the next authorized task on an Approved plan. Smallest change that makes the criteria true.
 
 ## Relationship to `AGENTS.md`
 
-First follow [`../AGENTS.md`](../AGENTS.md). This role supplements but never overrides that working agreement. Approved requirements and accepted decisions remain authoritative.
+Follow [`../AGENTS.md`](../AGENTS.md) first. This file cannot override it.
 
-- Do not invent requirements or silently expand scope; preserve unrelated work.
-- Distinguish verified facts from recommendations and assumptions.
-- Record durable project state rather than relying on chat history.
-- Do not claim a genuinely independent review of work you produced. Label review performed after implementation by the same assistant as a self-review or non-independent review.
-- Obtain the approvals required by `AGENTS.md` for high-impact, security-sensitive, destructive, production, or difficult-to-reverse actions.
+- Do not invent requirements or grow the plan.
+- Same-session review of your own diff is a self-review.
+- Do not merge to `v1`. Do not mark a phase shipped.
 
-## When to use this role
+## When
 
-Use this role when a selected task is Ready, its dependencies are complete, and its approved sources and acceptance criteria provide enough direction to implement safely.
+The plan is Approved. Dependencies for the next task are Done. Criteria are testable.
 
-## Primary responsibilities
+## Do
 
-- Read the selected task and linked authoritative artifacts.
-- Inspect existing source code and tests before editing.
-- Implement approved behavior and relevant error and boundary paths.
-- Add or update automated tests and run required validation.
-- Update directly affected technical documentation, task state, and handoff state.
-- Review the complete diff before reporting completion.
+- Read the plan, the task, linked specs, and the existing code/tests.
+- Implement, including the failure the criteria name.
+- Run the task's commands. Same ones CI will run.
+- Update docs the change made false, plus `TASKS.md` and `HANDOFF.md`.
+- Commit on the plan branch.
 
-## Required inputs and reading
+## Do not
 
-- [`../AGENTS.md`](../AGENTS.md), the selected task in [`../TASKS.md`](../TASKS.md), and [`../HANDOFF.md`](../HANDOFF.md)
-- Linked requirements, accepted decisions, relevant architecture sections, and the active implementation plan
-- Existing source code, tests, scripts, conventions, and relevant review findings
+- Open a new plan-level decision in code.
+- Touch `v1`.
+- Call yourself the independent reviewer of this work.
+- Write a review file to celebrate a green build.
 
-## Permitted outputs
+## Inputs
 
-- Product source under `../src/`, automated tests under `../tests/`, and relevant scripts
-- Directly affected technical documentation
-- Accurate updates to `TASKS.md`, `HANDOFF.md`, and appropriate changelog entries for externally visible changes
-- Implementation evidence and self-review notes
+`AGENTS.md`, Approved plan, `TASKS.md`, `HANDOFF.md`, linked requirements / ADRs / architecture, `src/`, `tests/`.
 
-## Required checks or review criteria
+## Outputs
 
-- The complete diff maps to task scope and acceptance criteria.
-- Relevant normal, error, and boundary behavior has coverage.
-- Required build, format, analysis, test, security, and documentation checks are run or accurately reported unavailable.
-- No unrelated change, sensitive data, or unapproved interface or design change is present.
+Code, tests, scripts, the docs that went false, task + handoff state, a commit.
 
-## Authority boundaries
+## Escalate
 
-- Do not invent or silently reinterpret requirements.
-- Do not make an unapproved public-interface, data-model, dependency, authentication, authorization, encryption, or trust-boundary change.
-- Do not perform production deployment or mark a task Done when required checks failed or were not run.
-- Do not serve as the independent approver of the implementation produced under this role.
+Conflicting specs, missing Must, unexpected scope, security/migration surprise, checks you cannot run, anything expensive and new.
 
-## Escalation conditions
+## Report
 
-Escalate conflicting sources, missing requirements, unexpected scope, unsafe migration or security effects, required architecture changes, unavailable critical validation, or any difficult-to-reverse choice.
-
-## Handoff requirements
-
-Record the task and role, files changed, acceptance criteria satisfied, validation commands and results, self-review status, remaining findings or risks, required reviews, and safe next action.
-
-## Completion report
-
-Report completed behavior, files changed, checks and results, task and handoff updates, limitations, and the next required review. Separate verified results from recommendations.
+What is true, files, commands and results, remaining falsehoods, next task or phase checkpoint.

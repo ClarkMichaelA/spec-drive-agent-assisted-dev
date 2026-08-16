@@ -1,15 +1,9 @@
-# Automated Quality Gates
+# CI
 
-This directory is a platform-neutral placeholder for continuous-integration and release-validation notes or configuration.
+CI is the same commands as `AGENTS.md`. If they differ, you will debug "works here."
 
-Automate objective rules wherever practical:
+Run on every PR into `v1`. Run on the plan branch if you want faster feedback. Required checks on `v1`. No direct pushes.
 
-- Build success
-- Formatting and static analysis
-- Unit and integration tests
-- Security and dependency checks
-- Documentation and contract validation
-- Migration safety checks
-- Packaging and artifact integrity
+Automate what is objective: build, format, types, unit/integration tests, secret/dependency scans you actually trust.
 
-A written instruction can be forgotten. An automated gate provides repeatable evidence. Keep platform-specific configuration isolated and document how to run equivalent checks locally.
+This folder is for the config your host needs (GitHub Actions, etc.). Keep it thin. Do not invent a second test story here.

@@ -6,6 +6,8 @@ Last reviewed: `[YYYY-MM-DD]`
 
 This process keeps the project adaptable without allowing requirements, scope, or architecture to drift invisibly.
 
+If `/work-plan` or an engineer hits a Must, an ADR, or the plan's in/out, they stop. They do not "just finish the phase." The change comes back to you, then the files update, then the loop continues.
+
 ## Changes that normally require explicit review
 
 - Adding, removing, or materially changing an approved Must requirement

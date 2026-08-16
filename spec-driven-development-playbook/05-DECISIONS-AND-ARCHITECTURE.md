@@ -12,14 +12,9 @@ Some constraints exist from the beginning, such as an approved platform, require
 
 ## Decision records
 
-Create a decision record for a choice that is:
+Create a decision record only when reversal would hurt: security, data, a public contract, a major dependency, or a fight you will have again.
 
-- Difficult or expensive to reverse
-- Significant to security, data, operations, or compatibility
-- A major dependency selection
-- A public-interface or deployment-model choice
-- A resolution among meaningful alternatives
-- Likely to be questioned again later
+If you can undo it in an afternoon, skip the ADR. A taste comment is not a decision.
 
 A useful decision record includes:
 

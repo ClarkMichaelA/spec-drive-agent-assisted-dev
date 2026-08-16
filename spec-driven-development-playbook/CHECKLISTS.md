@@ -1,141 +1,105 @@
 # Checklists
 
-## Project brief approval
+Use these at gates. Do not invent more gates.
 
-- [ ] The problem is stated without assuming a solution.
-- [ ] Primary users and stakeholders are identified.
-- [ ] Outcomes are observable.
-- [ ] Success measures have a measurement method.
-- [ ] Scope and non-goals are explicit.
-- [ ] Constraints have a real source.
-- [ ] Assumptions and unknowns are visible.
-- [ ] The owner approves the brief.
+## Brief
 
-## Journey review
+- [ ] Problem stated without a product
+- [ ] Users named
+- [ ] Outcome you could notice
+- [ ] In and out of scope
+- [ ] Constraints have a source, or they are guesses
+- [ ] Unknowns still unknown
+- [ ] You approve it
 
-- [ ] Main users, administrators, operators, and support roles are represented.
-- [ ] Triggers and prerequisites are realistic.
-- [ ] Alternative, failure, and recovery paths exist.
-- [ ] Permissions and privacy are considered.
-- [ ] Data and audit behavior are described.
-- [ ] Unverified process details are marked.
+## Journeys
 
-## Requirements approval
+- [ ] Main path a real person recognizes
+- [ ] Failure and recovery exist
+- [ ] Permissions and data are not hand-waved
+- [ ] Unverified process is marked
 
-- [ ] Each Must requirement is necessary and in scope.
-- [ ] Each requirement has one main idea.
-- [ ] Acceptance criteria or verification methods are objective.
-- [ ] Vague quality words have measurable conditions.
-- [ ] Security, data, operations, and interfaces are addressed.
-- [ ] Requirements do not conflict or duplicate each other.
-- [ ] Design choices are not disguised as requirements.
-- [ ] Unknown facts remain TBD rather than invented.
+## Requirements
 
-## Decision-record review
+- [ ] Each Must is necessary
+- [ ] You can tell if it failed
+- [ ] One idea each
+- [ ] Ugly cases (auth, failure, data) exist if the system has them
+- [ ] No disguised architecture
+- [ ] TBDs are TBD
 
-- [ ] A consequential decision is actually needed.
-- [ ] Context and decision criteria are clear.
-- [ ] Realistic alternatives are compared.
-- [ ] Facts and assumptions are separated.
-- [ ] Positive and negative consequences are visible.
-- [ ] Follow-up work and revisit triggers are stated.
-- [ ] The correct owner accepted the choice.
+If you cannot falsify it, delete it.
 
-## Architecture review
+## Decision
 
-- [ ] Components have clear responsibilities.
-- [ ] Data ownership and interfaces are clear.
-- [ ] Main success and failure flows are described.
-- [ ] Trust boundaries, identity, permissions, and secrets are addressed.
-- [ ] Deployment, monitoring, support, backup, and rollback are considered.
-- [ ] Quality requirements map to design and tests.
-- [ ] External technical facts are verified.
-- [ ] Complexity is justified by requirements.
+- [ ] Reversing this would actually hurt
+- [ ] Real alternatives
+- [ ] Facts vs guesses
+- [ ] You chose
 
-## Implementation-plan approval
+If reversal is cheap, do not write an ADR.
 
-- [ ] Outcome and scope match the milestone.
-- [ ] Current and target states are understandable.
-- [ ] Data, interface, security, and migration effects are known.
-- [ ] Phases are ordered by dependencies and risk.
-- [ ] Test approach proves important behavior.
-- [ ] Deployment and rollback are credible.
-- [ ] Observability and support are included.
-- [ ] High-impact questions are resolved.
+## Architecture
 
-## Task Definition of Ready
+- [ ] Each part has one job
+- [ ] Trust boundary is drawn
+- [ ] Failure is described
+- [ ] Complexity traces to a Must
+- [ ] External facts checked
 
-- [ ] Objective is one concrete outcome.
-- [ ] Requirements and design links are present.
-- [ ] Scope and out-of-scope are explicit.
-- [ ] Dependencies are complete.
-- [ ] Acceptance criteria are observable.
-- [ ] Validation commands or methods are stated.
-- [ ] Security, data, interface, migration, and operations effects are understood.
-- [ ] No blocking high-impact ambiguity remains.
-- [ ] Owner and primary role are identified without conflating the two.
-- [ ] Required review roles are stated, or explicitly None.
+## Plan (this is the delivery gate)
 
-## Task Definition of Done
+- [ ] Outcome matches the milestone
+- [ ] In / out is sharp
+- [ ] 2–4 phases, each something you can run or see
+- [ ] Tasks are small and ordered
+- [ ] Acceptance criteria are observable
+- [ ] Review policy is specific (not "all roles")
+- [ ] Stop conditions are written
+- [ ] No open expensive question
+- [ ] You approve **the plan**, not the tickets
 
-- [ ] Acceptance criteria are met.
-- [ ] Required checks actually ran and passed.
-- [ ] Behavior changes have appropriate tests.
-- [ ] Important failures and boundaries are handled.
-- [ ] No known critical or high-severity defect was introduced.
-- [ ] Relevant documentation is current.
-- [ ] Changelog is updated only when appropriate.
-- [ ] Task and handoff reflect actual state.
-- [ ] Limitations and skipped checks are reported honestly.
-- [ ] Required reviews are complete or an authorized waiver is recorded.
-- [ ] Review records and reverification results are linked from the task.
+## Phase checkpoint
 
-## Independent change review
+- [ ] You ran or used the slice
+- [ ] Phase validation commands ran
+- [ ] Remaining falsehoods are visible
+- [ ] Next move is continue, merge to `v1`, or change the plan
 
-- [ ] Reviewer role, identity or assistant label, and independence status
-- [ ] Exact task, artifact, branch, or revision reviewed
-- [ ] Requirement and acceptance-criteria coverage
-- [ ] Logic and data integrity
-- [ ] Authentication, authorization, privacy, and audit
-- [ ] Invalid input and error behavior
-- [ ] Timeout, retry, duplicate, idempotency, and concurrency behavior
-- [ ] Compatibility and migration safety
-- [ ] Test quality, not merely test count
-- [ ] Operational observability and support
-- [ ] Unnecessary complexity
-- [ ] Documentation drift
-- [ ] Findings, owners, disposition, and reverification recorded durably
+## Task (agent checks this, not you)
 
-## Release readiness
+- [ ] One outcome
+- [ ] Linked to the plan and a requirement
+- [ ] Dependencies done
+- [ ] Criteria you can observe
+- [ ] Validation command exists
+- [ ] Not a hidden decision
 
-- [ ] Milestone exit criteria are met.
-- [ ] Must requirements have current evidence.
-- [ ] Release artifact or revision is identified.
-- [ ] Required tests and quality gates pass.
-- [ ] Open defects and limitations are accepted.
-- [ ] Security review is complete.
-- [ ] Deployment and rollback are tested.
-- [ ] Monitoring, alerts, ownership, and runbooks exist.
-- [ ] Backup and restore are tested when applicable.
-- [ ] User and support communications are ready.
-- [ ] Changelog describes observable changes.
-- [ ] A human owner accepts the release risk.
+Done on the plan branch:
 
-## Start-of-session quick check
+- [ ] Criteria true
+- [ ] Required commands ran and passed
+- [ ] Needed reviews finished or waived
+- [ ] Specs that went false were updated
+- [ ] `TASKS.md` / `HANDOFF.md` match git
 
-- [ ] Read working agreement and index.
-- [ ] Read the selected role file and identify the active role, when assigned.
-- [ ] Verify branch, revision, and uncommitted changes.
-- [ ] Verify handoff against repository.
-- [ ] Select one Ready task with complete dependencies.
-- [ ] Load only linked context.
+## Release
 
-## End-of-session quick check
+- [ ] Milestone exit is true
+- [ ] Musts have evidence
+- [ ] You know the SHA
+- [ ] Limits accepted
+- [ ] You accept the risk
 
-- [ ] Run required validation.
-- [ ] Review the complete diff.
-- [ ] Update task status.
-- [ ] Update affected documents.
-- [ ] Update handoff with exact evidence.
-- [ ] Record the active role, next required review, and review-record path.
-- [ ] State the safest next action.
+## Session start
+
+- [ ] Read `AGENTS.md` and the approved plan
+- [ ] Verify branch, SHA, dirty tree
+- [ ] Distrust `HANDOFF.md` until checked
+- [ ] Next action is a task, a phase look, or a stop — not "pick something"
+
+## Session end
+
+- [ ] Commands ran
+- [ ] State files match reality
+- [ ] Next action is one sentence

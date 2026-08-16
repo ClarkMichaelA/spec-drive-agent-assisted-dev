@@ -1,206 +1,146 @@
-# Illustrative Walkthrough: From Idea to Ready Task
+# Walkthrough: checkout app (fictional)
 
-This is a fictional, simplified example created only to demonstrate the method. It is not a claim about any real organization, policy, system, or product.
+A made-up internal tool, only to show the method. Not a real org, policy, or product.
 
-## 1. Rough idea
+## 1. Idea
 
-A small team tracks shared equipment in a spreadsheet. People cannot reliably tell who has an item or when it is due back. The project idea is a small internal checkout application.
+Shared gear lives in a spreadsheet. Nobody trusts who has what. We want a small checkout app.
 
-## 2. Project brief excerpt
+## 2. Brief (excerpt)
 
 ```text
 Problem:
-Team members spend time searching for shared equipment because the current
-spreadsheet is frequently stale and does not show a trustworthy custody history.
+People hunt for gear because the spreadsheet is stale and has no custody history.
 
-Primary users:
-- Borrowers
-- Equipment coordinator
-- Support administrator
+Users: borrower, coordinator, admin
 
-Outcome OUT-001:
-An authorized user can determine the current custody and availability of an item.
+OUT-001: An authorized person can see who has an item and whether it is free.
 
-Initial scope:
-- Register an item
-- Check an available item out to an authorized borrower
-- Return an item
-- View current custody and basic history
+In: register, check out, return, current custody + basic history
+Out: purchasing, valuation, public access, mobile app
 
-Non-goals:
-- Purchasing
-- Inventory valuation
-- Public access
-- Mobile application
-
-Assumption A-001:
-One coordinator can resolve disputed custody records during the pilot.
+A-001: One coordinator can settle disputes during the pilot.
 ```
 
-Notice that the brief does not yet choose a programming language, database, or hosting platform.
+No language, no database, no host. Good.
 
-## 3. Journey excerpt
+## 3. Journey (excerpt)
 
 ```text
 UJ-001: Borrow an available item
-
-Actor: Authorized borrower
-Trigger: The borrower needs an item for approved work.
-Preconditions:
-- The borrower is signed in.
-- The item exists and is available.
-
-Main path:
-1. Borrower searches for the item.
-2. System shows it as available.
-3. Borrower requests checkout.
-4. System records borrower, item, checkout time, and expected return date.
-5. System shows the item as checked out.
-
-Failure path F1:
-Another user checks out the item after the search but before confirmation.
-The system rejects the second checkout, shows the current state, and does not
-create a duplicate active checkout.
-
-Permission path P1:
-A user without borrowing permission may view availability but may not check out.
+Preconditions: signed in; item exists and is free
+Main path: search -> available -> checkout -> record borrower/time/due -> shown as out
+F1: someone else wins the race -> reject, show current state, no second active checkout
+P1: no borrow permission -> can see availability, cannot check out
 ```
 
-## 4. Requirements excerpt
+## 4. Requirements (excerpt)
 
 ```text
-FR-001:
-The system shall allow an authorized borrower to check out an available item.
+FR-001: Authorized borrower can check out an available item.
+  AC: one active checkout; item unavailable
+  AC: unavailable item -> reject, no second active checkout
 
-Acceptance criteria:
-- Given an available item and an authorized borrower, when checkout is
-  confirmed, then one active checkout is recorded and the item becomes unavailable.
-- Given an unavailable item, when another checkout is attempted, then the
-  operation is rejected and no second active checkout is created.
-
-SEC-001:
-The system shall deny checkout to a user who lacks borrowing permission.
-
-DATA-001:
-The system shall preserve at most one active checkout for an item.
-
-OPS-001:
-The system shall record failed checkout attempts needed to diagnose conflicts
-without logging authentication secrets.
+SEC-001: Deny checkout without borrow permission.
+DATA-001: At most one active checkout per item.
+OPS-001: Record failed checkouts for diagnosis. No secrets in logs.
 ```
 
-## 5. Decision-record candidate
+"The system must be secure" would have been deleted here.
 
-Decision question:
+## 5. The one decision that earned a record
 
 ```text
-How will the system enforce that one item cannot have two active checkouts?
+How do we stop two active checkouts on one item?
 ```
 
-This may deserve a decision record because data consistency and concurrent requests affect design. The record would compare realistic options and select one based on `DATA-001`, scale, operational simplicity, and the chosen data platform.
+That is data + concurrency. It is worth an ADR. "Use Postgres" is not a requirement; it might be the decision.
 
-## 6. Architecture excerpt
+## 6. Architecture (excerpt)
 
 ```text
-Components:
-- Web interface: accepts user actions and shows item state
-- Application service: enforces checkout and permission rules
-- Data store: owns items, borrowers, and checkout records
-- Identity provider: authenticates users and supplies identity attributes
+Web UI -> app service (rules + permissions) -> data (items, checkouts)
+Identity provider authenticates.
 
-Checkout flow:
-1. Interface sends borrower and item request to application service.
-2. Application service verifies permission.
-3. Application service requests an atomic checkout operation from the data layer.
-4. Data layer either creates one active checkout or reports a conflict.
-5. Application service returns the result and records an appropriate audit event.
+Checkout: check permission -> atomic checkout -> conflict or one row -> audit.
 ```
 
-The architecture is still conceptual. Detailed technology is chosen only when required and recorded.
+Still conceptual.
 
-## 7. Roadmap excerpt
+## 7. Roadmap
 
 ```text
-M-01: Walking skeleton
-Outcome: A developer can build, test, run, and deploy a minimal application
-that authenticates a test user and reads one sample item.
+M-01 Walking skeleton
+  Build, test, run, one test user, read one sample item.
 
-M-02: Controlled checkout pilot
-Outcome: Authorized pilot users can check out and return items while the system
-prevents duplicate active checkout and records basic history.
+M-02 Pilot checkout
+  Pilot users check out and return. Duplicate active checkout is impossible.
 ```
 
-## 8. Implementation-plan excerpt for M-02
+## 8. Plan for M-02 (what you approve)
 
 ```text
-Phase 1: Model item and checkout state; add integrity tests.
-Phase 2: Implement authorization and atomic checkout behavior.
-Phase 3: Add user interface and conflict feedback.
-Phase 4: Add audit, monitoring, deployment checks, and pilot demonstration.
+Branch: plan/M-02-checkout
+Reviews: tests always; security on auth + checkout-integrity tasks; UI when the screen exists
+Stops: new store semantics, new identity provider, any Must we cannot test
+
+Phase 1 — state exists
+  Model item + checkout. Integrity tests. You can run the tests.
+
+Phase 2 — the rule is real
+  Authorization + atomic checkout. Conflict result. You can hit the rule in a test.
+
+Phase 3 — a person can do it
+  UI + conflict message. You click it.
+
+Phase 4 — we can see failure
+  Audit, a health check, demo script.
 ```
 
-## 9. Ready task example
+You approve **this**. You do not Ready T-014.
+
+## 9. One task (fuel)
 
 ```text
 T-014: Enforce one active checkout per item
+Plan: PLAN-002 / Phase 2
+FR-001, DATA-001, ADR-0003
+Depends: T-012
+Reviews: test (always); security (plan marked this one)
 
-Requirements: FR-001, DATA-001
-Decision: ADR-0003
-Plan: PLAN-002
-Depends on: T-012
-Owner: Unassigned
-Primary role: Software Engineer
-Required reviews: Test Engineer
-Review records: None
-
-Objective:
-Ensure concurrent or repeated requests cannot create two active checkout records
-for the same item.
-
-Scope:
-- Implement the approved data-integrity mechanism.
-- Return a typed conflict result.
-- Add success, duplicate, and concurrent-attempt tests.
-
-Out of scope:
-- User-interface wording
-- Return processing
-- Notifications
-
-Acceptance criteria:
-- One valid request creates one active checkout.
-- A repeated request creates no additional active checkout.
-- Competing requests leave exactly one active checkout.
-- The losing request receives a conflict result.
-- Required tests and full validation pass.
+AC:
+- one valid request -> one active checkout
+- repeat -> no second row
+- race -> exactly one winner, loser gets conflict
+- tests pass
 ```
 
-The owner remains unassigned until a contributor accepts responsibility. The task selects the Software Engineer perspective for implementation and requires a Test Engineer review afterward. A self-review by the implementer would not satisfy that independent review requirement.
+Grok picks this when T-012 is Done. You are not in the queue.
 
-## 10. Traceability
+## 10. Delivery
+
+Grok on `plan/M-02-checkout`:
+
+1. Implements T-014, adds race tests, runs them
+2. Fresh test review on the SHA
+3. Security diff because the plan said so
+4. Fixes what those found
+5. Commits. Does not merge to `v1`.
+6. Next task until Phase 2's proof exists
+7. Stops. Handoff says: run these tests; here is the conflict case.
+
+You run it. Then PR → `v1`, or continue to Phase 3.
+
+## 11. Trace
 
 ```text
-OUT-001
-  -> UJ-001
-  -> FR-001, SEC-001, DATA-001, OPS-001
-  -> ADR-0003
-  -> Architecture checkout flow
-  -> M-02 / PLAN-002
-  -> T-014
-  -> CheckoutIntegrityTests
+OUT-001 -> UJ-001 -> FR-001/SEC-001/DATA-001
+        -> ADR-0003 -> checkout flow
+        -> M-02 / PLAN-002 / Phase 2 -> T-014 -> CheckoutIntegrityTests
 ```
 
-This chain makes it possible to explain why the task exists and what evidence proves it.
+## 12. When the store cannot do the thing
 
-## 11. Implementation discovery example
+Do not soften the test.
 
-Suppose implementation reveals that the selected data store cannot enforce the intended integrity rule in the approved deployment mode. The correct response is not to weaken the test silently.
-
-Instead:
-
-1. Record the evidence.
-2. Reopen or supersede the decision record.
-3. Analyze alternatives.
-4. Update architecture and plan after approval.
-5. Adjust tasks and tests.
-6. Continue from the new approved state.
+Record the evidence. Supersede the ADR. Change architecture and plan. Then continue. The loop is allowed to stop. It is not allowed to lie.

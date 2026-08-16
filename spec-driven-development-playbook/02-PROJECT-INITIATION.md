@@ -2,9 +2,9 @@
 
 ## Goal of this stage
 
-Turn a rough idea into a brief that a business owner, user, developer, security reviewer, and AI assistant can understand in the same way.
+Turn a rough idea into a brief that you and Grok will read the same way.
 
-Do not begin with features. Begin with the problem and outcome.
+Do not begin with features. Begin with the problem and outcome. If you cannot state the problem without naming a product, delete the product and write the problem.
 
 ## What you should provide
 

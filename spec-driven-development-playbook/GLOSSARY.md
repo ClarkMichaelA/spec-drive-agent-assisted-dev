@@ -2,88 +2,88 @@
 
 ## Acceptance criterion
 
-A specific, observable condition that must be true before a requirement, task, or milestone is accepted.
+Something you can observe. If you cannot tell it failed, it is decoration.
 
 ## Agent-assisted development
 
-Development in which an AI assistant performs bounded work such as analysis, planning, coding, testing, review, or documentation under project instructions and human oversight.
+An assistant does bounded work. You own intent, irreversible choices, the plan, and release.
 
 ## Architecture
 
-The current accepted structure of the system: components, responsibilities, data and control flows, interfaces, trust boundaries, deployment, and important quality behavior.
+The current accepted shape: parts, flows, interfaces, trust, deploy.
 
 ## Assumption
 
-Something treated as true without enough evidence. Assumptions should have an impact and a validation plan.
+Treated as true without enough evidence. Needs an impact and a way to kill it.
 
 ## Decision record
 
-A durable record of a consequential choice, alternatives, rationale, consequences, and revisit conditions.
+Why we picked the expensive option, what we rejected, when to revisit.
 
 ## Definition of Done
 
-The complete conditions required before a task is considered finished, including validation and documentation.
+For a task: criteria true on the plan branch, checks ran, needed reviews done. Not "merged." Not "code exists."
 
 ## Definition of Ready
 
-The conditions a task must meet before implementation may begin safely.
+The plan already authorized the task, dependencies are done, and nothing expensive is still a question. The agent checks this. You do not.
 
 ## Evidence
 
-A test result, measurement, inspection, demonstration, source, review record, or other support for a claim.
-
-## Functional requirement
-
-A testable statement of behavior the system must provide.
-
-## Handoff
-
-A concise, verified snapshot that allows the next work session to resume safely.
+A command result, a demo, a source, a review that cites a SHA. Not a vibe.
 
 ## Independent review
 
-A review performed by a person or assistant context that did not produce the work being reviewed. A review of one's own work must be labeled as a self-review or non-independent review even when a different specialized role is selected.
+A context that did not produce the work. Same chat, new role name = self-review.
 
 ## Implementation plan
 
-A detailed plan for delivering one feature, milestone, migration, or workstream from approved requirements and architecture.
+How one milestone will be built and proven. The thing you approve. Contains phases, tasks, review policy, stops.
 
 ## Milestone
 
-An outcome-based delivery point with clear exit evidence.
+An outcome with exit evidence.
 
-## Nonfunctional or quality requirement
+## Phase
 
-A verifiable condition about how well the system performs or behaves, such as performance, availability, compatibility, usability, maintainability, or recoverability.
+A slice of a plan you can run or see. Grok stops here. You steer here.
+
+## Plan branch
+
+`plan/<milestone>-…` off `v1`. Tasks commit here. A phase lands on `v1` with one PR.
 
 ## Requirement
 
-A clear statement of what must be true, together with its source and verification approach.
+What must be true, with a way to know.
 
 ## Risk
 
-An uncertain event or condition that could affect project outcomes.
+An uncertainty that can hurt. Treat it or accept it. Do not list it for sport.
 
-## Spec-driven development
+## Spec-driven
 
-A workflow in which approved intent, requirements, decisions, and plans guide implementation and testing rather than being reconstructed after coding.
+Approved files and tests drive the work. Code does not silently rewrite them.
 
-## Specialized agent role
+## Specialized role
 
-A portable definition of one working perspective's responsibilities, required inputs, permitted outputs, checks, boundaries, escalation conditions, and handoff. Selecting a role does not launch a separate process or change project authority.
+A perspective in `agents/`. Not a process. Not a second employee.
 
 ## Task
 
-A small, bounded, dependency-aware unit of executable work with acceptance criteria and validation.
+One provable unit of work. Fuel. Not a management object.
 
 ## Traceability
 
-The ability to connect outcomes, journeys, requirements, decisions, architecture, plans, tasks, and evidence.
+Why this exists, what decision supports it, which test proves it.
 
 ## Vertical slice
 
-A thin end-to-end increment that delivers or proves one outcome across the necessary system layers.
+A thin path through the system that proves one outcome.
 
 ## Walking skeleton
 
-The smallest end-to-end implementation that proves the project's build, run, integration, deployment, and validation path before substantial feature work.
+The smallest end-to-end that builds, runs, and can be tested. Usually milestone one.
+
+## `/work-plan`
+
+Grok Build workflow that burns authorized tasks until a phase checkpoint or a stop.

@@ -1,117 +1,70 @@
 # 1. Lifecycle at a Glance
 
-## The process in one page
+## One page
 
-| Stage                 | Main question                                                           | Primary artifact                     | Human gate                                                 |
-| --------------------- | ----------------------------------------------------------------------- | ------------------------------------ | ---------------------------------------------------------- |
-| 1. Initiation         | What problem are we solving, for whom, and why?                         | `PROJECT.md`                         | Approve problem, outcomes, scope, and constraints          |
-| 2. Discovery          | How do users and systems actually reach the outcome?                    | `user_journeys/`                     | Confirm journeys reflect reality                           |
-| 3. Requirements       | What must be true, including quality and failure behavior?              | `REQUIREMENTS.md`                    | Approve testable requirements and priorities               |
-| 4. Decisions          | Which consequential choices must be made, and why?                      | Decision records                     | Approve difficult-to-reverse choices                       |
-| 5. Architecture       | How will the accepted system work as a whole?                           | `ARCHITECTURE.md`                    | Approve design, trust boundaries, and operational approach |
-| 6. Roadmap            | In what outcome-based order will value and risk reduction be delivered? | `ROADMAP.md`                         | Approve milestones and exclusions                          |
-| 7. Planning           | How will one active milestone or feature be built and verified?         | Active implementation plan           | Approve sequence, migration, testing, and rollback         |
-| 8. Tasks              | What are the smallest safe units of executable work?                    | `TASKS.md`                           | Confirm tasks are Ready                                    |
-| 9. Delivery           | Does each task meet its acceptance criteria and checks?                 | Code, tests, task evidence           | Review risk-appropriate changes                            |
-| 10. Release           | Is the complete outcome safe, supportable, and demonstrable?            | Release review and changelog         | Accept release risk                                        |
-| 11. Operate and learn | What happened in real use, and what should change?                      | Metrics, incidents, change proposals | Approve new priorities and changes                         |
+| Stage | Question | Artifact | You |
+| --- | --- | --- | --- |
+| 1. Initiation | What problem, for whom, why? | `PROJECT.md` | Approve problem, outcome, scope, non-goals |
+| 2. Discovery | How do people actually get there? | `user_journeys/` | Confirm it matches reality |
+| 3. Requirements | What must be true? | `REQUIREMENTS.md` | Approve testable rules. Delete the rest. |
+| 4. Decisions | What is expensive to reverse? | `docs/decisions/` | Choose. Skip cheap choices. |
+| 5. Architecture | How does that force the system to look? | `ARCHITECTURE.md` | Approve trust boundaries and the shape |
+| 6. Roadmap | Which outcome first? | `ROADMAP.md` | Approve milestones and exclusions |
+| 7. Plan | How will this milestone be built and proven? | Active plan | **This is the delivery gate.** Phases, tasks, review policy, stops. |
+| 8. Delivery | Does the next task meet its criteria? | Code, tests, plan branch | You do not Ready tasks. Grok runs until a phase or a stop. |
+| 9. Phase | Can I see the outcome of this slice? | Running software + PR | Look at the product. Merge, continue, or change the plan. |
+| 10. Release | Is the milestone safe to give someone? | Evidence + changelog | Accept the risk |
+| 11. Learn | What did reality do? | Change to the spec | New priorities |
 
-## This is not a one-way waterfall
+There is no "approve this ticket" stage. That was process. It did not buy safety.
 
-The order prevents premature coding, but feedback is expected:
+## Not a waterfall
 
-- A user journey may reveal missing scope.
-- A requirement may expose an unresolved business decision.
-- Architecture work may reveal that a quality target is unrealistic.
-- Implementation may disprove an assumption.
-- Testing may reveal that an acceptance criterion is ambiguous.
-- Production use may create a new requirement.
+Journeys find missing scope. Requirements find missing decisions. Implementation kills assumptions. Tests find vague criteria. Production finds the real requirement.
 
-The correct response is to update the affected artifact, review the impact, and continue. The wrong response is to quietly change code and leave the specifications false.
+Update the file. Trace the blast. Continue. Do not quietly make the code the spec.
 
-## The three working modes
+## Three modes
 
-### Discovery mode
+**Discover** — understand. Brief, journeys, assumptions, maybe a spike. Challenge guesses.
 
-Purpose: understand the problem and reduce uncertainty.
+**Plan** — turn approved intent into one executable plan. Dependencies, failure, security, tests, rollback. Human approves the plan.
 
-Typical outputs:
+**Deliver** — Grok takes the next task on that plan, proves it, commits, repeats. Stops at a phase or when the plan is wrong. Does not redesign the project under the guise of a task.
 
-- Project brief
-- User journeys
-- Assumptions and questions
-- Early requirements
-- Short technical experiments or research notes
+## Where your eyes go
 
-The AI should challenge gaps and separate evidence from guesses.
+1. Is this the real problem and a small enough first outcome?
+2. Are the Must rules real, testable, and not secretly design?
+3. Are outside facts verified?
+4. Are security, data, and failure acceptable?
+5. Are the expensive choices justified?
+6. Is the **plan** a walking path you could defend — phases you can see, tasks that are small, stops that are real?
+7. After a phase: does the software do the thing?
 
-### Planning mode
+You do not need to edit every sentence. You do not need to Ready T-014.
 
-Purpose: turn approved intent into an executable approach.
+## Rhythm
 
-Typical outputs:
-
-- Requirements
-- Decision records
-- Architecture
-- Roadmap
-- Implementation plan
-- Ready tasks
-
-The AI should analyze dependencies, failure modes, security, testing, operations, and rollback.
-
-### Delivery mode
-
-Purpose: complete one bounded unit of work and produce evidence.
-
-Typical outputs:
-
-- Code and configuration
-- Tests
-- Validation results
-- Documentation updates
-- Task status
-- Handoff state
-
-The AI should not redesign the project while pretending to complete a task.
-
-## Roles focus the work
-
-The repository's `AGENTS.md` remains the universal working agreement. A task or human instruction may select a specialized role from `agents/` to focus the work without changing approved authority or scope. The primary role performs the task; required review roles provide the perspectives needed for its risk.
-
-Role files do not create separate processes. A separate session, invocation, model, or human reviewer is needed when a review must be genuinely independent.
-
-## Review at the highest-leverage points
-
-You do not need to manually edit every sentence. Concentrate your attention on:
-
-1. Whether the problem and scope are correct
-2. Whether requirements reflect the real business rules
-3. Whether important external facts are verified
-4. Whether security, data, and failure behavior are acceptable
-5. Whether architecture decisions are justified
-6. Whether tasks have clear acceptance criteria
-7. Whether test evidence supports completion and release
-
-## A useful operating rhythm
-
-For early planning:
+Planning:
 
 ```text
-AI drafts -> AI critiques -> human reviews -> AI revises -> human approves
+Grok drafts -> Grok attacks its own draft -> you review -> Grok revises -> you approve
 ```
 
-For implementation:
+Delivery:
 
 ```text
-Select one Ready task and primary role -> plan -> implement -> test -> self-review
--> required independent role review when warranted -> fix and reverify
--> update task, review, and handoff state -> stop
+You approve the plan
+    -> Grok: next task -> tests -> only the reviews that pay -> commit
+    -> repeat until phase checkpoint or stop
+    -> you use the software
+    -> merge to v1, continue, or change the plan
 ```
 
-## Four words to remember
+## Four words
 
-- **Intent:** what outcome is wanted
-- **Evidence:** what proves a claim
-- **Boundaries:** what the AI may and may not change
-- **State:** what the repository says is currently true
+- **Intent** — the outcome
+- **Evidence** — what proves a claim
+- **Boundaries** — what Grok may not decide
+- **State** — what the repo says is true

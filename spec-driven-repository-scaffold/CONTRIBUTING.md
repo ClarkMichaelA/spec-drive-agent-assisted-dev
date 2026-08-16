@@ -1,69 +1,57 @@
-# Contributing Workflow
+# Contributing
 
-This workflow applies to both human contributors and AI-assisted changes.
+Humans and Grok use the same rules.
 
-## Before beginning a change
+## Before a change
 
-1. Confirm that the problem is represented by an approved requirement or an explicitly authorized discovery task.
-2. Select or create a task with clear acceptance criteria.
-3. Check dependencies, risks, security effects, data effects, and operational effects.
-4. Read the relevant decision records and architecture sections.
-5. Create or update an implementation plan when the change spans multiple components or contains migration risk.
+1. It is in an Approved requirement, or it is an explicit discovery task.
+2. It is in the Approved plan, or you stop and change the plan.
+3. Read the ADRs and architecture the plan cites.
 
-## Change sizes
+## Size
 
-Prefer changes that are small enough to understand and review as one coherent unit.
+If you cannot review it as one thought, it is not a task. It is a plan.
 
-- **Small:** one local behavior, defect, test, or documentation correction.
-- **Medium:** one vertical feature slice that may touch several layers but has one outcome.
-- **Large:** multiple outcomes, broad refactoring, major migration, or architecture change. Split this into a plan and several tasks before implementation.
+## Delivery
 
-## Review expectations
+Work on `plan/<milestone>-<slug>` off `v1`.
 
-Every change should be reviewed for:
+- One commit per task
+- Message: outcome, then why, then what you ran
+- Do not push to `v1`
+- Phase done → one PR into `v1`
+- The human looks at the product and merges
 
-- Correctness against acceptance criteria
-- Requirement and architecture alignment
-- Security and privacy impact
-- Error handling and boundary behavior
-- Test coverage and test quality
-- Compatibility and migration safety
-- Operational observability and supportability
-- Unnecessary complexity
-- Documentation drift
+Do not open a GitHub issue per task. Do not make a Project board.
 
-## Specialized roles and review separation
+## Review
 
-Contributors may work under a role defined in [`agents/`](agents/). The selected task should identify both its primary role and any required review roles. Selecting a role changes neither the repository's approval requirements nor the contributor's authority.
+Implementer reviews their diff. Fresh context reviews the SHA when the plan asked. Security only on tasks the plan marked. UI: use it.
 
-Self-review is expected but does not satisfy a requirement for independent review. Record review findings durably under `docs/reviews/`, link them from the task or handoff, and resolve required corrections visibly before completion.
+Self-review is fine. It is not independent. Do not file it as such.
 
 ## Validation
 
-The exact commands belong in `AGENTS.md`. At minimum, run the checks relevant to the change. A change should not be described as complete when a required check was skipped, failed, or could not be run.
+Commands live in `AGENTS.md`. CI runs the same list. Skipped = not done.
 
-## Source-control hygiene
+## Hygiene
 
-- Keep unrelated changes separate.
-- Use descriptive commit messages.
-- Do not commit generated secrets, local credentials, or sensitive data.
-- Do not rewrite shared history without explicit team agreement.
-- Preserve a clean, reviewable diff.
-
-Suggested commit-message pattern:
+- Unrelated changes are a different commit or a different task
+- No secrets
+- No history rewrites on shared branches
 
 ```text
-<type>: <clear outcome>
+<type>: <outcome>
 
 Why:
 - [reason]
 
 Validation:
-- [commands and results]
+- [command — result]
 ```
 
-Common types include `feature`, `fix`, `docs`, `test`, `refactor`, `build`, and `operations`.
+Types: `feature`, `fix`, `docs`, `test`, `refactor`, `build`, `operations`.
 
-## Documentation is part of delivery
+## Docs
 
-A code change that makes an approved document false is incomplete. Update the relevant source-of-truth document in the same change, or document why a separate approved change is required.
+If the change made an Approved file false, the change is incomplete. Update the file in the same commit, or stop and raise a spec change.

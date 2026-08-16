@@ -1,6 +1,6 @@
 # [ROLE NAME]
 
-Remove instructions that do not apply to the new role instead of leaving misleading boilerplate.
+Remove instructions that do not apply. Do not add a role to change tone, and do not add a UI/UX role — if a user can see the change, exercise the UI.
 
 ## Purpose
 

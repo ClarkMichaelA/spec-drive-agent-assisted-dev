@@ -1,162 +1,129 @@
-# Working Agreement for AI Assistants
+# Working Agreement
 
-This file tells any AI assistant how to work safely and consistently in this repository. It is tool-neutral. If an assistant does not automatically read this file, instruct it to read this file before beginning work.
+Grok Build reads this file. Keep it short. Details live in the doc that owns the question.
 
-## 1. Project purpose
+## 1. What this is
 
 Project: `[PROJECT NAME]`
 
-Purpose: `[ONE OR TWO SENTENCES EXPLAINING WHAT THE PROJECT DELIVERS]`
+Purpose: `[ONE OR TWO SENTENCES]`
 
-Primary users: `[USER GROUPS]`
+Users: `[WHO]`
 
-Current lifecycle stage: `[DISCOVERY | PLANNING | IMPLEMENTATION | PILOT | PRODUCTION | MAINTENANCE]`
+Stage: `[DISCOVERY | PLANNING | DELIVERY | PILOT | PRODUCTION]`
 
-## 2. Start-of-work reading order
+Runtime: Grok Build. Specs are files; another assistant can read them. The loop is `/work-plan`.
 
-Before changing anything:
+## 2. You vs Grok
 
-1. Read this file.
-2. Read `docs/INDEX.md`.
-3. If a specialized role is assigned, read its file under `agents/`.
-4. Read `HANDOFF.md` and verify that it matches the actual repository state.
-5. Read the selected task in `TASKS.md`.
-6. Read only the requirements, decision records, architecture sections, and active plan linked from that task.
-7. Inspect the relevant source code and tests before proposing changes.
+The human approves: brief, requirements, expensive decisions, the **plan**, each **phase** (by using the software), merge to `v1`, release.
 
-Do not rely on chat history as the source of truth when the repository contains approved information.
+The human does **not** Ready tasks, merge task PRs, or run four reviewer roles on a padding change.
 
-### Specialized role selection
+Grok implements the next authorized task, proves it, commits on the plan branch, repeats until a phase checkpoint or a stop.
 
-Specialized roles are defined under `agents/`. When a task or human instruction selects a role, read that role file after this working agreement and identify the role being performed. Role instructions supplement but do not override this file, and an assistant must not switch roles silently.
+## 3. Read first
 
-A task may name one primary role and required review roles. An assistant must not represent its review of its own work as independent. If no specialized role is selected, the universal instructions in this file still apply.
+1. This file
+2. `docs/INDEX.md`
+3. The role file under `agents/` if one is selected
+4. `HANDOFF.md` — then verify it against git
+5. The **Approved** plan in `docs/plans/active/`
+6. Only the requirements, ADRs, architecture section, task, code, and tests that plan points at
 
-## 3. Authority and conflicts
+Chat is not a source of truth.
 
-Use this order when interpreting project intent:
+## 4. Authority
 
-1. Approved requirements and explicit human direction for the current change
+1. Approved requirements and current human direction
 2. Accepted decision records
-3. Approved architecture and security documentation
-4. The active implementation plan
-5. The selected task and its acceptance criteria
-6. The handoff file
-7. Existing code behavior, unless the code is itself the defect being corrected
+3. Approved architecture and security docs
+4. The Approved plan
+5. The current task's acceptance criteria
+6. This file
+7. The selected role
+8. `HANDOFF.md`
+9. Existing code, unless the code is the bug
 
-If authoritative sources conflict, stop the affected work and clearly identify the conflict. Do not silently choose one source or rewrite an approved document to match the current code.
+Conflict → stop. Do not pick a winner. Do not edit an Approved file to match the code you just wrote.
 
-Within this authority order, this working agreement governs every assistant and a selected role provides narrower operating guidance. Role selection does not change the authority of approved sources or the approval boundaries below.
+A role cannot override this file or an Approved spec.
 
-## 4. Core working rules
+## 5. Rules
 
-- Do not invent requirements, constraints, external facts, credentials, APIs, data fields, or success criteria.
-- Do not expand scope merely because an adjacent improvement appears useful.
-- Do not introduce a new production dependency, externally visible interface, data migration, trust-boundary change, or difficult-to-reverse design choice without the required review and decision record.
-- Preserve user-authored work. Never discard unrelated changes.
-- Never place secrets, tokens, private keys, passwords, or production data in source files, logs, prompts, fixtures, or documentation.
-- Prefer the smallest change that fully satisfies the approved acceptance criteria.
-- Add or update tests whenever behavior changes.
-- Run the required validation before claiming completion.
-- Report failures honestly. Do not describe a task as complete when required checks did not run or did not pass.
-- Update durable project state before ending a work session.
+- Do not invent requirements, outside facts, or success criteria.
+- Do not expand the plan because an adjacent fix looks nice.
+- Do not add a production dependency, public interface, migration, or trust-boundary change unless the plan already has it — or you stop and propose an ADR.
+- Never put secrets in the repo, logs, fixtures, or prompts.
+- Smallest change that makes the criteria true.
+- Behavior change ⇒ tests.
+- Do not claim a check passed if it did not run.
+- Update `TASKS.md` and `HANDOFF.md` before you stop.
 
-## 5. Task execution loop
+## 6. The loop
 
-Unless the task explicitly authorizes a batch, complete exactly one `Ready` task at a time.
+The Approved plan authorizes the queue. Do not wait to be told a task is Ready.
 
-1. Confirm the task is `Ready` and its dependencies are complete.
-2. Restate the objective, boundaries, and acceptance criteria in a short implementation plan.
-3. Inspect the current implementation and existing tests.
-4. Make the smallest coherent change.
-5. Add or update automated tests.
-6. Run the required validation commands.
-7. Review the complete diff against the task, requirements, architecture, security rules, and project conventions.
-8. Correct defects found during review.
-9. Update affected documentation.
-10. Mark the task accurately in `TASKS.md`.
-11. Update `HANDOFF.md` with evidence, remaining issues, and the next recommended task.
-12. Stop and report what changed, what was validated, and any unresolved risk.
+1. Confirm the plan is Approved and you are on `plan/…` (create it from `v1` if needed).
+2. Take the next task whose dependencies are Done and whose criteria are testable.
+3. Restate the criteria in one short paragraph.
+4. Read the code and tests that already exist.
+5. Change the smallest coherent surface.
+6. Add or update tests, including the failure the criteria name.
+7. Run the validation for this task. Same commands CI will run.
+8. If the plan marked this task for security review, or a user can see the change, do that review in a **fresh** context. Behavior review in a fresh context after implement.
+9. Fix required findings.
+10. Update only the docs the change made false.
+11. Mark the task Done on the plan branch. Commit. **Do not merge to `v1`.**
+12. If the phase is done or a stop hit, halt and say what to look at. Otherwise take the next task.
 
-## 6. Definition of Ready
+`/work-plan` is this loop. Prefer it.
 
-A task may be marked `Ready` only when:
+## 7. Ready and Done
 
-- Its objective is understandable.
-- Its linked requirements are approved or explicitly authorized for the current experiment.
-- Acceptance criteria are observable and testable.
-- Dependencies are identified and complete.
-- Scope and out-of-scope boundaries are stated.
-- Important security, data, migration, and operational effects are understood.
-- No unresolved high-impact question prevents safe implementation.
+A task is **Ready** when the Approved plan includes it, dependencies are Done, criteria are observable, and no expensive question is open. You (the agent) check this. The human already approved the plan.
 
-If a task is not ready, move it to `Blocked` or `Backlog` and record what is missing.
+A task is **Done** when criteria are true, required commands ran, needed reviews finished or were waived, and state files match git. Done ≠ merged to `v1`. Merge is a phase event the human does.
 
-## 7. Definition of Done
+## 8. Stops
 
-A task is `Done` only when:
+**Green — go:** implement the next authorized task; add tests; fix a local defect; refactor with no behavior change; make a doc match Approved behavior.
 
-- All acceptance criteria are satisfied.
-- Required tests and checks pass.
-- New behavior has appropriate automated coverage, or the approved exception is documented.
-- Error paths and boundary cases relevant to the task are handled.
-- No known critical or high-severity defect was introduced.
-- Documentation and examples affected by the change are updated.
-- User-visible changes are added to `CHANGELOG.md` when appropriate.
-- `TASKS.md` and `HANDOFF.md` reflect the actual repository state.
-- The final report includes validation evidence and any limitations.
+**Yellow — stop and propose:** new production dependency; public interface; migration; auth/trust change; architecture deviation; work that is not in the plan.
 
-## 8. Autonomy boundaries
+**Red — do not do this:** production deploy; real-data destruction; secrets; permission escalation; disable a control; irreversible conversion; send mail / spend money.
 
-### Proceed without additional approval
+Also stop when: sources conflict, a Must is missing, checks stay red, git ≠ handoff, secrets in the tree.
 
-Examples:
+Low-impact reversible gap: conservative assumption, write `docs/ASSUMPTIONS.md`, continue.
 
-- Implementing a ready task exactly as specified
-- Adding tests for approved behavior
-- Correcting a clear defect within existing architecture
-- Refactoring locally without changing external behavior
-- Improving comments or documentation to match approved behavior
-- Adding repeatable validation scripts that do not alter production behavior
+## 9. Reviews that pay
 
-### Propose and wait for approval
+| When | What |
+| --- | --- |
+| Every implementation task | Tests + the commands below |
+| After implement | Fresh-context test review |
+| Plan marked the task (auth, data, trust, secrets) | Fresh-context security review |
+| User can see or click it | Exercise the UI. Do not accept "the code looks friendly." |
+| A spec file is now false | Fix it in the same commit |
 
-Examples:
+Same session, new role name, is a self-review. Say so.
 
-- Adding or replacing a production dependency
-- Changing a public API or user-visible workflow
-- Changing authentication, authorization, encryption, or trust boundaries
-- Adding a database or schema migration
-- Changing an accepted architecture decision
-- Expanding scope beyond the selected task
-- Making a change that is difficult to reverse
+Write `docs/reviews/` only for a finding, waiver, or release call that must survive. Not as a receipt that a role ran.
 
-For these items, describe the need, options, recommendation, consequences, and proposed decision record.
+## 10. Git
 
-### Never perform without explicit, current authorization
+```text
+main     last good
+v1       protected integration
+plan/<milestone>-<slug>    where you commit
+```
 
-Examples:
+No commits to `v1`. No branch per task. Commit per task. Phase lands as one PR into `v1`. The human merges.
 
-- Destructive operations against real data
-- Production deployment or rollback
-- Permission escalation
-- Secret rotation or credential use
-- Disabling security controls
-- Irreversible data conversion
-- Sending external communications or making purchases
+## 11. Commands
 
-## 9. Handling uncertainty
-
-Use this rule:
-
-- Low-impact and easily reversible uncertainty: choose the conservative option, state the assumption, and record it in `docs/ASSUMPTIONS.md` if it can affect future work.
-- High-impact or difficult-to-reverse uncertainty: stop and present alternatives for review.
-- Missing requirement discovered during implementation: propose a requirement update; do not quietly redefine the requirement through code.
-- Unexpected scope: finish only the safe portion, document the remainder, and do not conceal incomplete work.
-
-## 10. Required commands
-
-Replace the placeholders below with commands that work from the repository root.
+Replace these. If a line is not real, write `N/A` — do not leave a fake command.
 
 ```text
 Environment setup: [COMMAND OR N/A]
@@ -170,9 +137,7 @@ Full validation:   [COMMAND]
 Run locally:       [COMMAND]
 ```
 
-If a command is unavailable, say so explicitly and do not pretend it was run.
-
-## 11. Project conventions
+## 12. Conventions
 
 ```text
 Primary language(s):       [LANGUAGES]
@@ -186,35 +151,27 @@ Testing convention:        [CONVENTION]
 Documentation style:       [CONVENTION]
 ```
 
-Keep this section short. Put detailed technical guidance in the relevant documents under `docs/`.
+## 13. What to update
 
-## 12. Documentation update rules
+| If you changed | Update |
+| --- | --- |
+| Behavior / a Must | `docs/REQUIREMENTS.md`, tests |
+| An expensive choice | New ADR + `docs/ARCHITECTURE.md` |
+| Milestone shape | `docs/ROADMAP.md` or the plan (human must re-approve material changes) |
+| Task status | `TASKS.md` |
+| Session state | `HANDOFF.md` |
+| Something a user would notice | `CHANGELOG.md` |
+| A new risk or guess | `docs/RISKS.md` / `docs/ASSUMPTIONS.md` |
+| Auth / data / privacy | `docs/SECURITY.md` + tests |
+| How it runs | `docs/OPERATIONS.md` |
 
-Update only the documents affected by the change:
+No changelog for format-only, test-only, or invisible refactors.
 
-| Change | Usually update |
-|---|---|
-| Product behavior or acceptance rule | `docs/REQUIREMENTS.md`, tests, possibly user documentation |
-| Consequential design choice | New decision record and `docs/ARCHITECTURE.md` |
-| Delivery sequence or milestone scope | `docs/ROADMAP.md` or active implementation plan |
-| Task state | `TASKS.md` |
-| Current session state | `HANDOFF.md` |
-| User-visible or operator-visible change | `CHANGELOG.md` |
-| New risk or assumption | `docs/RISKS.md` or `docs/ASSUMPTIONS.md` |
-| Security or privacy behavior | `docs/SECURITY.md` and relevant tests |
-| Deployment or support behavior | `docs/OPERATIONS.md` |
+## 14. When you stop
 
-Do not update `CHANGELOG.md` for formatting-only work, test-only work, or invisible refactoring unless the project has explicitly chosen a different policy.
-
-## 13. End-of-work report
-
-At the end of every work session, provide:
-
-1. Completed changes
-2. Files modified
-3. Tests and checks run, with results
-4. Remaining issues, risks, or assumptions
-5. Task and handoff updates made
-6. Recommended next task or next review action
-
-Keep the report factual. Separate verified results from recommendations.
+1. What is now true
+2. Files
+3. Commands and exact results
+4. What is still false
+5. State files touched
+6. Next task, or "phase checkpoint — look at this"

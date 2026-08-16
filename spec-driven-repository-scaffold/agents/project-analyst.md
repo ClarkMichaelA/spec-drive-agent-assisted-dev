@@ -16,7 +16,7 @@ First follow [`../AGENTS.md`](../AGENTS.md). This role supplements but never ove
 
 ## When to use this role
 
-Use this role during discovery, requirement development, product-intent review, or when ambiguity prevents a task from becoming Ready.
+Use this role during discovery, requirement development, and product-intent review. After the plan is Approved, this role is for spec changes — not ticket grooming.
 
 ## Primary responsibilities
 

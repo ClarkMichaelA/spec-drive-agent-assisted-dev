@@ -1,121 +1,133 @@
-# 11. Common Failure Modes and Corrections
+# 11. Failure Modes
 
-## 1. Generating every document in one pass
+## 1. Generate the whole spec in one pass
 
-**Symptom:** The project brief, requirements, architecture, roadmap, and tasks all look polished but share the same unverified assumptions.
+Looks polished. Shares one unverified fantasy.
 
-**Correction:** Draft, critique, human-review, and approve one layer before deriving the next.
+Fix: approve a layer before it feeds the next.
 
-## 2. Treating user stories as complete requirements
+## 2. "As a user I want…" is not a requirement
 
-**Symptom:** Happy-path features exist, but permissions, errors, recovery, audit, data quality, and operations are missing.
+Happy path ships. Auth, failure, recovery, and operations do not.
 
-**Correction:** Expand journeys and create explicit quality, security, data, operational, and integration requirements.
+Fix: journeys include failure. Requirements include the ugly cases.
 
-## 3. Creating decisions before understanding requirements
+## 3. Architecture before the problem
 
-**Symptom:** Technology choices drive scope and business behavior.
+The database was chosen. Then we asked what the user needs.
 
-**Correction:** Establish outcomes and requirements first. Record genuine external constraints separately.
+Fix: outcomes, then requirements, then the choices those force.
 
-## 4. Vague requirements
+## 4. Fast, secure, scalable
 
-**Symptom:** Words such as fast, secure, scalable, simple, intuitive, and reliable appear without conditions or evidence.
+Unfalsifiable. Therefore unused.
 
-**Correction:** Define scenario, measure, threshold or observable behavior, and verification method. Leave unknown values as TBD.
+Fix: scenario, measure, threshold. Or delete it.
 
-## 5. AI invents plausible facts
+## 5. Invented facts
 
-**Symptom:** Baselines, policies, API behavior, licensing, regulations, user needs, or environment details appear without a source.
+APIs, laws, prices, "users always…" appear with no source.
 
-**Correction:** Require known/assumed/unknown labels and authoritative verification before approval.
+Fix: known / assumed / unknown. Verify before Approved.
 
-## 6. One giant working-agreement file
+## 6. One giant instruction file
 
-**Symptom:** The assistant receives too much context, overlooks key instructions, and documentation becomes hard to maintain.
+Grok misses the line that mattered.
 
-**Correction:** Keep the root agreement concise and use an index with links to relevant detailed documents.
+Fix: `AGENTS.md` stays short. Details live in the file that owns the question.
 
-## 7. Task is really a project
+## 7. The task is a project
 
-**Symptom:** One task touches many components, introduces decisions, contains several outcomes, and cannot be reviewed coherently.
+One ticket, three outcomes, a hidden ADR, cannot be reviewed.
 
-**Correction:** Create an implementation plan, identify dependencies, and split into vertical, testable tasks.
+Fix: that is a plan. Split until a task has one proof.
 
-## 8. Asking an agent to finish the whole backlog
+## 8. "Finish the plan" with no checkpoints
 
-**Symptom:** Early errors propagate, context degrades, task states become unreliable, and review occurs too late.
+The failure this kit used to invite. Early error repeats. You notice at the end.
 
-**Correction:** Use one task or a small bounded batch with explicit stop conditions and validation after each task.
+Fix: autonomy stops at a **phase**. You use the software. Then continue.
 
-## 9. The implementer is the only reviewer
+## 9. Implementer "reviews" itself
 
-**Symptom:** The review repeats the implementation's assumptions and finds mostly cosmetic issues.
+Same context, new role name, finds commas.
 
-**Correction:** Use a fresh context for independent review on medium- and high-risk changes.
+Fix: fresh context, or call it a self-review. Do not file it as independent.
 
 ## 10. Test theater
 
-**Symptom:** Many tests pass, but they assert implementation details, avoid failure paths, or do not prove requirements.
+37 tests, all green, none would fail if the feature were deleted.
 
-**Correction:** Map tests to acceptance criteria and important user, security, data, and operational behavior.
+Fix: map tests to acceptance criteria and the failure the user would hit.
 
-## 11. Required checks exist only as prose
+## 11. Checks exist only as prose
 
-**Symptom:** Contributors forget or skip checks.
+"Always run the suite" in a Markdown file.
 
-**Correction:** Put commands in the working agreement and enforce objective rules through scripts and automated gates.
+Fix: commands in `AGENTS.md`. CI runs the same ones.
 
-## 12. The AI edits approved documents to match its code
+## 12. Spec edited to match the code
 
-**Symptom:** Requirements become weaker after implementation difficulty appears.
+The test was hard, so the Must got softer.
 
-**Correction:** Use formal change control. Code must follow approved intent unless the appropriate owner approves a change.
+Fix: that is a change request. You approve it. Code does not get a vote.
 
-## 13. Changelog becomes an engineering diary
+## 13. Changelog is a commit dump
 
-**Symptom:** Every refactor and test edit creates noise for users.
+Users do not care that you renamed a helper.
 
-**Correction:** Reserve changelog entries for observable user or operator changes. Use task and source-control history for implementation detail.
+Fix: observable changes only.
 
-## 14. Handoff is trusted without verification
+## 14. Trusted a stale handoff
 
-**Symptom:** The next session works from stale branch, test, or task information.
+Wrong branch, phantom tests, next task already done.
 
-**Correction:** Verify repository state at the start of every session.
+Fix: verify the repo every start.
 
-## 15. Too many documents for the project
+## 15. Documents as a quota
 
-**Symptom:** More time is spent maintaining templates than reducing risk or delivering value.
+More templates than behavior.
 
-**Correction:** Combine artifacts for small projects. Separate them only when they answer different questions or need different approval and update policies.
+Fix: if a file answers no question you have, delete it.
 
-## 16. Premature architecture complexity
+## 16. Premature machinery
 
-**Symptom:** Queues, caches, distributed services, elaborate abstractions, or multiple data stores appear before requirements justify them.
+Queues, caches, extra services, before a requirement needs them.
 
-**Correction:** Ask which approved requirement requires each component. Prefer reversible and simple choices.
+Fix: which approved Must dies without this part? If none, no part.
 
-## 17. No operational owner
+## 17. No one to call when it breaks
 
-**Symptom:** The feature works in a development environment but nobody owns alerts, recovery, configuration, or support.
+Works on your laptop.
 
-**Correction:** Include operational journeys and requirements before release planning.
+Fix: if you will release it, say who sees the fire and how you roll back.
 
-## 18. Endless clarification
+## 18. Endless questions
 
-**Symptom:** The AI asks one question at a time and planning never converges.
+Planning never ends.
 
-**Correction:** Limit blocking questions, allow explicit conservative assumptions for low-impact gaps, and record open questions with an owner and needed-by date.
+Fix: five blocking questions max. Conservative assumption otherwise. Write it down.
 
-## 19. Treating role files as orchestration
+## 19. Role files thought to be orchestration
 
-**Symptom:** A team assumes that adding Markdown files under `agents/` launches separate assistants, assigns work, isolates changes, or guarantees parallel execution.
+`agents/*.md` does not start a process, isolate a worktree, or create a second brain.
 
-**Correction:** Treat role files as portable responsibility and boundary definitions. Select them explicitly through tasks or prompts, and configure runtime orchestration separately when parallel execution is actually needed.
+Fix: Grok (or `/work-plan`) selects a role. Independence is a fresh context, not a filename.
 
-## 20. Renaming self-review as independent review
+## 20. GitHub as a second spec
 
-**Symptom:** The implementer switches to a reviewer role in the same context and records the result as independent.
+Issues, a Project, and `TASKS.md` all slightly wrong in different ways.
 
-**Correction:** Label it as self-review or non-independent review. When risk requires independence, use a separate assistant session, invocation, model, or human reviewer that did not produce the work, and record the reviewer and revision durably.
+Fix: repo is truth. PR is how a phase lands. That is enough for one person.
+
+## 21. Reviewer swarm
+
+Test + security + UX + docs on every task. Slow. Shallow. Same model family nodding.
+
+Fix: tests always. Fresh test review after implement. Security when the plan marked the task. UI when a user can see it. Docs in the same commit if a spec went false.
+
+## 22. Ticket grooming dressed up as steering
+
+You spent the evening marking Ready.
+
+Fix: approve the plan. Grok owns the queue. You own phases.

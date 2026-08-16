@@ -4,7 +4,9 @@
 
 Convert approved intent and journeys into statements that can guide design and be verified later.
 
-A requirement answers what must be true. It should not normally dictate how the code is written.
+A requirement answers what must be true. It should not dictate how the code is written.
+
+If you cannot say how this requirement would fail, delete it. "Fast," "secure," and "intuitive" fail that test until you add a number or an observable.
 
 ## Main requirement types
 

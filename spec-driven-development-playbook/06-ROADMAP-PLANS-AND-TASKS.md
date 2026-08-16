@@ -1,166 +1,138 @@
-# 6. Roadmap, Implementation Plans, and Tasks
+# 6. Roadmap, Plans, and Tasks
 
-## Why there are three levels
+Three levels. Do not collapse them.
 
-These artifacts answer different questions:
+- **Roadmap:** which outcome first?
+- **Plan:** how will *this* outcome be built and proven?
+- **Tasks:** the fuel Grok burns. Not a place you live.
 
-- **Roadmap:** Which outcomes come first?
-- **Implementation plan:** How will one outcome be delivered safely?
-- **Tasks:** What small units of work can now be executed and verified?
+A long task list with no plan is how hidden decisions and giant tickets get born.
 
-Jumping directly from architecture to a long task list often creates missing dependencies, hidden design choices, and tasks that are too large.
+## Roadmap: outcomes
 
-## Roadmap: organize around outcomes
-
-Good milestone:
+Good:
 
 ```text
-A pilot user can complete the primary journey in a test environment, and the
-team can observe and diagnose failures.
+A pilot user can complete the primary journey in a test environment,
+and we can see why it failed when it fails.
 ```
 
-Weak milestone:
+Bad:
 
 ```text
-Build database, then backend, then frontend.
+Build the database, then the API, then the UI.
 ```
 
-The first useful milestone is often a walking skeleton: a thin end-to-end path that proves the application can build, run, communicate, store or retrieve minimal data, and be tested.
+First milestone is almost always a walking skeleton: build, run, talk to one dependency, store one fact, test it.
 
-Each milestone should state:
+Each milestone: outcome, requirements in, exclusions, dependencies, risk it kills, exit evidence. No fake dates.
 
-- Usable or risk-reducing outcome
-- Requirements included
-- Explicit exclusions
-- Dependencies
-- Risks or uncertainties reduced
-- Exit evidence
+## Plan: the thing you approve
 
-## Implementation plan: bridge design and work
+Write a plan when the work spans parts, touches data, changes an interface, or can land wrong.
 
-Create a plan when work spans components, modifies data, changes an interface, needs sequencing, or carries deployment risk.
+The plan is the control surface. After you approve it, Grok does not ask you to Ready each task.
 
-A plan should cover:
+A plan that earns approval has:
 
-- Outcome and scope
-- Current and target state
-- Components affected
-- Data and interface changes
-- Security and permissions
-- Ordered implementation phases
-- Test approach
-- Deployment, migration, and rollback
-- Observability and support
-- Risks, assumptions, and open questions
-- Proposed task breakdown
+- Outcome and a hard in/out
+- Current state (as it is, not as you wish)
+- Target behavior tied to approved requirements
+- Data, interface, security effects
+- **2–4 phases**, each with something you can see or run
+- Which extra reviews apply, and when (not "all reviews, always")
+- Tests that would prove the outcome
+- Deploy / migrate / rollback only if those are real
+- Open questions that would stop work — none remaining, or you are not approving
+- Task breakdown with acceptance criteria
+- Stop conditions
 
-Approve the plan before asking an AI to generate detailed tasks.
+If a high-impact choice is still open, do not approve the plan. Do not hide it in T-003.
 
-## Tasks: executable contracts
+### Phases are your steering wheel
 
-A Ready task should include:
+A phase is a slice you can look at. Not a component layer unless the architecture forces it.
 
-- One concrete objective
-- Linked requirements and design
-- Included and excluded scope
-- Dependencies
-- Observable acceptance criteria
-- Validation commands or methods
-- Risks and rollback, when relevant
-- An owner and primary role
-- Required review roles and review-record paths, when applicable
+Example:
 
-Tasks should be small enough to implement and review as one coherent change.
+1. Walking path builds and a test user can read one record
+2. The core rule is enforced, including the failure case
+3. A person can do it through the UI
+4. You can tell when it breaks
 
-The owner is the responsible contributor. The primary role is the perspective used to do the work. Required reviews name additional perspectives that must be completed or explicitly waived by an authorized person before the task becomes Done. Do not treat a self-review as an independent required review.
+After each phase, Grok stops. You use the software. Then continue, merge, or change the plan.
 
-## Prefer vertical slices
+That is "managing the plan."
 
-A vertical slice delivers a thin path through the system for one outcome. It may touch interface, business logic, data, and tests. This exposes integration and architecture problems early.
+## Tasks: small enough to prove
 
-Avoid planning every data component first, then every service component, then every interface component, unless the architecture genuinely requires that sequence.
+A task is one outcome, linked to requirements and the plan, with a test you can run.
 
-## Definition of Ready
+Grok writes them from the approved plan into `TASKS.md` and keeps the statuses honest. You do not groom the queue.
 
-A task is Ready when:
+**Ready** means: the plan authorized it, dependencies are done, criteria are testable, nothing expensive is still a question. The agent checks this before it starts a task. You already approved the plan.
 
-- Its requirement is approved.
-- Its acceptance criteria are testable.
-- Dependencies are complete.
-- Scope and out-of-scope are clear.
-- Security, data, interface, migration, and operational effects are understood.
-- No unresolved high-impact question remains.
+**Done** means: criteria met on the plan branch, required checks ran, needed reviews finished or you waived them. Done is not "merged to `v1`." Merge is a phase event.
 
-## Copy-ready roadmap prompt
+Prefer a vertical slice over "all the schema, then all the services, then all the buttons."
+
+## Delete these
+
+- An issue per task
+- A Project board that copies `TASKS.md`
+- You clicking Ready
+- A branch per task (you are one person, one plan branch)
+- A reviewer role on a task that does not touch that concern
+
+## Prompts
+
+### Roadmap
 
 ```text
-Read the approved project brief, requirements, architecture, risks, and the
-roadmap template.
+Read the approved brief, requirements, architecture, risks, and ROADMAP.md.
 
-Create an outcome-based roadmap. Begin with a walking-skeleton milestone that
-proves the basic end-to-end delivery and validation path.
+Write an outcome roadmap. First milestone is a walking skeleton.
 
-For each milestone include:
-- Outcome
-- Users served
-- Requirements included
-- Explicit exclusions
-- Dependencies
-- Risks or assumptions reduced
-- Exit criteria and evidence
+For each milestone: outcome, users, requirements in, exclusions,
+dependencies, risk reduced, exit evidence.
 
-Do not turn the roadmap into a component task list. Do not invent delivery
-dates or team capacity. Mark timing as TBD unless I provide it.
+No dates unless I gave them. No component shopping list.
 ```
 
-## Copy-ready implementation-plan prompt
+### Plan
 
 ```text
-Read the approved requirements, accepted decisions, architecture, roadmap
-milestone [M-00], active risks, and the implementation-plan template.
+Read approved requirements, decisions, architecture, milestone [M-00],
+risks, and the plan template.
 
-Draft one implementation plan for this milestone. Explain current state,
-target behavior, affected components, data and interface changes, security,
-ordered phases, tests, deployment, migration, rollback, observability, risks,
-and proposed task boundaries.
+Draft one implementation plan. Include current state, target behavior,
+in/out, affected parts, data and interface changes, security, 2-4 phases
+with something I can see after each, test approach, rollback if relevant,
+risks, stop conditions, review policy (which reviews, when), and a
+task breakdown with acceptance criteria.
 
-Do not create tasks yet if the plan contains unresolved architecture choices or
-high-impact questions. Clearly list those blockers first.
+Do not invent tasks that hide an open architecture choice. List blockers
+first. If blockers exist, stop. Do not ask me to Ready each task later.
 ```
 
-## Copy-ready task prompt
+### Critique the plan
 
 ```text
-Read the approved implementation plan [PATH], its linked requirements and
-decision records, and TASKS.md.
+Review the draft plan without implementing it.
 
-Decompose the plan into the smallest coherent, dependency-ordered tasks that
-produce demonstrable progress.
+Find: phases I cannot actually inspect, tasks that are secret projects,
+missing failure/security/data behavior, reviews that are theater,
+missing stop conditions, and decisions smuggled into tasks.
 
-Each task must include:
-- Stable ID and action-oriented title
-- Objective and reason
-- Linked requirements, architecture section, decisions, and plan
-- Scope and out-of-scope
-- Dependencies
-- Observable acceptance criteria, including relevant failure behavior
-- Validation commands or methods
-- Risks and rollback when applicable
-- Owner and primary role
-- Required review roles, or None
-- Review-record paths, initially None unless a record already exists
-
-Mark a task Ready only when it meets the repository's Definition of Ready.
-Select roles from agents/ without inventing fictional assignments. Do not hide
-new architecture decisions inside tasks.
+Return a tighter phase list and a corrected task order.
 ```
 
-## Exit criteria
+## Exit
 
-Begin implementation when:
+Start delivery when:
 
-- The active milestone has a clear outcome and exit evidence.
-- One approved implementation plan exists for the current workstream.
-- The next tasks are small, ordered, and Ready.
-- Validation commands and environments exist or the first task creates them.
-- High-impact design, security, and migration questions are resolved.
+- The milestone has an outcome and exit evidence
+- One plan is **Approved**
+- Tasks in that plan are small and ordered
+- Validation commands exist or the first task creates them
+- Expensive questions are closed
