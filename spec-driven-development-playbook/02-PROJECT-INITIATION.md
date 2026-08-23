@@ -2,7 +2,7 @@
 
 ## Goal of this stage
 
-Turn a rough idea into a brief that you and Grok will read the same way.
+Turn a rough idea into a brief that you and the coding agent will read the same way.
 
 Do not begin with features. Begin with the problem and outcome. If you cannot state the problem without naming a product, delete the product and write the problem.
 

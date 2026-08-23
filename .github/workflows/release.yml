@@ -1,0 +1,25 @@
+name: Publish runtime editions
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build and validate all runtime editions
+        shell: pwsh
+        run: ./scripts/build-releases.ps1 -Version '${{ github.ref_name }}'
+      - name: Create one release with three edition assets
+        shell: pwsh
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          $assets = Get-ChildItem -LiteralPath dist -File | ForEach-Object { $_.FullName }
+          gh release create $env:GITHUB_REF_NAME @assets --generate-notes --title $env:GITHUB_REF_NAME

@@ -25,7 +25,7 @@ The delivery loop must stop. It does not get to "just finish the phase" by quiet
 6. Update every affected file in one coherent change.
 7. Then the loop may continue.
 
-Do not let Grok soften a requirement because the test was hard.
+Do not let the coding agent soften a requirement because the test was hard.
 
 ## Change-request prompt
 

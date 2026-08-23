@@ -11,7 +11,7 @@ Chat dies. Files do not. If the next session cannot start from the repo, the las
 | Why we chose the expensive thing | `docs/decisions/` |
 | How it is shaped | `ARCHITECTURE.md` |
 | How this milestone will be built | Active plan |
-| What Grok is allowed to do | `AGENTS.md` + `agents/` |
+| What the coding agent is allowed to do | `AGENTS.md` + the Approved plan |
 | Queue | `TASKS.md` |
 | What is true *right now* | `HANDOFF.md` |
 | Proven behavior | Tests |

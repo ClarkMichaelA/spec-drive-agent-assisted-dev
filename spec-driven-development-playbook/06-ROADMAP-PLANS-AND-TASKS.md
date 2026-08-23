@@ -4,7 +4,7 @@ Three levels. Do not collapse them.
 
 - **Roadmap:** which outcome first?
 - **Plan:** how will *this* outcome be built and proven?
-- **Tasks:** the fuel Grok burns. Not a place you live.
+- **Tasks:** the fuel the coding agent burns. Not a place you live.
 
 A long task list with no plan is how hidden decisions and giant tickets get born.
 
@@ -31,7 +31,7 @@ Each milestone: outcome, requirements in, exclusions, dependencies, risk it kill
 
 Write a plan when the work spans parts, touches data, changes an interface, or can land wrong.
 
-The plan is the control surface. After you approve it, Grok does not ask you to Ready each task.
+The plan is the control surface. After you approve it, the coding agent does not ask you to Ready each task.
 
 A plan that earns approval has:
 
@@ -60,7 +60,7 @@ Example:
 3. A person can do it through the UI
 4. You can tell when it breaks
 
-After each phase, Grok stops. You use the software. Then continue, merge, or change the plan.
+After each phase, the coding agent stops. You use the software. Then continue, merge, or change the plan.
 
 That is "managing the plan."
 
@@ -68,11 +68,11 @@ That is "managing the plan."
 
 A task is one outcome, linked to requirements and the plan, with a test you can run.
 
-Grok writes them from the approved plan into `TASKS.md` and keeps the statuses honest. You do not groom the queue.
+The coding agent writes them from the approved plan into `TASKS.md` and keeps the statuses honest. You do not groom the queue.
 
 **Ready** means: the plan authorized it, dependencies are done, criteria are testable, nothing expensive is still a question. The agent checks this before it starts a task. You already approved the plan.
 
-**Done** means: criteria met on the plan branch, required checks ran, needed reviews finished or you waived them. Done is not "merged to `v1`." Merge is a phase event.
+**Done** means: criteria met on the plan branch, required checks ran, needed reviews finished or you waived them. Done is not "merged to `main`." Merge is a phase event.
 
 Prefer a vertical slice over "all the schema, then all the services, then all the buttons."
 

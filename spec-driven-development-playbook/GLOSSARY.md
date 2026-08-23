@@ -46,11 +46,11 @@ An outcome with exit evidence.
 
 ## Phase
 
-A slice of a plan you can run or see. Grok stops here. You steer here.
+A slice of a plan you can run or see. The coding agent stops here. You steer here.
 
 ## Plan branch
 
-`plan/<milestone>-…` off `v1`. Tasks commit here. A phase lands on `v1` with one PR.
+`plan/<milestone>-…` off `main`. Tasks commit here. A phase lands on `main` with one PR.
 
 ## Requirement
 
@@ -84,6 +84,6 @@ A thin path through the system that proves one outcome.
 
 The smallest end-to-end that builds, runs, and can be tested. Usually milestone one.
 
-## `/work-plan`
+## Work-plan entry point
 
-Grok Build workflow that burns authorized tasks until a phase checkpoint or a stop.
+Runtime-specific entry point that executes `docs/WORK_PLAN.md` until a phase checkpoint, blocker, or task cap.

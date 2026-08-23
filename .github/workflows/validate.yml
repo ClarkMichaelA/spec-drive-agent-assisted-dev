@@ -1,0 +1,19 @@
+name: Validate release packages
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+jobs:
+  packages:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build and validate all runtime editions
+        shell: pwsh
+        run: ./scripts/build-releases.ps1 -Version 2.0.0-ci

@@ -11,7 +11,7 @@
 | 5. Architecture | How does that force the system to look? | `ARCHITECTURE.md` | Approve trust boundaries and the shape |
 | 6. Roadmap | Which outcome first? | `ROADMAP.md` | Approve milestones and exclusions |
 | 7. Plan | How will this milestone be built and proven? | Active plan | **This is the delivery gate.** Phases, tasks, review policy, stops. |
-| 8. Delivery | Does the next task meet its criteria? | Code, tests, plan branch | You do not Ready tasks. Grok runs until a phase or a stop. |
+| 8. Delivery | Does the next task meet its criteria? | Code, tests, plan branch | You do not Ready tasks. The agent runs until a phase or a stop. |
 | 9. Phase | Can I see the outcome of this slice? | Running software + PR | Look at the product. Merge, continue, or change the plan. |
 | 10. Release | Is the milestone safe to give someone? | Evidence + changelog | Accept the risk |
 | 11. Learn | What did reality do? | Change to the spec | New priorities |
@@ -30,7 +30,7 @@ Update the file. Trace the blast. Continue. Do not quietly make the code the spe
 
 **Plan** — turn approved intent into one executable plan. Dependencies, failure, security, tests, rollback. Human approves the plan.
 
-**Deliver** — Grok takes the next task on that plan, proves it, commits, repeats. Stops at a phase or when the plan is wrong. Does not redesign the project under the guise of a task.
+**Deliver** — The coding agent takes the next task on that plan, proves it, commits, repeats. It stops at a phase or when the plan is wrong and does not redesign the project under the guise of a task.
 
 ## Where your eyes go
 
@@ -49,22 +49,22 @@ You do not need to edit every sentence. You do not need to Ready T-014.
 Planning:
 
 ```text
-Grok drafts -> Grok attacks its own draft -> you review -> Grok revises -> you approve
+Agent drafts -> fresh context attacks the draft -> you review -> agent revises -> you approve
 ```
 
 Delivery:
 
 ```text
 You approve the plan
-    -> Grok: next task -> tests -> only the reviews that pay -> commit
+    -> agent: next task -> tests -> only the reviews that pay -> commit
     -> repeat until phase checkpoint or stop
     -> you use the software
-    -> merge to v1, continue, or change the plan
+    -> merge to main, continue, or change the plan
 ```
 
 ## Four words
 
 - **Intent** — the outcome
 - **Evidence** — what proves a claim
-- **Boundaries** — what Grok may not decide
+- **Boundaries** — what the coding agent may not decide
 - **State** — what the repo says is true

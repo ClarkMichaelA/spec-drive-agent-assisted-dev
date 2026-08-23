@@ -59,7 +59,7 @@ Before you give this to anyone who can lose something:
 - Someone will know when it breaks
 - Changelog says what a user would notice
 
-Grok can assemble the packet. You accept the risk.
+The coding agent can assemble the packet. You accept the risk.
 
 ## Prompts
 

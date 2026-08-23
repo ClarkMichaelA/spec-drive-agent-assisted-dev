@@ -1,6 +1,6 @@
 # Prompt Library
 
-Point Grok at files. Do not paste the project. Replace brackets.
+Point the coding agent at files. Do not paste the project. Replace brackets.
 
 Default rules, reuse them:
 
@@ -183,12 +183,12 @@ The plan at [PATH] is Approved. Follow AGENTS.md.
 
 Work until the next phase checkpoint or a stop condition.
 One task at a time: implement, test, fresh review if required, fix,
-commit on the plan branch, do not merge to v1.
+commit on the plan branch, do not merge to main.
 
 Stop if the plan is wrong, a new expensive decision appears, or checks
 stay red. Then tell me what exists and what to look at.
 
-Prefer /work-plan if this repo has it.
+Prefer the work-plan entry point named in `RUNTIME.md` when the repository has it.
 ```
 
 ## 16. One task (inner)
@@ -199,7 +199,7 @@ Read AGENTS.md, the approved plan, HANDOFF.md, TASKS.md.
 Take the next authorized task only.
 
 Smallest change, tests, required commands, update state, commit on this
-branch, do not merge to v1, stop. Do not invent requirements.
+branch, do not merge to main, stop. Do not invent requirements.
 ```
 
 ## 17. Fresh review

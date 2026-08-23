@@ -1,77 +1,74 @@
-# 12. How Much Process
+# 12. How much process
 
-Default: one person, Grok Build, one plan, one branch.
+Default: one person, one coding agent, one Approved plan, one plan branch.
 
-Add a file or a meeting only when a real failure would have been cheaper than the paper.
+Add a file or meeting only when the failure it prevents would have cost more than maintaining it.
 
-## Solo / this kit's default
+## Solo—the kit's default
 
-- Specs in the repo
-- One approved plan with 2–4 phases
-- `/work-plan` or an equivalent prompt
-- Tests + CI
-- You at each phase, looking at the product
-- One PR into `v1`
+- Specifications in the repository
+- One Approved plan with 2–4 phases
+- The runtime's work-plan entry point or the portable prompt
+- Tests and CI
+- You at each phase, using the product
+- One phase PR into `main`
 
-Do not add: issue tracker, Project board, per-task PRs, four reviewer agents, a docs site of process.
+Do not add an issue tracker, Project board, per-task PRs, four reviewer agents, or a process documentation site.
 
-If it is a prototype, collapse to `SPEC.md` + a short plan + tests. Say what you are not claiming (security, ops, scale).
+For a prototype, collapse to `SPEC.md`, a short plan, and tests. State what you are not claiming about security, operations, or scale.
 
-## Small thing you will actually run
+## Something you will actually run
 
-Add: journeys, requirements, ADRs for expensive choices, architecture, roadmap, security and ops *sections* (not necessarily extra files), CI, a release look.
+Add journeys, requirements, decision records for expensive choices, architecture, roadmap, security and operations sections, CI, and a release review. These do not all require separate files.
 
-## Higher risk (money, identity, other people's data, hard to undo)
+## Higher risk
 
-Add only what that risk needs: threat model, data rules, contract tests, migration plan, a durable security review, backup/restore you have actually done.
+For money, identity, other people's data, or hard-to-reverse changes, add only what the risk needs: threat model, data rules, contract tests, migration plan, durable security review, and backup or restore evidence.
 
-Do not add them "for completeness."
+Do not add them for completeness.
 
-## Grok Build
+## Runtime adapters
 
-This is the runtime the loop is written for.
+The method is portable; discovery and invocation differ by runtime:
 
-- `AGENTS.md` is the working agreement Grok loads
-- `agents/*.md` are perspectives, not processes
-- `/work-plan` is the delivery loop
-- Subagents give you a fresh context for review
-- Worktrees are for parallel edits you should usually not be doing
+- [Grok Build](providers/grok-build.md)
+- [Codex](providers/codex.md)
+- [Claude Code](providers/claude-code.md)
 
-Other tools can read the Markdown. They will not have `/work-plan` unless you rebuild it.
+Every rendered edition contains the same `AGENTS.md` and `docs/WORK_PLAN.md`, plus exactly one target adapter. Do not combine adapters.
 
 ## GitHub
 
 Useful:
 
-- Protected `v1`
-- PR for a phase
+- Protected `main`
+- One PR per phase
 - Actions running the same commands as `AGENTS.md`
+- Immutable version tags
 
-Not useful, for you:
+Usually not useful for one person:
 
 - Issue per task
-- Project as the board
-- Comment commands to "notify agents" — you are already in Grok
-- CODEOWNERS theater with one owner
+- Project as a second task board
+- Comment commands to notify the agent already doing the work
+- CODEOWNERS with one owner
 
-If a second human appears, then maybe Issues. Keep requirement IDs on them. Do not let Issues become a second `REQUIREMENTS.md`.
+If a second human appears, Issues may help. Keep requirement IDs on them and do not let them become a second `REQUIREMENTS.md`.
 
 ## Parallelism
 
-Do not. Not until the single-task loop is boringly correct and two workstreams do not touch the same files.
+Do not parallelize implementation until the single-task loop is boringly correct and two workstreams do not touch the same files.
 
-Then: separate plan branches, contract tests at the join, no shared `HANDOFF.md` writes.
-
-Role files do not make this safe.
+Then use separate plan branches, contract tests at the join, and no concurrent writes to one `HANDOFF.md`. Role files do not make shared edits safe.
 
 ## Context
 
-As the repo grows: keep `docs/INDEX.md` honest, link tasks to sections, archive finished plans, do not make Grok read everything.
+As the repository grows, keep `docs/INDEX.md` honest, link tasks to exact sections, archive finished plans, and avoid making the agent read everything.
 
-## Three levels. Stop climbing for sport.
+## Three useful levels
 
-1. **Files exist** — intent, decisions, plan, tests, handoff are in git
-2. **The loop works** — Grok can take the next task and stop for a reason
-3. **The gate is a command** — CI fails the change you would have shipped by accident
+1. **Files exist** — intent, decisions, plan, tests, and handoff are in git
+2. **The loop works** — the agent can take the next task and stop for a reason
+3. **The gate is a command** — CI fails the change you would otherwise ship
 
-Level 5 autonomous swarm is how you get a confident mess. You are not a platform team.
+Do not build an autonomous swarm merely because the tooling allows it.

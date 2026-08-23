@@ -32,7 +32,7 @@ Fix: known / assumed / unknown. Verify before Approved.
 
 ## 6. One giant instruction file
 
-Grok misses the line that mattered.
+The coding agent misses the line that mattered.
 
 Fix: `AGENTS.md` stays short. Details live in the file that owns the question.
 
@@ -112,7 +112,7 @@ Fix: five blocking questions max. Conservative assumption otherwise. Write it do
 
 `agents/*.md` does not start a process, isolate a worktree, or create a second brain.
 
-Fix: Grok (or `/work-plan`) selects a role. Independence is a fresh context, not a filename.
+Fix: the work-plan adapter selects a role. Independence is a fresh context, not a filename.
 
 ## 20. GitHub as a second spec
 
@@ -130,4 +130,4 @@ Fix: tests always. Fresh test review after implement. Security when the plan mar
 
 You spent the evening marking Ready.
 
-Fix: approve the plan. Grok owns the queue. You own phases.
+Fix: approve the plan. The coding agent owns the queue. You own phases.

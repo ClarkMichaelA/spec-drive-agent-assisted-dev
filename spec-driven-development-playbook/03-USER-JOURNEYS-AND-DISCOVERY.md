@@ -18,7 +18,7 @@ Prefer real evidence:
 - Logs and measurements
 - Subject-matter experts
 
-Grok can propose questions and missing paths. It cannot see your organization. If you did not give evidence, the journey is a guess — mark it that way.
+The coding agent can propose questions and missing paths. It cannot see your organization. If you did not give evidence, the journey is a guess — mark it that way.
 
 ## Journey contents
 

@@ -1,22 +1,22 @@
 # Playbook
 
-How to take an idea to something you can run, using Grok Build, without turning chat into the project.
+How to take an idea to something you can run with a coding agent, without turning chat into the project.
 
-Written for one person. Grok does the labor. You decide what "good" is.
+Written for one person. The agent does the repeatable labor. You decide what “good” means.
 
-Specs are files. Any assistant can read them. The delivery loop is built for Grok.
+The method is runtime-neutral. Runtime guides explain how Grok Build, Codex, and Claude Code load the scaffold and invoke the delivery loop.
 
 ## The split
 
-Grok: draft, organize, implement, test, review a diff, update state.
+The coding agent drafts, organizes, implements, tests, reviews a diff in fresh context when needed, and updates repository state.
 
-You:
+You own:
 
 - The real problem
 - Scope and non-goals
 - Facts about the outside world
 - Irreversible choices
-- The plan (not the tickets)
+- The plan, not individual ticket readiness
 - Whether the running software is right
 - Release
 
@@ -29,17 +29,17 @@ Idea
   -> PROJECT.md
   -> journeys
   -> requirements
-  -> decisions you cannot cheaply undo
+  -> decisions expensive to reverse
   -> architecture those decisions force
   -> roadmap of outcomes
-  -> one plan, with phases
-  -> Grok executes the plan
+  -> one plan with phases
+  -> the agent executes the plan
   -> you inspect each phase
   -> release
-  -> change the spec when reality disagrees
+  -> change the specification when reality disagrees
 ```
 
-Directional, not sacred. When code disproves a spec, update the spec. Do not pretend the code was what you meant.
+Directional, not sacred. When code disproves a specification, update the specification deliberately.
 
 ## Read this first
 
@@ -49,7 +49,7 @@ Directional, not sacred. When code disproves a spec, update the spec. Do not pre
 4. `04-REQUIREMENTS.md`
 5. `05-DECISIONS-AND-ARCHITECTURE.md`
 6. `06-ROADMAP-PLANS-AND-TASKS.md`
-7. `07-IMPLEMENTATION-LOOP.md` — the part that actually changed
+7. `07-IMPLEMENTATION-LOOP.md`
 8. `08-TEST-REVIEW-AND-RELEASE.md`
 9. `09-PROJECT-MEMORY-AND-HANDOFFS.md`
 10. `10-CHANGE-AND-MAINTENANCE.md`
@@ -63,30 +63,38 @@ Keep nearby:
 - `12-SCALING-THE-PROCESS.md`
 - `GLOSSARY.md`
 
-Roles live in the scaffold: `agents/`. The playbook does not need a second catalog.
+Roles live in the scaffold under `agents/`. The portable execution contract is `docs/WORK_PLAN.md` in the rendered scaffold.
+
+## Choose a runtime
+
+- [Grok Build](providers/grok-build.md)
+- [Codex](providers/codex.md)
+- [Claude Code](providers/claude-code.md)
+
+Download one matching release archive. Do not combine target adapters.
 
 ## Minimum
 
 - `PROJECT.md` or one `SPEC.md`
-- Requirements you can test
-- ADRs only if reversal is expensive
+- Requirements that can fail a test
+- Decision records only when reversal is expensive
 - One plan
 - Tests
 - `HANDOFF.md`
 
-If you are maintaining more files than you have users, delete files.
+If you are maintaining more files than the project needs, delete files.
 
 ## Good looks like
 
-- A new Grok session can start from the repo
-- Claims are known, assumed, or unknown — never "sounds right"
+- A new agent session can reconstruct the project from the repository
+- Claims are known, assumed, or unknown—never merely plausible
 - Requirements can fail a test
 - Hard choices have a reason
 - You approved a plan, not a pile of tickets
-- Grok stops when the plan is wrong
+- The agent stops when the plan is wrong
 - Checks that matter are commands, not slogans
-- You look at the product at each phase
+- You inspect the running product at each phase
 
 ## Caution
 
-Fluent is free. True is not. Verify laws, APIs, prices, and security claims at the source before they become Approved.
+Fluent is free. True is not. Verify laws, APIs, prices, and security claims at primary sources before they become Approved.

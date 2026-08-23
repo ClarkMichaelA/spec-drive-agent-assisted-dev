@@ -64,7 +64,7 @@ If reversal is cheap, do not write an ADR.
 - [ ] You ran or used the slice
 - [ ] Phase validation commands ran
 - [ ] Remaining falsehoods are visible
-- [ ] Next move is continue, merge to `v1`, or change the plan
+- [ ] Next move is continue, merge to `main`, or change the plan
 
 ## Task (agent checks this, not you)
 

@@ -115,21 +115,21 @@ AC:
 - tests pass
 ```
 
-Grok picks this when T-012 is Done. You are not in the queue.
+The coding agent picks this when T-012 is Done. You are not in the queue.
 
 ## 10. Delivery
 
-Grok on `plan/M-02-checkout`:
+The coding agent on `plan/M-02-checkout`:
 
 1. Implements T-014, adds race tests, runs them
 2. Fresh test review on the SHA
 3. Security diff because the plan said so
 4. Fixes what those found
-5. Commits. Does not merge to `v1`.
+5. Commits. Does not merge to `main`.
 6. Next task until Phase 2's proof exists
 7. Stops. Handoff says: run these tests; here is the conflict case.
 
-You run it. Then PR → `v1`, or continue to Phase 3.
+You run it. Then PR → `main`, or continue to Phase 3.
 
 ## 11. Trace
 
