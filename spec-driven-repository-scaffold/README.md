@@ -6,7 +6,7 @@ This directory is source for three rendered scaffold editions. Do not copy `comm
 common/          runtime-neutral project files
 targets/grok/    Grok Build workflow and runtime guide
 targets/codex/   Codex skill and runtime guide
-targets/claude/  Claude Code instructions, skill, and runtime guide
+targets/claude/  Claude Code instructions, skills, subagents, rules, permissions
 ```
 
 Run the repository build from the root:

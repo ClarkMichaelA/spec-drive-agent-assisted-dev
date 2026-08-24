@@ -26,4 +26,6 @@ An existing `v1` branch may remain until its current plan or release finishes. D
 
 Keep the common project files and add only the chosen v2 target adapter. Remove the old `.grok/` directory only after confirming no Grok Build user or automation still needs it.
 
+The Claude Code edition ships `.claude/settings.json`. Merge it into the file your project already has instead of overwriting it, and read the adapter's `RUNTIME.md` for what the `work-plan` skill pre-approves.
+
 The runtime ZIPs are starter packages, not in-place updaters. Treat migration as a reviewed project change.

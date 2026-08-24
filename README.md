@@ -11,7 +11,7 @@ Version 2 separates the portable development method from runtime-specific entry 
 - **Common scaffold** — specifications, plans, roles, tests, handoffs, and working agreements.
 - **Grok Build target** — native `.grok/workflows/work-plan.rhai` orchestration.
 - **Codex target** — repository skill at `.agents/skills/work-plan/SKILL.md`.
-- **Claude Code target** — `CLAUDE.md` plus `.claude/skills/work-plan/SKILL.md`.
+- **Claude Code target** — `CLAUDE.md`, two skills, role subagents, path-scoped rules, and project permissions.
 
 Each release publishes three complete ZIP files. Choose one; do not combine them.
 
