@@ -12,7 +12,7 @@ targets/claude/  Claude Code instructions, skills, subagents, rules, permissions
 Run the repository build from the root:
 
 ```powershell
-./scripts/build-releases.ps1 -Version 2.0.0
+./scripts/build-releases.ps1 -Version 2.1.0
 ```
 
 The build overlays each target on `common/`, generates the rendered manifest, verifies that target-only files do not leak into other editions, and produces one ZIP per runtime.
