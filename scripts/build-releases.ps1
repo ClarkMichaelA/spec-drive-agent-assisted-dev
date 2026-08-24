@@ -85,6 +85,34 @@ function Write-Utf8File {
     [IO.File]::WriteAllText($Path, $Content, [Text.UTF8Encoding]::new($false))
 }
 
+$skillFrontmatterKeys = @(
+    'name', 'description', 'when_to_use', 'argument-hint', 'arguments',
+    'disable-model-invocation', 'user-invocable', 'allowed-tools', 'disallowed-tools',
+    'model', 'effort', 'context', 'agent', 'background', 'hooks', 'paths',
+    'shell', 'metadata', 'license', 'compatibility'
+)
+
+$subagentFrontmatterKeys = @(
+    'name', 'description', 'tools', 'disallowedTools', 'model', 'permissionMode',
+    'maxTurns', 'skills', 'mcpServers', 'hooks', 'memory', 'background', 'effort',
+    'isolation', 'color', 'initialPrompt'
+)
+
+function Assert-KnownFrontmatterKeys {
+    param(
+        [string]$Path,
+        [string]$Frontmatter,
+        [string[]]$AllowedKeys
+    )
+
+    $keys = @([regex]::Matches($Frontmatter, '(?m)^(?<key>[A-Za-z][A-Za-z0-9_-]*):') |
+        ForEach-Object { $_.Groups['key'].Value })
+    $unknown = @($keys | Where-Object { $AllowedKeys -cnotcontains $_ })
+    if ($unknown.Count -gt 0) {
+        throw "Unsupported frontmatter key(s) '$($unknown -join ', ')' in $Path"
+    }
+}
+
 function Assert-ValidSkill {
     param([string]$SkillPath)
 
@@ -106,6 +134,89 @@ function Assert-ValidSkill {
     if ($content -match '\[(TODO|PLACEHOLDER)\]') {
         throw "Skill contains an unfinished placeholder: $SkillPath"
     }
+    Assert-KnownFrontmatterKeys -Path $SkillPath -Frontmatter $frontmatter -AllowedKeys $skillFrontmatterKeys
+}
+
+function Assert-ValidSubagent {
+    param([string]$AgentPath)
+
+    $content = Get-Content -LiteralPath $AgentPath -Raw
+    if ($content -notmatch '(?s)^---\r?\n(?<frontmatter>.*?)\r?\n---\r?\n(?<body>.+)$') {
+        throw "Subagent must contain YAML frontmatter and a non-empty body: $AgentPath"
+    }
+
+    $frontmatter = $Matches.frontmatter
+    if ($frontmatter -notmatch '(?m)^name:\s+(?<name>[a-z0-9-]+)\s*$') {
+        throw "Subagent name is missing or invalid: $AgentPath"
+    }
+    if ($Matches.name -ne [IO.Path]::GetFileNameWithoutExtension($AgentPath)) {
+        throw "Subagent name must match its file name: $AgentPath"
+    }
+    if ($frontmatter -notmatch '(?m)^description:\s+\S.+$') {
+        throw "Subagent description is missing: $AgentPath"
+    }
+    Assert-KnownFrontmatterKeys -Path $AgentPath -Frontmatter $frontmatter -AllowedKeys $subagentFrontmatterKeys
+}
+
+function Assert-PathScopedRule {
+    param([string]$RulePath)
+
+    $content = Get-Content -LiteralPath $RulePath -Raw
+    if ($content -notmatch '(?s)^---\r?\n(?<frontmatter>.*?)\r?\n---\r?\n(?<body>.+)$') {
+        throw "Rule must contain YAML frontmatter and a non-empty body: $RulePath"
+    }
+    if ($Matches.frontmatter -notmatch '(?m)^paths:') {
+        throw "Rule must declare paths, or it loads in every session: $RulePath"
+    }
+}
+
+function Assert-ValidJsonObject {
+    param([string]$Path)
+
+    if (-not (Test-Path -LiteralPath $Path)) {
+        throw "Required adapter file does not exist: $Path"
+    }
+
+    $raw = (Get-Content -LiteralPath $Path -Raw).TrimStart([char]0xFEFF)
+    try {
+        $document = [System.Text.Json.JsonDocument]::Parse($raw)
+    } catch {
+        throw "$Path is not valid JSON: $($_.Exception.Message)"
+    }
+    if ($document.RootElement.ValueKind -ne [System.Text.Json.JsonValueKind]::Object) {
+        $document.Dispose()
+        throw "$Path must contain a JSON object."
+    }
+    $document.Dispose()
+}
+
+function Assert-NoPlaceholders {
+    param([string]$Root)
+
+    $hits = @(Get-ChildItem -LiteralPath $Root -Recurse -Force -File |
+        Select-String -Pattern '\[(TODO|PLACEHOLDER)\]')
+    if ($hits.Count -gt 0) {
+        $locations = $hits | ForEach-Object { "$($_.Path):$($_.LineNumber)" }
+        throw "Unfinished placeholder in adapter files: $($locations -join ', ')"
+    }
+}
+
+function Get-RequiredChildFiles {
+    param(
+        [string]$Root,
+        [string]$Filter,
+        [switch]$Recurse
+    )
+
+    if (-not (Test-Path -LiteralPath $Root)) {
+        throw "Required adapter directory does not exist: $Root"
+    }
+
+    $found = @(Get-ChildItem -LiteralPath $Root -Force -File -Filter $Filter -Recurse:$Recurse)
+    if ($found.Count -eq 0) {
+        throw "No $Filter file found under: $Root"
+    }
+    $found
 }
 
 $targets = @(
@@ -124,7 +235,19 @@ $targets = @(
     [pscustomobject]@{
         Name = 'claude'
         DisplayName = 'Claude Code'
-        Required = @('RUNTIME.md', 'CLAUDE.md', '.claude/skills/work-plan/SKILL.md')
+        Required = @(
+            'RUNTIME.md',
+            'CLAUDE.md',
+            '.claude/settings.json',
+            '.claude/skills/work-plan/SKILL.md',
+            '.claude/skills/spec-check/SKILL.md',
+            '.claude/agents/test-engineer.md',
+            '.claude/agents/security-reviewer.md',
+            '.claude/agents/solution-architect.md',
+            '.claude/agents/project-analyst.md',
+            '.claude/rules/approved-artifacts.md',
+            '.claude/rules/state-files.md'
+        )
         Forbidden = @('.grok', '.agents')
     }
 )
@@ -137,15 +260,20 @@ if ($commonProviderMentions.Count -gt 0) {
     throw "Provider-specific content leaked into common/: $($locations -join ', ')"
 }
 
-$codexSkillPath = Join-Path $targetsRoot 'codex/.agents/skills/work-plan/SKILL.md'
-$claudeSkillPath = Join-Path $targetsRoot 'claude/.claude/skills/work-plan/SKILL.md'
-Assert-ValidSkill -SkillPath $codexSkillPath
-Assert-ValidSkill -SkillPath $claudeSkillPath
-$codexSkill = Get-Content -LiteralPath $codexSkillPath -Raw
-$claudeSkill = Get-Content -LiteralPath $claudeSkillPath -Raw
-if ($codexSkill -cne $claudeSkill) {
-    throw 'The Codex and Claude work-plan skill bodies must remain identical.'
+Assert-ValidSkill -SkillPath (Join-Path $targetsRoot 'codex/.agents/skills/work-plan/SKILL.md')
+
+$claudeAdapterRoot = Join-Path $targetsRoot 'claude/.claude'
+foreach ($skill in Get-RequiredChildFiles -Root (Join-Path $claudeAdapterRoot 'skills') -Filter 'SKILL.md' -Recurse) {
+    Assert-ValidSkill -SkillPath $skill.FullName
 }
+foreach ($subagent in Get-RequiredChildFiles -Root (Join-Path $claudeAdapterRoot 'agents') -Filter '*.md') {
+    Assert-ValidSubagent -AgentPath $subagent.FullName
+}
+foreach ($rule in Get-RequiredChildFiles -Root (Join-Path $claudeAdapterRoot 'rules') -Filter '*.md') {
+    Assert-PathScopedRule -RulePath $rule.FullName
+}
+Assert-ValidJsonObject -Path (Join-Path $claudeAdapterRoot 'settings.json')
+Assert-NoPlaceholders -Root $claudeAdapterRoot
 
 if (Test-Path -LiteralPath $outputRoot) {
     Remove-Item -LiteralPath $outputRoot -Recurse -Force
