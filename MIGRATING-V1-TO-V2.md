@@ -31,7 +31,7 @@ Grok Build, Codex, and Claude Code are peer implementations of the same contract
 
 ### Grok Build
 
-Compare `.grok/workflows/work-plan.rhai` with the project's existing workflow. Preserve project-specific commands and review policy, and read `RUNTIME.md` for invocation details.
+Add or compare `.grok/workflows/` and `.grok/config.toml`. Merge `.grok/config.toml` into the file the project already has instead of overwriting it. Preserve project-specific commands and review policy. Reviewer isolation is `capability_mode` on the work-plan children, not a second copy of `agents/`. Read `RUNTIME.md` for workflow invocation, reviewer isolation, permissions, and Git boundaries. Grok Build does not install model or UI settings in the project config; those remain a user or organization choice.
 
 ### Codex
 

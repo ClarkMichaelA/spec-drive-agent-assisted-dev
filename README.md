@@ -9,7 +9,7 @@ You steer the problem, expensive decisions, plan, phase checkpoints, and release
 Version 2 separates the portable development method from runtime-specific entry points:
 
 - **Common scaffold** — specifications, plans, roles, tests, handoffs, and working agreements.
-- **Grok Build target** — native `.grok/workflows/work-plan.rhai` orchestration.
+- **Grok Build target** — native work-plan and spec-check workflows, and project permission rules.
 - **Codex target** — repository skill with desktop metadata and read-only reviewer subagents.
 - **Claude Code target** — `CLAUDE.md`, two skills, role subagents, path-scoped rules, and project permissions.
 

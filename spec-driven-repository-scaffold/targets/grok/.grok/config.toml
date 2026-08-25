@@ -1,0 +1,25 @@
+# Project-owned safety boundaries for Grok Build.
+# Do not add [models], [ui], or permission_mode here; those belong to the user
+# or organization. Merge these rules into an existing .grok/config.toml instead
+# of overwriting it.
+
+[permission]
+deny = [
+  "Bash(git push * main)",
+  "Bash(git push --force *)",
+  "Bash(git push -f *)",
+  "Read(.env)",
+  "Read(.env.*)",
+  "Read(**/.env)",
+  "Read(**/.env.*)",
+  "Read(secrets/**)",
+  "Read(**/*.pem)",
+  "Read(**/*.key)",
+  "Read(**/*.pfx)",
+]
+ask = [
+  "Bash(git push *)",
+  "Bash(git merge *)",
+  "Bash(git rebase *)",
+  "Bash(git commit --amend *)",
+]

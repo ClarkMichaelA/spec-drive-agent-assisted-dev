@@ -4,7 +4,7 @@ This directory is source for three rendered scaffold editions. Do not copy `comm
 
 ```text
 common/          runtime-neutral project files
-targets/grok/    Grok Build workflow and runtime guide
+targets/grok/    Grok Build workflows, permission rules, and runtime guide
 targets/codex/   Codex skill, reviewer subagents, and runtime guide
 targets/claude/  Claude Code instructions, skills, subagents, rules, permissions
 ```

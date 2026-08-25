@@ -54,11 +54,13 @@ Then you run the product. Merge the phase PR, continue, or change the plan.
 
 ## Invoke it
 
-Each rendered edition includes one native entry point:
+Each rendered edition includes a native work-plan entry point:
 
 - Grok Build: `/work-plan`
 - Codex: `$work-plan`
 - Claude Code: `/work-plan`
+
+Grok Build and Claude Code also ship `/spec-check`, a read-only audit of whether the repository still describes itself honestly.
 
 `RUNTIME.md` in the scaffold is authoritative for the installed edition. If an entry point is unavailable, use this portable prompt:
 

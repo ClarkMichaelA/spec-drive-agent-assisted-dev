@@ -86,7 +86,7 @@ function Write-Utf8File {
 }
 
 $skillFrontmatterKeys = @(
-    'name', 'description', 'when_to_use', 'argument-hint', 'arguments',
+    'name', 'description', 'when_to_use', 'when-to-use', 'argument-hint', 'arguments',
     'disable-model-invocation', 'user-invocable', 'allowed-tools', 'disallowed-tools',
     'model', 'effort', 'context', 'agent', 'background', 'hooks', 'paths',
     'shell', 'metadata', 'license', 'compatibility'
@@ -223,6 +223,86 @@ function Assert-ReadOnlyReviewer {
     }
 }
 
+function Assert-ValidGrokWorkflow {
+    param([string]$WorkflowPath)
+
+    if (-not (Test-Path -LiteralPath $WorkflowPath)) {
+        throw "Required Grok workflow does not exist: $WorkflowPath"
+    }
+
+    $content = Get-Content -LiteralPath $WorkflowPath -Raw
+    $stem = [IO.Path]::GetFileNameWithoutExtension($WorkflowPath)
+    if ($content -notmatch '(?s)let meta = #\{') {
+        throw "Grok workflow is missing a meta map: $WorkflowPath"
+    }
+    if ($content -notmatch ('(?m)^\s*name:\s+"{0}"\s*,?\s*$' -f [regex]::Escape($stem))) {
+        throw "Grok workflow meta.name must match its file name: $WorkflowPath"
+    }
+    if ($content -notmatch '(?m)^\s*description:\s+"\S.+"\s*,?\s*$') {
+        throw "Grok workflow description is missing: $WorkflowPath"
+    }
+    if ($content -match '\[(TODO|PLACEHOLDER)\]') {
+        throw "Grok workflow contains an unfinished placeholder: $WorkflowPath"
+    }
+
+    if ($stem -eq 'work-plan') {
+        if ($content -notmatch 'prompt:\s+test_prompt,[\s\S]{0,160}capability_mode:\s*"execute"') {
+            throw "work-plan test reviewer must use capability_mode execute: $WorkflowPath"
+        }
+        if ($content -notmatch 'prompt:\s+sec_prompt,[\s\S]{0,160}capability_mode:\s*"execute"') {
+            throw "work-plan security reviewer must use capability_mode execute: $WorkflowPath"
+        }
+        if ($content -match 'prompt:\s+test_prompt,[\s\S]{0,160}capability_mode:\s*"all"') {
+            throw "work-plan test reviewer must not use capability_mode all: $WorkflowPath"
+        }
+        if ($content -match 'prompt:\s+sec_prompt,[\s\S]{0,160}capability_mode:\s*"all"') {
+            throw "work-plan security reviewer must not use capability_mode all: $WorkflowPath"
+        }
+        if ($content -notmatch 'agents/test-engineer.md') {
+            throw "work-plan test reviewer must read the portable role file: $WorkflowPath"
+        }
+        if ($content -notmatch 'agents/security-reviewer.md') {
+            throw "work-plan security reviewer must read the portable role file: $WorkflowPath"
+        }
+    }
+
+    if ($stem -eq 'spec-check') {
+        if ($content -match 'capability_mode:\s*"all"') {
+            throw "spec-check workflow must not use capability_mode all: $WorkflowPath"
+        }
+        if ($content -notmatch 'capability_mode:\s*"(execute|read-only)"') {
+            throw "spec-check workflow must use capability_mode execute or read-only: $WorkflowPath"
+        }
+    }
+}
+
+function Assert-ValidGrokProjectConfig {
+    param([string]$Path)
+
+    if (-not (Test-Path -LiteralPath $Path)) {
+        throw "Required Grok project config does not exist: $Path"
+    }
+
+    $raw = Get-Content -LiteralPath $Path -Raw
+    if ($raw -notmatch '(?m)^\[permission\]\s*$') {
+        throw "Grok project config must contain a [permission] table: $Path"
+    }
+    if ($raw -notmatch '(?m)^deny\s*=') {
+        throw "Grok project config must declare deny rules: $Path"
+    }
+    if ($raw -notmatch '(?m)^ask\s*=') {
+        throw "Grok project config must declare ask rules: $Path"
+    }
+    foreach ($section in @('[models]', '[ui]', '[cli]')) {
+        if ($raw -match ('(?m)^{0}\s*$' -f [regex]::Escape($section))) {
+            throw "Grok project config must not pin $section; those settings belong to the user: $Path"
+        }
+    }
+    if ($raw -match '(?m)^\s*permission_mode\s*=') {
+        throw "Grok project config must not set permission_mode; that belongs to the user: $Path"
+    }
+}
+
 function Assert-PathScopedRule {
     param([string]$RulePath)
 
@@ -288,7 +368,12 @@ $targets = @(
     [pscustomobject]@{
         Name = 'grok'
         DisplayName = 'Grok Build'
-        Required = @('RUNTIME.md', '.grok/workflows/work-plan.rhai')
+        Required = @(
+            'RUNTIME.md',
+            '.grok/workflows/work-plan.rhai',
+            '.grok/workflows/spec-check.rhai',
+            '.grok/config.toml'
+        )
         Forbidden = @('.agents', '.codex', '.claude', 'CLAUDE.md')
     },
     [pscustomobject]@{
@@ -330,6 +415,14 @@ if ($commonProviderMentions.Count -gt 0) {
     $locations = $commonProviderMentions | ForEach-Object { "$($_.Path):$($_.LineNumber)" }
     throw "Provider-specific content leaked into common/: $($locations -join ', ')"
 }
+
+$grokTargetRoot = Join-Path $targetsRoot 'grok'
+$grokAdapterRoot = Join-Path $grokTargetRoot '.grok'
+foreach ($workflow in Get-RequiredChildFiles -Root (Join-Path $grokAdapterRoot 'workflows') -Filter '*.rhai') {
+    Assert-ValidGrokWorkflow -WorkflowPath $workflow.FullName
+}
+Assert-ValidGrokProjectConfig -Path (Join-Path $grokAdapterRoot 'config.toml')
+Assert-NoPlaceholders -Root $grokTargetRoot
 
 $codexAdapterRoot = Join-Path $targetsRoot 'codex'
 Assert-ValidSkill -SkillPath (Join-Path $codexAdapterRoot '.agents/skills/work-plan/SKILL.md')
