@@ -14,7 +14,11 @@ This scaffold wires the portable method into Claude Code's own mechanisms.
 
 ## Use it
 
-Approve one implementation plan, then run `/work-plan`. Claude Code may also select that skill on its own when a request clearly asks it to execute an Approved plan. Pass a lower cap when you want less unattended work: `/work-plan 1`.
+1. Fill in the real project facts and validation commands in `AGENTS.md`.
+2. Approve exactly one implementation plan under `docs/plans/active/`.
+3. Start Claude Code in the project and trust the folder, so project settings, skills, and hooks apply.
+4. Run `/work-plan`, or `/work-plan 1` when you want less unattended work. Claude Code may also select the skill on its own when a request clearly asks it to execute an Approved plan.
+5. Inspect the running product when Claude Code stops at a phase checkpoint.
 
 The skill stops at a phase checkpoint, a blocker, or the task cap. Then look at the running software and merge the phase, continue, or change the plan.
 
@@ -22,7 +26,9 @@ Run `/spec-check` when you pick the project up again, or before you believe a ha
 
 ## Reviewers cannot edit
 
-`.claude/agents/test-engineer.md` and `.claude/agents/security-reviewer.md` list no write tools. A required finding must come back to the implementer instead of being quietly fixed by the reviewer that found it. Keep it that way.
+`.claude/agents/test-engineer.md` and `.claude/agents/security-reviewer.md` list no write tools, so a required finding must come back to the implementer instead of being quietly fixed by the reviewer that found it. This edition is validated before release: both files must declare an explicit `tools:` list granting no `Edit`, `Write`, `MultiEdit`, or `NotebookEdit`. If you edit them, keep that property.
+
+Know what that does not cover. Both reviewers keep `Bash` so they can run the validation commands in `AGENTS.md`, and a shell can write files. This is a tool grant, not a sandbox. A reviewer that could not run a command must report that instead of claiming it passed.
 
 Each subagent reads its role file under `agents/` first. Those role files stay authoritative; the files in `.claude/agents/` only add runtime mechanics.
 

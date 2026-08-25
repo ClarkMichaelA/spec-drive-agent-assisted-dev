@@ -53,7 +53,7 @@ If no subagent can be spawned, review the diff yourself and label it a self-revi
 
 Update `TASKS.md` and `HANDOFF.md` to match git, then commit the task on the plan branch. Use one git command per call: permission rules match each chained subcommand independently, so a compound command is refused rather than approved.
 
-Never merge or push to `main`. A completed phase is a pull request the human merges after using the software.
+Never push, merge to `main`, rewrite shared history, deploy, or release. Those are outside this skill even when the current permission mode would allow them. A completed phase is a pull request the human merges after using the software.
 
 ## 5. Repeat or stop
 

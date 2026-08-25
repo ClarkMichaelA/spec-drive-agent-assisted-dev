@@ -197,6 +197,32 @@ function Assert-ValidSubagent {
     Assert-KnownFrontmatterKeys -Path $AgentPath -Frontmatter $frontmatter -AllowedKeys $subagentFrontmatterKeys
 }
 
+$claudeWriteTools = @('Edit', 'Write', 'MultiEdit', 'NotebookEdit')
+
+function Assert-ReadOnlyReviewer {
+    param([string]$AgentPath)
+
+    if (-not (Test-Path -LiteralPath $AgentPath)) {
+        throw "Required read-only reviewer subagent does not exist: $AgentPath"
+    }
+    $content = Get-Content -LiteralPath $AgentPath -Raw
+    if ($content -notmatch '(?s)^---\r?\n(?<frontmatter>.*?)\r?\n---\r?\n') {
+        throw "Reviewer subagent must contain YAML frontmatter: $AgentPath"
+    }
+    if ($Matches.frontmatter -notmatch '(?m)^tools:\s*(?<tools>\S.*?)\s*$') {
+        throw "Reviewer subagent must declare an explicit tools list, or it inherits write tools: $AgentPath"
+    }
+    $tools = $Matches.tools
+    if ($tools -match '^[>|]') {
+        throw "Reviewer subagent must list its tools inline so they can be verified: $AgentPath"
+    }
+    $declared = @($tools -split ',' | ForEach-Object { $_.Trim() } | Where-Object { $_ })
+    $granted = @($declared | Where-Object { $claudeWriteTools -contains $_ })
+    if ($granted.Count -gt 0) {
+        throw "Reviewer subagent must not grant write tool(s) '$($granted -join ', ')': $AgentPath"
+    }
+}
+
 function Assert-PathScopedRule {
     param([string]$RulePath)
 
@@ -313,18 +339,22 @@ foreach ($subagent in Get-RequiredChildFiles -Root (Join-Path $codexAdapterRoot 
 }
 Assert-NoPlaceholders -Root $codexAdapterRoot
 
-$claudeAdapterRoot = Join-Path $targetsRoot 'claude/.claude'
+$claudeTargetRoot = Join-Path $targetsRoot 'claude'
+$claudeAdapterRoot = Join-Path $claudeTargetRoot '.claude'
 foreach ($skill in Get-RequiredChildFiles -Root (Join-Path $claudeAdapterRoot 'skills') -Filter 'SKILL.md' -Recurse) {
     Assert-ValidSkill -SkillPath $skill.FullName
 }
 foreach ($subagent in Get-RequiredChildFiles -Root (Join-Path $claudeAdapterRoot 'agents') -Filter '*.md') {
     Assert-ValidSubagent -AgentPath $subagent.FullName
 }
+foreach ($reviewer in @('test-engineer.md', 'security-reviewer.md')) {
+    Assert-ReadOnlyReviewer -AgentPath (Join-Path $claudeAdapterRoot "agents/$reviewer")
+}
 foreach ($rule in Get-RequiredChildFiles -Root (Join-Path $claudeAdapterRoot 'rules') -Filter '*.md') {
     Assert-PathScopedRule -RulePath $rule.FullName
 }
 Assert-ValidJsonObject -Path (Join-Path $claudeAdapterRoot 'settings.json')
-Assert-NoPlaceholders -Root $claudeAdapterRoot
+Assert-NoPlaceholders -Root $claudeTargetRoot
 
 if (Test-Path -LiteralPath $outputRoot) {
     Remove-Item -LiteralPath $outputRoot -Recurse -Force
