@@ -137,6 +137,45 @@ function Assert-ValidSkill {
     Assert-KnownFrontmatterKeys -Path $SkillPath -Frontmatter $frontmatter -AllowedKeys $skillFrontmatterKeys
 }
 
+function Assert-ValidCodexSkillMetadata {
+    param([string]$MetadataPath)
+
+    if (-not (Test-Path -LiteralPath $MetadataPath)) {
+        throw "Required Codex skill metadata does not exist: $MetadataPath"
+    }
+    $content = Get-Content -LiteralPath $MetadataPath -Raw
+    if ($content -notmatch '(?m)^interface:\s*$') {
+        throw "Codex skill metadata is missing 'interface': $MetadataPath"
+    }
+    foreach ($key in @('display_name', 'short_description', 'default_prompt')) {
+        $pattern = '(?m)^\s+{0}\s*:\s*"\S.*"\s*$' -f [regex]::Escape($key)
+        if ($content -notmatch $pattern) {
+            throw "Codex skill metadata is missing '$key': $MetadataPath"
+        }
+    }
+}
+
+function Assert-ValidCodexAgent {
+    param([string]$AgentPath)
+
+    $content = Get-Content -LiteralPath $AgentPath -Raw
+    if ($content -notmatch '(?m)^name\s*=\s*"(?<name>[a-z0-9_]+)"\s*$') {
+        throw "Codex agent name is missing or invalid: $AgentPath"
+    }
+    if ($Matches.name -ne [IO.Path]::GetFileNameWithoutExtension($AgentPath)) {
+        throw "Codex agent name must match its file name: $AgentPath"
+    }
+    if ($content -notmatch '(?m)^description\s*=\s*"\S.+"\s*$') {
+        throw "Codex agent description is missing: $AgentPath"
+    }
+    if ($content -notmatch '(?m)^developer_instructions\s*=\s*"""\s*$') {
+        throw "Codex agent developer instructions are missing: $AgentPath"
+    }
+    if ($content -notmatch '(?m)^sandbox_mode\s*=\s*"read-only"\s*$') {
+        throw "Codex reviewer agent must use a read-only sandbox: $AgentPath"
+    }
+}
+
 function Assert-ValidSubagent {
     param([string]$AgentPath)
 
@@ -224,12 +263,18 @@ $targets = @(
         Name = 'grok'
         DisplayName = 'Grok Build'
         Required = @('RUNTIME.md', '.grok/workflows/work-plan.rhai')
-        Forbidden = @('.agents', '.claude', 'CLAUDE.md')
+        Forbidden = @('.agents', '.codex', '.claude', 'CLAUDE.md')
     },
     [pscustomobject]@{
         Name = 'codex'
         DisplayName = 'Codex'
-        Required = @('RUNTIME.md', '.agents/skills/work-plan/SKILL.md')
+        Required = @(
+            'RUNTIME.md',
+            '.agents/skills/work-plan/SKILL.md',
+            '.agents/skills/work-plan/agents/openai.yaml',
+            '.codex/agents/test_engineer.toml',
+            '.codex/agents/security_reviewer.toml'
+        )
         Forbidden = @('.grok', '.claude', 'CLAUDE.md')
     },
     [pscustomobject]@{
@@ -248,11 +293,11 @@ $targets = @(
             '.claude/rules/approved-artifacts.md',
             '.claude/rules/state-files.md'
         )
-        Forbidden = @('.grok', '.agents')
+        Forbidden = @('.grok', '.agents', '.codex')
     }
 )
 
-$providerPattern = '(?i)(\bGrok\b|\bCodex\b|\bClaude\b|\.grok|\.claude|\.agents[\\/]skills)'
+$providerPattern = '(?i)(\bGrok\b|\bCodex\b|\bClaude\b|\.grok|\.codex|\.claude|\.agents[\\/]skills)'
 $commonProviderMentions = @(Get-ChildItem -LiteralPath $commonRoot -Recurse -Force -File |
     Select-String -Pattern $providerPattern)
 if ($commonProviderMentions.Count -gt 0) {
@@ -260,7 +305,13 @@ if ($commonProviderMentions.Count -gt 0) {
     throw "Provider-specific content leaked into common/: $($locations -join ', ')"
 }
 
-Assert-ValidSkill -SkillPath (Join-Path $targetsRoot 'codex/.agents/skills/work-plan/SKILL.md')
+$codexAdapterRoot = Join-Path $targetsRoot 'codex'
+Assert-ValidSkill -SkillPath (Join-Path $codexAdapterRoot '.agents/skills/work-plan/SKILL.md')
+Assert-ValidCodexSkillMetadata -MetadataPath (Join-Path $codexAdapterRoot '.agents/skills/work-plan/agents/openai.yaml')
+foreach ($subagent in Get-RequiredChildFiles -Root (Join-Path $codexAdapterRoot '.codex/agents') -Filter '*.toml') {
+    Assert-ValidCodexAgent -AgentPath $subagent.FullName
+}
+Assert-NoPlaceholders -Root $codexAdapterRoot
 
 $claudeAdapterRoot = Join-Path $targetsRoot 'claude/.claude'
 foreach ($skill in Get-RequiredChildFiles -Root (Join-Path $claudeAdapterRoot 'skills') -Filter 'SKILL.md' -Recurse) {

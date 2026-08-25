@@ -1,0 +1,4 @@
+interface:
+  display_name: "Work plan"
+  short_description: "Execute an Approved plan to its next checkpoint"
+  default_prompt: "Execute the Approved implementation plan until the next phase checkpoint, blocker, or task cap."
