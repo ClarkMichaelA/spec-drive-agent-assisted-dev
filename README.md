@@ -43,7 +43,7 @@ Target directories are overlays, not independent scaffolds. Shared behavior belo
 ## Build the packages
 
 ```powershell
-./scripts/build-releases.ps1 -Version 2.1.0
+./scripts/build-releases.ps1 -Version 2.1.1
 ```
 
 The command recreates `dist/`, validates target isolation and shared-file parity, and writes three ZIP files plus `SHA256SUMS.txt`.

@@ -16,4 +16,4 @@ jobs:
       - uses: actions/checkout@v4
       - name: Build and validate all runtime editions
         shell: pwsh
-        run: ./scripts/build-releases.ps1 -Version 2.1.0-ci
+        run: ./scripts/build-releases.ps1 -Version 2.1.1-ci
