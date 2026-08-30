@@ -1,6 +1,6 @@
 # Spec-Driven, Agent-Assisted Development
 
-A one-person development kit with a shared method and focused editions for Grok Build, Codex, and Claude Code.
+A one-person development kit with a shared method and focused editions for Grok Build, Codex, Claude Code, and Hermes Agent.
 
 You steer the problem, expensive decisions, plan, phase checkpoints, and release. The coding agent carries out the approved plan. The repository is memory; chat is not.
 
@@ -12,8 +12,9 @@ Version 2 separates the portable development method from runtime-specific entry 
 - **Grok Build target** — native work-plan and spec-check workflows, and project permission rules.
 - **Codex target** — repository skill with desktop metadata and read-only reviewer subagents.
 - **Claude Code target** — `CLAUDE.md`, two skills, role subagents, path-scoped rules, and project permissions.
+- **Hermes Agent target** — four installable profiles with project memory disabled and repository-first role handoffs.
 
-Each release publishes three complete ZIP files. Choose one; do not combine them.
+Each release publishes four complete ZIP files. Choose one; do not combine them.
 
 ## Download
 
@@ -22,6 +23,7 @@ From the latest GitHub release, download the edition for the runtime you use:
 - `spec-driven-dev-grok-v<version>.zip`
 - `spec-driven-dev-codex-v<version>.zip`
 - `spec-driven-dev-claude-v<version>.zip`
+- `spec-driven-dev-hermes-v<version>.zip`
 
 Each archive contains the playbook, license, and a rendered `spec-driven-repository-scaffold/` ready to copy into a project.
 
@@ -34,7 +36,8 @@ spec-driven-repository-scaffold/
 `-- targets/
     |-- grok/                            Grok Build adapter
     |-- codex/                           Codex adapter
-    `-- claude/                          Claude Code adapter
+    |-- claude/                          Claude Code adapter
+    `-- hermes/                          Hermes Agent adapter
 scripts/build-releases.ps1               render and validate all editions
 ```
 
@@ -43,10 +46,10 @@ Target directories are overlays, not independent scaffolds. Shared behavior belo
 ## Build the packages
 
 ```powershell
-./scripts/build-releases.ps1 -Version 2.1.1
+./scripts/build-releases.ps1 -Version 2.2.0
 ```
 
-The command recreates `dist/`, validates target isolation and shared-file parity, and writes three ZIP files plus `SHA256SUMS.txt`.
+The command recreates `dist/`, validates target isolation and shared-file parity, and writes four ZIP files plus `SHA256SUMS.txt`.
 
 ## The method
 

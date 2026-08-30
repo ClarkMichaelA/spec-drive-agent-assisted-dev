@@ -21,5 +21,6 @@
 - `providers/claude-code.md`
 - `providers/codex.md`
 - `providers/grok-build.md`
+- `providers/hermes-agent.md`
 
 Removed: `SAMPLE-SESSION-SEQUENCE.md` (the session-per-ticket script), `SPECIALIZED-AGENT-ROLES.md` (duplicate of `agents/README.md`).

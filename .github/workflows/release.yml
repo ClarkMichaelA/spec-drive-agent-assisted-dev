@@ -16,7 +16,7 @@ jobs:
       - name: Build and validate all runtime editions
         shell: pwsh
         run: ./scripts/build-releases.ps1 -Version '${{ github.ref_name }}'
-      - name: Create one release with three edition assets
+      - name: Create one release with four edition assets
         shell: pwsh
         env:
           GH_TOKEN: ${{ github.token }}

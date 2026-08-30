@@ -1,6 +1,6 @@
 [CmdletBinding()]
 param(
-    [string]$Version = '2.1.1',
+    [string]$Version = '2.2.0',
     [string]$OutputDirectory
 )
 
@@ -346,6 +346,74 @@ function Assert-NoPlaceholders {
     }
 }
 
+function Assert-ValidHermesProfile {
+    param(
+        [string]$ProfilePath,
+        [string[]]$RequiredRolePaths,
+        [string]$ExpectedVersion
+    )
+
+    $profileName = Split-Path -Leaf $ProfilePath
+    $manifestPath = Join-Path $ProfilePath 'distribution.yaml'
+    $configPath = Join-Path $ProfilePath 'config.yaml'
+    $soulPath = Join-Path $ProfilePath 'SOUL.md'
+    foreach ($requiredPath in @($manifestPath, $configPath, $soulPath)) {
+        if (-not (Test-Path -LiteralPath $requiredPath)) {
+            throw "Hermes profile '$profileName' is missing $([IO.Path]::GetFileName($requiredPath))"
+        }
+    }
+
+    $manifest = Get-Content -LiteralPath $manifestPath -Raw
+    if ($manifest -notmatch ('(?m)^name:\s*{0}\s*$' -f [regex]::Escape($profileName))) {
+        throw "Hermes distribution name must match its directory: $manifestPath"
+    }
+    if ($manifest -notmatch '(?m)^version:\s*(?<version>\d+\.\d+\.\d+(?:-[0-9A-Za-z.-]+)?)\s*$') {
+        throw "Hermes distribution version is missing or invalid: $manifestPath"
+    }
+    $distributionVersion = $Matches.version
+    if ($distributionVersion -cne $ExpectedVersion) {
+        throw "Hermes distribution version '$distributionVersion' must match release version '$ExpectedVersion': $manifestPath"
+    }
+    if ($manifest -notmatch '(?m)^hermes_requires:\s*["'']>=\d+\.\d+\.\d+["'']\s*$') {
+        throw "Hermes distribution must declare a minimum Hermes version: $manifestPath"
+    }
+
+    $config = Get-Content -LiteralPath $configPath -Raw
+    foreach ($pattern in @(
+        '(?m)^\s*memory_enabled:\s*false\s*$',
+        '(?m)^\s*user_profile_enabled:\s*false\s*$',
+        '(?m)^\s*-\s*memory\s*$',
+        '(?m)^\s*-\s*session_search\s*$'
+    )) {
+        if ($config -notmatch $pattern) {
+            throw "Hermes profile must disable durable profile memory and session recall: $configPath"
+        }
+    }
+    if ($config -match '(?m)^\s*(default|provider|api_key|base_url):') {
+        throw "Hermes profiles must not pin model or provider settings: $configPath"
+    }
+
+    $soul = Get-Content -LiteralPath $soulPath -Raw
+    if ($soul -notmatch '(?i)AGENTS\.md') {
+        throw "Hermes profile must defer to AGENTS.md: $soulPath"
+    }
+    foreach ($rolePath in $RequiredRolePaths) {
+        if ($soul -notmatch [regex]::Escape($rolePath)) {
+            throw "Hermes profile must reference portable role '$rolePath': $soulPath"
+        }
+    }
+
+    $forbidden = @(
+        '.env', 'auth.json', 'memories', 'sessions', 'state.db', 'state.db-shm',
+        'state.db-wal', 'logs', 'workspace', 'plans', 'home', 'local'
+    )
+    foreach ($path in $forbidden) {
+        if (Test-Path -LiteralPath (Join-Path $ProfilePath $path)) {
+            throw "Hermes distribution contains user state or secrets: $ProfilePath/$path"
+        }
+    }
+}
+
 function Get-RequiredChildFiles {
     param(
         [string]$Root,
@@ -374,7 +442,7 @@ $targets = @(
             '.grok/workflows/spec-check.rhai',
             '.grok/config.toml'
         )
-        Forbidden = @('.agents', '.codex', '.claude', 'CLAUDE.md')
+        Forbidden = @('.agents', '.codex', '.claude', '.hermes', 'CLAUDE.md')
     },
     [pscustomobject]@{
         Name = 'codex'
@@ -386,7 +454,7 @@ $targets = @(
             '.codex/agents/test_engineer.toml',
             '.codex/agents/security_reviewer.toml'
         )
-        Forbidden = @('.grok', '.claude', 'CLAUDE.md')
+        Forbidden = @('.grok', '.claude', '.hermes', 'CLAUDE.md')
     },
     [pscustomobject]@{
         Name = 'claude'
@@ -404,11 +472,31 @@ $targets = @(
             '.claude/rules/approved-artifacts.md',
             '.claude/rules/state-files.md'
         )
-        Forbidden = @('.grok', '.agents', '.codex')
+        Forbidden = @('.grok', '.agents', '.codex', '.hermes')
+    },
+    [pscustomobject]@{
+        Name = 'hermes'
+        DisplayName = 'Hermes Agent'
+        Required = @(
+            'RUNTIME.md',
+            '.hermes/profiles/spec-driven-lead/distribution.yaml',
+            '.hermes/profiles/spec-driven-lead/config.yaml',
+            '.hermes/profiles/spec-driven-lead/SOUL.md',
+            '.hermes/profiles/spec-driven-engineer/distribution.yaml',
+            '.hermes/profiles/spec-driven-engineer/config.yaml',
+            '.hermes/profiles/spec-driven-engineer/SOUL.md',
+            '.hermes/profiles/spec-driven-test-reviewer/distribution.yaml',
+            '.hermes/profiles/spec-driven-test-reviewer/config.yaml',
+            '.hermes/profiles/spec-driven-test-reviewer/SOUL.md',
+            '.hermes/profiles/spec-driven-security-reviewer/distribution.yaml',
+            '.hermes/profiles/spec-driven-security-reviewer/config.yaml',
+            '.hermes/profiles/spec-driven-security-reviewer/SOUL.md'
+        )
+        Forbidden = @('.grok', '.agents', '.codex', '.claude', 'CLAUDE.md')
     }
 )
 
-$providerPattern = '(?i)(\bGrok\b|\bCodex\b|\bClaude\b|\.grok|\.codex|\.claude|\.agents[\\/]skills)'
+$providerPattern = '(?i)(\bGrok\b|\bCodex\b|\bClaude\b|\bHermes\b|\.grok|\.codex|\.claude|\.hermes|\.agents[\\/]skills)'
 $commonProviderMentions = @(Get-ChildItem -LiteralPath $commonRoot -Recurse -Force -File |
     Select-String -Pattern $providerPattern)
 if ($commonProviderMentions.Count -gt 0) {
@@ -448,6 +536,23 @@ foreach ($rule in Get-RequiredChildFiles -Root (Join-Path $claudeAdapterRoot 'ru
 }
 Assert-ValidJsonObject -Path (Join-Path $claudeAdapterRoot 'settings.json')
 Assert-NoPlaceholders -Root $claudeTargetRoot
+
+$hermesTargetRoot = Join-Path $targetsRoot 'hermes'
+$hermesProfilesRoot = Join-Path $hermesTargetRoot '.hermes/profiles'
+$hermesRoleMap = [ordered]@{
+    'spec-driven-lead' = @('agents/project-analyst.md', 'agents/solution-architect.md')
+    'spec-driven-engineer' = @('agents/software-engineer.md')
+    'spec-driven-test-reviewer' = @('agents/test-engineer.md')
+    'spec-driven-security-reviewer' = @('agents/security-reviewer.md')
+}
+$hermesDistributionVersion = ($Version -split '-', 2)[0]
+foreach ($profileName in $hermesRoleMap.Keys) {
+    Assert-ValidHermesProfile `
+        -ProfilePath (Join-Path $hermesProfilesRoot $profileName) `
+        -RequiredRolePaths $hermesRoleMap[$profileName] `
+        -ExpectedVersion $hermesDistributionVersion
+}
+Assert-NoPlaceholders -Root $hermesTargetRoot
 
 if (Test-Path -LiteralPath $outputRoot) {
     Remove-Item -LiteralPath $outputRoot -Recurse -Force
