@@ -4,7 +4,7 @@ How to take an idea to something you can run with a coding agent, without turnin
 
 Written for one person. The agent does the repeatable labor. You decide what “good” means.
 
-The method is runtime-neutral. Runtime guides explain how Grok Build, Codex, and Claude Code load the scaffold and invoke the delivery loop.
+The method is runtime-neutral. Runtime guides explain how Grok Build, Codex, Claude Code, and Hermes Agent load the scaffold and invoke the delivery loop.
 
 ## The split
 
@@ -70,6 +70,7 @@ Roles live in the scaffold under `agents/`. The portable execution contract is `
 - [Grok Build](providers/grok-build.md)
 - [Codex](providers/codex.md)
 - [Claude Code](providers/claude-code.md)
+- [Hermes Agent](providers/hermes-agent.md)
 
 Download one matching release archive. Do not combine target adapters.
 

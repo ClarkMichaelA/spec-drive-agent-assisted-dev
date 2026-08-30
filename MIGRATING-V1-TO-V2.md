@@ -5,7 +5,7 @@ Version 2 separates the portable delivery method from its runtime adapters and c
 ## What changed
 
 - The shared scaffold is runtime-neutral.
-- Grok Build, Codex, and Claude Code receive separate native adapters.
+- Grok Build, Codex, Claude Code, and Hermes Agent receive separate native adapters.
 - Every release contains one complete ZIP per runtime.
 - `docs/WORK_PLAN.md` owns the portable delivery-loop contract.
 - `main` is the protected integration and release branch; version tags identify releases.
@@ -27,7 +27,7 @@ The runtime ZIPs are starter packages, not in-place updaters. Treat migration as
 
 ## Choose a runtime adapter
 
-Grok Build, Codex, and Claude Code are peer implementations of the same contract in `docs/WORK_PLAN.md`. None of them owns or defines the common scaffold. Install only the adapter for the runtime the project uses.
+Grok Build, Codex, Claude Code, and Hermes Agent are peer implementations of the same contract in `docs/WORK_PLAN.md`. None of them owns or defines the common scaffold. Install only the adapter for the runtime the project uses.
 
 ### Grok Build
 
@@ -40,3 +40,7 @@ Add or compare `.agents/skills/work-plan/` and `.codex/agents/`. Preserve projec
 ### Claude Code
 
 Add or compare `CLAUDE.md` and `.claude/`. Merge `.claude/settings.json` into the file the project already has instead of overwriting it, preserve project-specific commands and review policy, and read `RUNTIME.md` for skill permissions, hooks, and shell selection.
+
+### Hermes Agent
+
+Add or compare `.hermes/profiles/` and install the four profile distributions under project-specific names. Keep `AGENTS.md` as the selected project context, preserve repository state as authoritative, and use a new reviewer session for each independent review. Read `RUNTIME.md` before enabling Kanban; its board is an execution mirror, not a replacement for the Approved plan, `TASKS.md`, or `HANDOFF.md`.

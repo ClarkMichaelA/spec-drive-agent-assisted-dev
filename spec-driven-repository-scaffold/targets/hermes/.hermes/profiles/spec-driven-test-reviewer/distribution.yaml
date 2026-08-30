@@ -1,0 +1,10 @@
+name: spec-driven-test-reviewer
+version: 2.2.0
+description: "Independently verifies an implementation revision against its Approved criteria."
+hermes_requires: ">=0.20.6"
+author: "Michael Clark"
+license: "MIT"
+distribution_owned:
+  - SOUL.md
+  - config.yaml
+  - distribution.yaml

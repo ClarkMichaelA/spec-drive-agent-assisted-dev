@@ -1,0 +1,7 @@
+agent:
+  disabled_toolsets:
+    - memory
+    - session_search
+memory:
+  memory_enabled: false
+  user_profile_enabled: false

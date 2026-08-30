@@ -1,0 +1,10 @@
+name: spec-driven-lead
+version: 2.2.0
+description: "Leads discovery, architecture, and Approved plan orchestration from repository truth."
+hermes_requires: ">=0.20.6"
+author: "Michael Clark"
+license: "MIT"
+distribution_owned:
+  - SOUL.md
+  - config.yaml
+  - distribution.yaml
